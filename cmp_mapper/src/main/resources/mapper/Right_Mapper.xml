@@ -1,0 +1,321 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hfxt.cmp.mapper.IRightDao">
+<!-- 新增的方法写在这里 -->
+
+
+<!-- 保存非空列,返回受影响的行数 -->
+	<insert id="saveSelective" useGeneratedKeys="true" keyProperty="Vo.id">
+		Insert Into tb_right 
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="Vo.rightCode != null">right_code,</if>
+            <if test="Vo.rightParentCode != null">right_parent_code,</if>
+            <if test="Vo.rightTitle != null">right_title,</if>
+            <if test="Vo.rightUrl != null">right_url,</if>
+            <if test="Vo.desc != null">desc,</if>
+            <if test="Vo.creatorId != null">creator_id,</if>
+             create_time,
+            <if test="Vo.updaterId != null">updater_id,</if>
+            <if test="Vo.updateTime != null">update_time,</if>
+           
+		</trim>
+		<trim prefix="Values (" suffix=")" suffixOverrides=",">
+            <if test="Vo.rightCode != null">#{Vo.rightCode},</if>
+            <if test="Vo.rightParentCode != null">#{Vo.rightParentCode},</if>
+            <if test="Vo.rightTitle != null">#{Vo.rightTitle},</if>
+            <if test="Vo.rightUrl != null">#{Vo.rightUrl},</if>
+            <if test="Vo.desc != null">#{Vo.desc},</if>
+            <if test="Vo.creatorId != null">#{Vo.creatorId},</if>
+            now(),
+            <if test="Vo.updaterId != null">#{Vo.updaterId},</if>
+            <if test="Vo.updateTime != null">#{Vo.updateTime},</if>
+            
+		</trim>
+	</insert>
+    
+    <!-- 根据主键删除-->
+	<delete id="delete">
+		Delete From tb_right
+		Where id = #{id}
+	</delete>
+    
+    <!-- 删除所有记录,返回受影响的行数 -->
+	<delete id="deleteAll">
+		Delete From tb_right
+	</delete>
+    
+    <!-- 更新非空列,返回受影响的行数 -->
+	<update id="updateSelective">
+		Update tb_right
+		<trim prefix="Set" suffixOverrides=",">
+            <if test="Vo.rightCode != null">right_code = #{Vo.rightCode},</if>
+            <if test="Vo.rightParentCode != null">right_parent_code = #{Vo.rightParentCode},</if>
+            <if test="Vo.rightTitle != null">right_title = #{Vo.rightTitle},</if>
+            <if test="Vo.rightUrl != null">right_url = #{Vo.rightUrl},</if>
+            <if test="Vo.desc != null">desc = #{Vo.desc},</if>
+            <if test="Vo.creatorId != null">creator_id = #{Vo.creatorId},</if>
+            <if test="Vo.createTime != null">create_time = #{Vo.createTime},</if>
+            <if test="Vo.updaterId != null">updater_id = #{Vo.updaterId},</if>
+            <if test="Vo.updateTime != null">update_time = #{Vo.updateTime},</if>
+		</trim>
+		Where tb_right.id = #{Vo.id}
+	</update>
+    
+    <resultMap type="RightVo" id="RM_Default">
+        <id column="Right_id" property="id"/>
+        <result column="Right_rightCode" property="rightCode"/>
+        <result column="Right_rightParentCode" property="rightParentCode"/>
+        <result column="Right_rightTitle" property="rightTitle"/>
+        <result column="Right_rightUrl" property="rightUrl"/>
+        <result column="Right_desc" property="desc"/>
+        <result column="Right_creatorId" property="creatorId"/>
+        <result column="Right_createTime" property="createTime"/>
+        <result column="Right_updaterId" property="updaterId"/>
+        <result column="Right_updateTime" property="updateTime"/>
+	</resultMap>
+    
+     <!-- ResultMap -->
+	<resultMap type="RightVo" id="RM_getVo_Auto">
+		<discriminator javaType="int" column="_chooseRM">
+			<case value="0" resultMap="RM_Default" /><!-- Auto -->
+		</discriminator>
+	</resultMap>
+    
+    <!-- 根据主键查询一条记录,通过'__chooseRM'控制返回的列 -->
+	<select id="getVo_Auto" resultMap="RM_getVo_Auto">
+		Select
+		<include refid="Sql_SelectColumns" />
+		#{chooseRM} As _chooseRM
+		From	tb_right	As	tb_right
+		Where
+		tb_right.id = #{id}
+	</select>
+    
+    <!-- 传入id,判断是否存在该记录 -->
+	<select id="isExist_Auto" resultType="boolean">
+		Select Count(id) > 0
+		From	tb_right	As	tb_right
+		Where
+		tb_right.id = #{id}
+	</select>
+    
+    <!-- 查询记录数量 -->
+	<select id="queryCount_Auto" resultType="Long">
+		Select Count(tb_right.id)
+		From	tb_right	As	tb_right
+        <trim prefix="Where" prefixOverrides="And | Or">
+			<include refid="Sql_Where"/>
+		</trim>
+	</select>
+    
+    <resultMap type="RightVo" id="RM_queryVos_Auto">
+        <discriminator javaType="int" column="_chooseRM">
+			<case value="0" resultMap="RM_Default" /><!-- Auto -->
+		</discriminator>
+	</resultMap>
+    
+    <!-- 查询记录集合,通过'__chooseRM'控制返回的列 -->
+	<select id="queryVos_Auto" resultMap="RM_queryVos_Auto">
+		Select
+		<include refid="Sql_SelectColumns"/>
+		#{RightSearch.chooseRM} As _chooseRM
+		From	tb_right	As	tb_right
+        <trim prefix="Where" prefixOverrides="And | Or">
+			<include refid="Sql_Where"/>
+		</trim>
+		<include refid="Sql_Order"/>
+		Limit #{RightSearch.offset},#{RightSearch.limit}
+	</select>
+    
+
+    <resultMap type="RightVo" id="RM_getVo_AdminView">
+		<!-- <discriminator javaType="int" column="_chooseRM"> -->
+        <id column="Right_id" property="id"/>
+        <result column="Right_rightCode" property="rightCode"/>
+        <result column="Right_rightParentCode" property="rightParentCode"/>
+        <result column="Right_rightTitle" property="rightTitle"/>
+        <result column="Right_rightUrl" property="rightUrl"/>
+        <result column="Right_desc" property="desc"/>
+        <result column="Right_creatorId" property="creatorId"/>
+        <result column="Right_createTime" property="createTime"/>
+        <result column="Right_updaterId" property="updaterId"/>
+        <result column="Right_updateTime" property="updateTime"/>
+		<!-- </discriminator> -->
+	</resultMap>
+    
+    <!-- 根据主键查询一条记录,专供AdminView调用 -->
+	<select id="getVo_AdminView" resultMap="RM_getVo_AdminView">
+		Select
+		<include refid="Sql_SelectColumns" />
+		#{chooseRM} As _chooseRM
+		From	tb_right	As	tb_right
+		Where
+		tb_right.id = #{id}
+	</select>
+    
+    <resultMap type="RightVo" id="RM_getVo_preAdminEdit">
+		<!-- <discriminator javaType="int" column="_chooseRM"> -->
+        <id column="Right_id" property="id"/>
+        <result column="Right_rightCode" property="rightCode"/>
+        <result column="Right_rightParentCode" property="rightParentCode"/>
+        <result column="Right_rightTitle" property="rightTitle"/>
+        <result column="Right_rightUrl" property="rightUrl"/>
+        <result column="Right_desc" property="desc"/>
+        <result column="Right_creatorId" property="creatorId"/>
+        <result column="Right_createTime" property="createTime"/>
+        <result column="Right_updaterId" property="updaterId"/>
+        <result column="Right_updateTime" property="updateTime"/>
+		<!-- </discriminator> -->
+	</resultMap>
+    
+    <!-- 根据主键查询一条记录,专供preAdminEdit调用 -->
+	<select id="getVo_preAdminEdit" resultMap="RM_getVo_preAdminEdit">
+		Select
+		<include refid="Sql_SelectColumns" />
+		#{chooseRM} As _chooseRM
+		From	tb_right	As	tb_right
+		Where
+		tb_right.id = #{id}
+	</select>
+    
+    <resultMap type="RightVo" id="RM_getVo_AdminEdit">
+		<!-- <discriminator javaType="int" column="_chooseRM"> -->
+        <id column="Right_id" property="id"/>
+        <result column="Right_rightCode" property="rightCode"/>
+        <result column="Right_rightParentCode" property="rightParentCode"/>
+        <result column="Right_rightTitle" property="rightTitle"/>
+        <result column="Right_rightUrl" property="rightUrl"/>
+        <result column="Right_desc" property="desc"/>
+        <result column="Right_creatorId" property="creatorId"/>
+        <result column="Right_createTime" property="createTime"/>
+        <result column="Right_updaterId" property="updaterId"/>
+        <result column="Right_updateTime" property="updateTime"/>
+		<!-- </discriminator> -->
+	</resultMap>
+    
+    <!-- 根据主键查询一条记录,专供AdminEdit调用 -->
+	<select id="getVo_AdminEdit" resultMap="RM_getVo_AdminEdit">
+		Select
+		<include refid="Sql_SelectColumns" />
+		#{chooseRM} As _chooseRM
+		From	tb_right	As	tb_right
+		Where
+		tb_right.id = #{id}
+	</select>
+    
+    <resultMap type="RightVo" id="RM_queryVos_AdminList">
+		<!-- <discriminator javaType="int" column="_chooseRM"> -->
+        <id column="Right_id" property="id"/>
+        <result column="Right_rightCode" property="rightCode"/>
+        <result column="Right_rightParentCode" property="rightParentCode"/>
+        <result column="Right_rightTitle" property="rightTitle"/>
+        <result column="Right_rightUrl" property="rightUrl"/>
+        <result column="Right_desc" property="desc"/>
+        <result column="Right_creatorId" property="creatorId"/>
+        <result column="Right_createTime" property="createTime"/>
+        <result column="Right_updaterId" property="updaterId"/>
+        <result column="Right_updateTime" property="updateTime"/>
+		<!-- </discriminator> -->
+	</resultMap>
+    
+    <sql id="Sql_SelectColumns">
+        tb_right.id As Right_id,
+        tb_right.right_code As Right_rightCode,
+        tb_right.right_parent_code As Right_rightParentCode,
+        tb_right.right_title As Right_rightTitle,
+        tb_right.right_url As Right_rightUrl,
+        tb_right.desc As Right_desc,
+        tb_right.creator_id As Right_creatorId,
+        tb_right.create_time As Right_createTime,
+        tb_right.updater_id As Right_updaterId,
+        tb_right.update_time As Right_updateTime,
+	</sql>
+    
+    <sql id="Sql_Order">
+		<trim prefix="Order By ">
+    		<choose>
+                <when test="RightSearch.sort != null">
+                    Right_${RightSearch.sort} 
+                    <if test="RightSearch.order != null">
+                        ${RightSearch.order}
+                    </if>
+                </when>
+                <otherwise>
+                    Right_id Desc
+                </otherwise>
+            </choose>
+		</trim>
+	</sql>
+    
+    <sql id="Sql_Where">
+        <if test="RightSearch.eqId != null">
+			<![CDATA[ And tb_right.id = #{RightSearch.eqId} ]]>
+		</if>
+		<if test="RightSearch.neId != null">
+			<![CDATA[ And tb_right.id != #{RightSearch.neId} ]]>
+		</if>
+        <if test="RightSearch.eqRightCode != null">
+			<![CDATA[ And tb_right.right_code = #{RightSearch.eqRightCode} ]]>
+		</if>
+		<if test="RightSearch.lkRightCode != null">
+			<![CDATA[ And tb_right.right_code Like '%${RightSearch.lkRightCode}%' ]]>
+		</if>
+        <if test="RightSearch.eqRightParentCode != null">
+			<![CDATA[ And tb_right.right_parent_code = #{RightSearch.eqRightParentCode} ]]>
+		</if>
+		<if test="RightSearch.lkRightParentCode != null">
+			<![CDATA[ And tb_right.right_parent_code Like '%${RightSearch.lkRightParentCode}%' ]]>
+		</if>
+        <if test="RightSearch.eqRightTitle != null">
+			<![CDATA[ And tb_right.right_title = #{RightSearch.eqRightTitle} ]]>
+		</if>
+		<if test="RightSearch.lkRightTitle != null">
+			<![CDATA[ And tb_right.right_title Like '%${RightSearch.lkRightTitle}%' ]]>
+		</if>
+        <if test="RightSearch.eqRightUrl != null">
+			<![CDATA[ And tb_right.right_url = #{RightSearch.eqRightUrl} ]]>
+		</if>
+		<if test="RightSearch.lkRightUrl != null">
+			<![CDATA[ And tb_right.right_url Like '%${RightSearch.lkRightUrl}%' ]]>
+		</if>
+        <if test="RightSearch.eqDesc != null">
+			<![CDATA[ And tb_right.desc = #{RightSearch.eqDesc} ]]>
+		</if>
+		<if test="RightSearch.lkDesc != null">
+			<![CDATA[ And tb_right.desc Like '%${RightSearch.lkDesc}%' ]]>
+		</if>
+        <if test="RightSearch.eqCreatorId != null">
+			<![CDATA[ And tb_right.creator_id = #{RightSearch.eqCreatorId} ]]>
+		</if>
+		<if test="RightSearch.neCreatorId != null">
+			<![CDATA[ And tb_right.creator_id != #{RightSearch.neCreatorId} ]]>
+		</if>
+        <if test="RightSearch.eqCreateTime != null">
+			<![CDATA[ And date_format(tb_right.create_time,'%Y-%m-%d') = date_format(#{RightSearch.eqCreateTime},'%Y-%m-%d') ]]>
+		</if>
+		<if test="RightSearch.geCreateTime != null">
+			<![CDATA[ And tb_right.create_time >= #{RightSearch.geCreateTime} ]]>
+		</if>
+		<if test="RightSearch.ltCreateTime != null">
+			<![CDATA[ And tb_right.create_time < #{RightSearch.ltCreateTime} ]]>
+		</if>
+        
+        <if test="RightSearch.eqUpdaterId != null">
+			<![CDATA[ And tb_right.updater_id = #{RightSearch.eqUpdaterId} ]]>
+		</if>
+		<if test="RightSearch.neUpdaterId != null">
+			<![CDATA[ And tb_right.updater_id != #{RightSearch.neUpdaterId} ]]>
+		</if>
+        <if test="RightSearch.eqUpdateTime != null">
+			<![CDATA[ And date_format(tb_right.update_time,'%Y-%m-%d') = date_format(#{RightSearch.eqUpdateTime},'%Y-%m-%d') ]]>
+		</if>
+		<if test="RightSearch.geUpdateTime != null">
+			<![CDATA[ And tb_right.update_time >= #{RightSearch.geUpdateTime} ]]>
+		</if>
+		<if test="RightSearch.ltUpdateTime != null">
+			<![CDATA[ And tb_right.update_time < #{RightSearch.ltUpdateTime} ]]>
+		</if>
+        
+    </sql>
+</mapper>
+
+

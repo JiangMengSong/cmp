@@ -1,0 +1,340 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hfxt.cmp.mapper.IStudentHomeworkDao">
+<!-- 新增的方法写在这里 -->
+
+
+<!-- 保存非空列,返回受影响的行数 -->
+	<insert id="saveSelective" useGeneratedKeys="true" keyProperty="Vo.id">
+		Insert Into tb_student_homework 
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="Vo.studentHomeworkTime != null">student_homework_time,</if>
+            <if test="Vo.subjectId != null">subject_id,</if>
+            <if test="Vo.studentHomeworkContent != null">student_homework_content,</if>
+            <if test="Vo.studentHomeworkSubmit != null">student_homework_submit,</if>
+            <if test="Vo.desc != null">desc,</if>
+            <if test="Vo.creatorId != null">creator_id,</if>
+             create_time,
+            <if test="Vo.updaterId != null">updater_id,</if>
+            <if test="Vo.updateTime != null">update_time,</if>
+            <if test="Vo.classHomeworkId != null">class_homework_id,</if>
+           
+		</trim>
+		<trim prefix="Values (" suffix=")" suffixOverrides=",">
+            <if test="Vo.studentHomeworkTime != null">#{Vo.studentHomeworkTime},</if>
+            <if test="Vo.subjectId != null">#{Vo.subjectId},</if>
+            <if test="Vo.studentHomeworkContent != null">#{Vo.studentHomeworkContent},</if>
+            <if test="Vo.studentHomeworkSubmit != null">#{Vo.studentHomeworkSubmit},</if>
+            <if test="Vo.desc != null">#{Vo.desc},</if>
+            <if test="Vo.creatorId != null">#{Vo.creatorId},</if>
+            now(),
+            <if test="Vo.updaterId != null">#{Vo.updaterId},</if>
+            <if test="Vo.updateTime != null">#{Vo.updateTime},</if>
+            <if test="Vo.classHomeworkId != null">#{Vo.classHomeworkId},</if>
+            
+		</trim>
+	</insert>
+    
+    <!-- 根据主键删除-->
+	<delete id="delete">
+		Delete From tb_student_homework
+		Where id = #{id}
+	</delete>
+    
+    <!-- 删除所有记录,返回受影响的行数 -->
+	<delete id="deleteAll">
+		Delete From tb_student_homework
+	</delete>
+    
+    <!-- 更新非空列,返回受影响的行数 -->
+	<update id="updateSelective">
+		Update tb_student_homework
+		<trim prefix="Set" suffixOverrides=",">
+            <if test="Vo.studentHomeworkTime != null">student_homework_time = #{Vo.studentHomeworkTime},</if>
+            <if test="Vo.subjectId != null">subject_id = #{Vo.subjectId},</if>
+            <if test="Vo.studentHomeworkContent != null">student_homework_content = #{Vo.studentHomeworkContent},</if>
+            <if test="Vo.studentHomeworkSubmit != null">student_homework_submit = #{Vo.studentHomeworkSubmit},</if>
+            <if test="Vo.desc != null">desc = #{Vo.desc},</if>
+            <if test="Vo.creatorId != null">creator_id = #{Vo.creatorId},</if>
+            <if test="Vo.createTime != null">create_time = #{Vo.createTime},</if>
+            <if test="Vo.updaterId != null">updater_id = #{Vo.updaterId},</if>
+            <if test="Vo.updateTime != null">update_time = #{Vo.updateTime},</if>
+            <if test="Vo.classHomeworkId != null">class_homework_id = #{Vo.classHomeworkId},</if>
+		</trim>
+		Where tb_student_homework.id = #{Vo.id}
+	</update>
+    
+    <resultMap type="StudentHomeworkVo" id="RM_Default">
+        <id column="StudentHomework_id" property="id"/>
+        <result column="StudentHomework_studentHomeworkTime" property="studentHomeworkTime"/>
+        <result column="StudentHomework_subjectId" property="subjectId"/>
+        <result column="StudentHomework_studentHomeworkContent" property="studentHomeworkContent"/>
+        <result column="StudentHomework_studentHomeworkSubmit" property="studentHomeworkSubmit"/>
+        <result column="StudentHomework_desc" property="desc"/>
+        <result column="StudentHomework_creatorId" property="creatorId"/>
+        <result column="StudentHomework_createTime" property="createTime"/>
+        <result column="StudentHomework_updaterId" property="updaterId"/>
+        <result column="StudentHomework_updateTime" property="updateTime"/>
+        <result column="StudentHomework_classHomeworkId" property="classHomeworkId"/>
+	</resultMap>
+    
+     <!-- ResultMap -->
+	<resultMap type="StudentHomeworkVo" id="RM_getVo_Auto">
+		<discriminator javaType="int" column="_chooseRM">
+			<case value="0" resultMap="RM_Default" /><!-- Auto -->
+		</discriminator>
+	</resultMap>
+    
+    <!-- 根据主键查询一条记录,通过'__chooseRM'控制返回的列 -->
+	<select id="getVo_Auto" resultMap="RM_getVo_Auto">
+		Select
+		<include refid="Sql_SelectColumns" />
+		#{chooseRM} As _chooseRM
+		From	tb_student_homework	As	tb_student_homework
+		Where
+		tb_student_homework.id = #{id}
+	</select>
+    
+    <!-- 传入id,判断是否存在该记录 -->
+	<select id="isExist_Auto" resultType="boolean">
+		Select Count(id) > 0
+		From	tb_student_homework	As	tb_student_homework
+		Where
+		tb_student_homework.id = #{id}
+	</select>
+    
+    <!-- 查询记录数量 -->
+	<select id="queryCount_Auto" resultType="Long">
+		Select Count(tb_student_homework.id)
+		From	tb_student_homework	As	tb_student_homework
+        <trim prefix="Where" prefixOverrides="And | Or">
+			<include refid="Sql_Where"/>
+		</trim>
+	</select>
+    
+    <resultMap type="StudentHomeworkVo" id="RM_queryVos_Auto">
+        <discriminator javaType="int" column="_chooseRM">
+			<case value="0" resultMap="RM_Default" /><!-- Auto -->
+		</discriminator>
+	</resultMap>
+    
+    <!-- 查询记录集合,通过'__chooseRM'控制返回的列 -->
+	<select id="queryVos_Auto" resultMap="RM_queryVos_Auto">
+		Select
+		<include refid="Sql_SelectColumns"/>
+		#{StudentHomeworkSearch.chooseRM} As _chooseRM
+		From	tb_student_homework	As	tb_student_homework
+        <trim prefix="Where" prefixOverrides="And | Or">
+			<include refid="Sql_Where"/>
+		</trim>
+		<include refid="Sql_Order"/>
+		Limit #{StudentHomeworkSearch.offset},#{StudentHomeworkSearch.limit}
+	</select>
+    
+
+    <resultMap type="StudentHomeworkVo" id="RM_getVo_AdminView">
+		<!-- <discriminator javaType="int" column="_chooseRM"> -->
+        <id column="StudentHomework_id" property="id"/>
+        <result column="StudentHomework_studentHomeworkTime" property="studentHomeworkTime"/>
+        <result column="StudentHomework_subjectId" property="subjectId"/>
+        <result column="StudentHomework_studentHomeworkContent" property="studentHomeworkContent"/>
+        <result column="StudentHomework_studentHomeworkSubmit" property="studentHomeworkSubmit"/>
+        <result column="StudentHomework_desc" property="desc"/>
+        <result column="StudentHomework_creatorId" property="creatorId"/>
+        <result column="StudentHomework_createTime" property="createTime"/>
+        <result column="StudentHomework_updaterId" property="updaterId"/>
+        <result column="StudentHomework_updateTime" property="updateTime"/>
+        <result column="StudentHomework_classHomeworkId" property="classHomeworkId"/>
+		<!-- </discriminator> -->
+	</resultMap>
+    
+    <!-- 根据主键查询一条记录,专供AdminView调用 -->
+	<select id="getVo_AdminView" resultMap="RM_getVo_AdminView">
+		Select
+		<include refid="Sql_SelectColumns" />
+		#{chooseRM} As _chooseRM
+		From	tb_student_homework	As	tb_student_homework
+		Where
+		tb_student_homework.id = #{id}
+	</select>
+    
+    <resultMap type="StudentHomeworkVo" id="RM_getVo_preAdminEdit">
+		<!-- <discriminator javaType="int" column="_chooseRM"> -->
+        <id column="StudentHomework_id" property="id"/>
+        <result column="StudentHomework_studentHomeworkTime" property="studentHomeworkTime"/>
+        <result column="StudentHomework_subjectId" property="subjectId"/>
+        <result column="StudentHomework_studentHomeworkContent" property="studentHomeworkContent"/>
+        <result column="StudentHomework_studentHomeworkSubmit" property="studentHomeworkSubmit"/>
+        <result column="StudentHomework_desc" property="desc"/>
+        <result column="StudentHomework_creatorId" property="creatorId"/>
+        <result column="StudentHomework_createTime" property="createTime"/>
+        <result column="StudentHomework_updaterId" property="updaterId"/>
+        <result column="StudentHomework_updateTime" property="updateTime"/>
+        <result column="StudentHomework_classHomeworkId" property="classHomeworkId"/>
+		<!-- </discriminator> -->
+	</resultMap>
+    
+    <!-- 根据主键查询一条记录,专供preAdminEdit调用 -->
+	<select id="getVo_preAdminEdit" resultMap="RM_getVo_preAdminEdit">
+		Select
+		<include refid="Sql_SelectColumns" />
+		#{chooseRM} As _chooseRM
+		From	tb_student_homework	As	tb_student_homework
+		Where
+		tb_student_homework.id = #{id}
+	</select>
+    
+    <resultMap type="StudentHomeworkVo" id="RM_getVo_AdminEdit">
+		<!-- <discriminator javaType="int" column="_chooseRM"> -->
+        <id column="StudentHomework_id" property="id"/>
+        <result column="StudentHomework_studentHomeworkTime" property="studentHomeworkTime"/>
+        <result column="StudentHomework_subjectId" property="subjectId"/>
+        <result column="StudentHomework_studentHomeworkContent" property="studentHomeworkContent"/>
+        <result column="StudentHomework_studentHomeworkSubmit" property="studentHomeworkSubmit"/>
+        <result column="StudentHomework_desc" property="desc"/>
+        <result column="StudentHomework_creatorId" property="creatorId"/>
+        <result column="StudentHomework_createTime" property="createTime"/>
+        <result column="StudentHomework_updaterId" property="updaterId"/>
+        <result column="StudentHomework_updateTime" property="updateTime"/>
+        <result column="StudentHomework_classHomeworkId" property="classHomeworkId"/>
+		<!-- </discriminator> -->
+	</resultMap>
+    
+    <!-- 根据主键查询一条记录,专供AdminEdit调用 -->
+	<select id="getVo_AdminEdit" resultMap="RM_getVo_AdminEdit">
+		Select
+		<include refid="Sql_SelectColumns" />
+		#{chooseRM} As _chooseRM
+		From	tb_student_homework	As	tb_student_homework
+		Where
+		tb_student_homework.id = #{id}
+	</select>
+    
+    <resultMap type="StudentHomeworkVo" id="RM_queryVos_AdminList">
+		<!-- <discriminator javaType="int" column="_chooseRM"> -->
+        <id column="StudentHomework_id" property="id"/>
+        <result column="StudentHomework_studentHomeworkTime" property="studentHomeworkTime"/>
+        <result column="StudentHomework_subjectId" property="subjectId"/>
+        <result column="StudentHomework_studentHomeworkContent" property="studentHomeworkContent"/>
+        <result column="StudentHomework_studentHomeworkSubmit" property="studentHomeworkSubmit"/>
+        <result column="StudentHomework_desc" property="desc"/>
+        <result column="StudentHomework_creatorId" property="creatorId"/>
+        <result column="StudentHomework_createTime" property="createTime"/>
+        <result column="StudentHomework_updaterId" property="updaterId"/>
+        <result column="StudentHomework_updateTime" property="updateTime"/>
+        <result column="StudentHomework_classHomeworkId" property="classHomeworkId"/>
+		<!-- </discriminator> -->
+	</resultMap>
+    
+    <sql id="Sql_SelectColumns">
+        tb_student_homework.id As StudentHomework_id,
+        tb_student_homework.student_homework_time As StudentHomework_studentHomeworkTime,
+        tb_student_homework.subject_id As StudentHomework_subjectId,
+        tb_student_homework.student_homework_content As StudentHomework_studentHomeworkContent,
+        tb_student_homework.student_homework_submit As StudentHomework_studentHomeworkSubmit,
+        tb_student_homework.desc As StudentHomework_desc,
+        tb_student_homework.creator_id As StudentHomework_creatorId,
+        tb_student_homework.create_time As StudentHomework_createTime,
+        tb_student_homework.updater_id As StudentHomework_updaterId,
+        tb_student_homework.update_time As StudentHomework_updateTime,
+        tb_student_homework.class_homework_id As StudentHomework_classHomeworkId,
+	</sql>
+    
+    <sql id="Sql_Order">
+		<trim prefix="Order By ">
+    		<choose>
+                <when test="StudentHomeworkSearch.sort != null">
+                    StudentHomework_${StudentHomeworkSearch.sort} 
+                    <if test="StudentHomeworkSearch.order != null">
+                        ${StudentHomeworkSearch.order}
+                    </if>
+                </when>
+                <otherwise>
+                    StudentHomework_id Desc
+                </otherwise>
+            </choose>
+		</trim>
+	</sql>
+    
+    <sql id="Sql_Where">
+        <if test="StudentHomeworkSearch.eqId != null">
+			<![CDATA[ And tb_student_homework.id = #{StudentHomeworkSearch.eqId} ]]>
+		</if>
+		<if test="StudentHomeworkSearch.neId != null">
+			<![CDATA[ And tb_student_homework.id != #{StudentHomeworkSearch.neId} ]]>
+		</if>
+        <if test="StudentHomeworkSearch.eqStudentHomeworkTime != null">
+			<![CDATA[ And date_format(tb_student_homework.student_homework_time,'%Y-%m-%d') = date_format(#{StudentHomeworkSearch.eqStudentHomeworkTime},'%Y-%m-%d') ]]>
+		</if>
+		<if test="StudentHomeworkSearch.geStudentHomeworkTime != null">
+			<![CDATA[ And tb_student_homework.student_homework_time >= #{StudentHomeworkSearch.geStudentHomeworkTime} ]]>
+		</if>
+		<if test="StudentHomeworkSearch.ltStudentHomeworkTime != null">
+			<![CDATA[ And tb_student_homework.student_homework_time < #{StudentHomeworkSearch.ltStudentHomeworkTime} ]]>
+		</if>
+        
+        <if test="StudentHomeworkSearch.eqSubjectId != null">
+			<![CDATA[ And tb_student_homework.subject_id = #{StudentHomeworkSearch.eqSubjectId} ]]>
+		</if>
+		<if test="StudentHomeworkSearch.neSubjectId != null">
+			<![CDATA[ And tb_student_homework.subject_id != #{StudentHomeworkSearch.neSubjectId} ]]>
+		</if>
+        <if test="StudentHomeworkSearch.eqStudentHomeworkContent != null">
+			<![CDATA[ And tb_student_homework.student_homework_content = #{StudentHomeworkSearch.eqStudentHomeworkContent} ]]>
+		</if>
+		<if test="StudentHomeworkSearch.lkStudentHomeworkContent != null">
+			<![CDATA[ And tb_student_homework.student_homework_content Like '%${StudentHomeworkSearch.lkStudentHomeworkContent}%' ]]>
+		</if>
+        <if test="StudentHomeworkSearch.eqStudentHomeworkSubmit != null">
+			<![CDATA[ And tb_student_homework.student_homework_submit = #{StudentHomeworkSearch.eqStudentHomeworkSubmit} ]]>
+		</if>
+		<if test="StudentHomeworkSearch.lkStudentHomeworkSubmit != null">
+			<![CDATA[ And tb_student_homework.student_homework_submit Like '%${StudentHomeworkSearch.lkStudentHomeworkSubmit}%' ]]>
+		</if>
+        <if test="StudentHomeworkSearch.eqDesc != null">
+			<![CDATA[ And tb_student_homework.desc = #{StudentHomeworkSearch.eqDesc} ]]>
+		</if>
+		<if test="StudentHomeworkSearch.lkDesc != null">
+			<![CDATA[ And tb_student_homework.desc Like '%${StudentHomeworkSearch.lkDesc}%' ]]>
+		</if>
+        <if test="StudentHomeworkSearch.eqCreatorId != null">
+			<![CDATA[ And tb_student_homework.creator_id = #{StudentHomeworkSearch.eqCreatorId} ]]>
+		</if>
+		<if test="StudentHomeworkSearch.neCreatorId != null">
+			<![CDATA[ And tb_student_homework.creator_id != #{StudentHomeworkSearch.neCreatorId} ]]>
+		</if>
+        <if test="StudentHomeworkSearch.eqCreateTime != null">
+			<![CDATA[ And date_format(tb_student_homework.create_time,'%Y-%m-%d') = date_format(#{StudentHomeworkSearch.eqCreateTime},'%Y-%m-%d') ]]>
+		</if>
+		<if test="StudentHomeworkSearch.geCreateTime != null">
+			<![CDATA[ And tb_student_homework.create_time >= #{StudentHomeworkSearch.geCreateTime} ]]>
+		</if>
+		<if test="StudentHomeworkSearch.ltCreateTime != null">
+			<![CDATA[ And tb_student_homework.create_time < #{StudentHomeworkSearch.ltCreateTime} ]]>
+		</if>
+        
+        <if test="StudentHomeworkSearch.eqUpdaterId != null">
+			<![CDATA[ And tb_student_homework.updater_id = #{StudentHomeworkSearch.eqUpdaterId} ]]>
+		</if>
+		<if test="StudentHomeworkSearch.neUpdaterId != null">
+			<![CDATA[ And tb_student_homework.updater_id != #{StudentHomeworkSearch.neUpdaterId} ]]>
+		</if>
+        <if test="StudentHomeworkSearch.eqUpdateTime != null">
+			<![CDATA[ And date_format(tb_student_homework.update_time,'%Y-%m-%d') = date_format(#{StudentHomeworkSearch.eqUpdateTime},'%Y-%m-%d') ]]>
+		</if>
+		<if test="StudentHomeworkSearch.geUpdateTime != null">
+			<![CDATA[ And tb_student_homework.update_time >= #{StudentHomeworkSearch.geUpdateTime} ]]>
+		</if>
+		<if test="StudentHomeworkSearch.ltUpdateTime != null">
+			<![CDATA[ And tb_student_homework.update_time < #{StudentHomeworkSearch.ltUpdateTime} ]]>
+		</if>
+        
+        <if test="StudentHomeworkSearch.eqClassHomeworkId != null">
+			<![CDATA[ And tb_student_homework.class_homework_id = #{StudentHomeworkSearch.eqClassHomeworkId} ]]>
+		</if>
+		<if test="StudentHomeworkSearch.neClassHomeworkId != null">
+			<![CDATA[ And tb_student_homework.class_homework_id != #{StudentHomeworkSearch.neClassHomeworkId} ]]>
+		</if>
+    </sql>
+</mapper>
+
+
