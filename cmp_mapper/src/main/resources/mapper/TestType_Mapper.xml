@@ -1,0 +1,208 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hfxt.cmp.mapper.ITestTypeDao">
+<!-- 新增的方法写在这里 -->
+
+
+<!-- 保存非空列,返回受影响的行数 -->
+	<insert id="saveSelective" useGeneratedKeys="true" keyProperty="Vo.id">
+		Insert Into tb_test_type 
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="Vo.testName != null">test_name,</if>
+            <if test="Vo.desc != null">desc,</if>
+           
+		</trim>
+		<trim prefix="Values (" suffix=")" suffixOverrides=",">
+            <if test="Vo.testName != null">#{Vo.testName},</if>
+            <if test="Vo.desc != null">#{Vo.desc},</if>
+            
+		</trim>
+	</insert>
+    
+    <!-- 根据主键删除-->
+	<delete id="delete">
+		Delete From tb_test_type
+		Where id = #{id}
+	</delete>
+    
+    <!-- 删除所有记录,返回受影响的行数 -->
+	<delete id="deleteAll">
+		Delete From tb_test_type
+	</delete>
+    
+    <!-- 更新非空列,返回受影响的行数 -->
+	<update id="updateSelective">
+		Update tb_test_type
+		<trim prefix="Set" suffixOverrides=",">
+            <if test="Vo.testName != null">test_name = #{Vo.testName},</if>
+            <if test="Vo.desc != null">desc = #{Vo.desc},</if>
+		</trim>
+		Where tb_test_type.id = #{Vo.id}
+	</update>
+    
+    <resultMap type="TestTypeVo" id="RM_Default">
+        <id column="TestType_id" property="id"/>
+        <result column="TestType_testName" property="testName"/>
+        <result column="TestType_desc" property="desc"/>
+	</resultMap>
+    
+     <!-- ResultMap -->
+	<resultMap type="TestTypeVo" id="RM_getVo_Auto">
+		<discriminator javaType="int" column="_chooseRM">
+			<case value="0" resultMap="RM_Default" /><!-- Auto -->
+		</discriminator>
+	</resultMap>
+    
+    <!-- 根据主键查询一条记录,通过'__chooseRM'控制返回的列 -->
+	<select id="getVo_Auto" resultMap="RM_getVo_Auto">
+		Select
+		<include refid="Sql_SelectColumns" />
+		#{chooseRM} As _chooseRM
+		From	tb_test_type	As	tb_test_type
+		Where
+		tb_test_type.id = #{id}
+	</select>
+    
+    <!-- 传入id,判断是否存在该记录 -->
+	<select id="isExist_Auto" resultType="boolean">
+		Select Count(id) > 0
+		From	tb_test_type	As	tb_test_type
+		Where
+		tb_test_type.id = #{id}
+	</select>
+    
+    <!-- 查询记录数量 -->
+	<select id="queryCount_Auto" resultType="Long">
+		Select Count(tb_test_type.id)
+		From	tb_test_type	As	tb_test_type
+        <trim prefix="Where" prefixOverrides="And | Or">
+			<include refid="Sql_Where"/>
+		</trim>
+	</select>
+    
+    <resultMap type="TestTypeVo" id="RM_queryVos_Auto">
+        <discriminator javaType="int" column="_chooseRM">
+			<case value="0" resultMap="RM_Default" /><!-- Auto -->
+		</discriminator>
+	</resultMap>
+    
+    <!-- 查询记录集合,通过'__chooseRM'控制返回的列 -->
+	<select id="queryVos_Auto" resultMap="RM_queryVos_Auto">
+		Select
+		<include refid="Sql_SelectColumns"/>
+		#{TestTypeSearch.chooseRM} As _chooseRM
+		From	tb_test_type	As	tb_test_type
+        <trim prefix="Where" prefixOverrides="And | Or">
+			<include refid="Sql_Where"/>
+		</trim>
+		<include refid="Sql_Order"/>
+		Limit #{TestTypeSearch.offset},#{TestTypeSearch.limit}
+	</select>
+    
+
+    <resultMap type="TestTypeVo" id="RM_getVo_AdminView">
+		<!-- <discriminator javaType="int" column="_chooseRM"> -->
+        <id column="TestType_id" property="id"/>
+        <result column="TestType_testName" property="testName"/>
+        <result column="TestType_desc" property="desc"/>
+		<!-- </discriminator> -->
+	</resultMap>
+    
+    <!-- 根据主键查询一条记录,专供AdminView调用 -->
+	<select id="getVo_AdminView" resultMap="RM_getVo_AdminView">
+		Select
+		<include refid="Sql_SelectColumns" />
+		#{chooseRM} As _chooseRM
+		From	tb_test_type	As	tb_test_type
+		Where
+		tb_test_type.id = #{id}
+	</select>
+    
+    <resultMap type="TestTypeVo" id="RM_getVo_preAdminEdit">
+		<!-- <discriminator javaType="int" column="_chooseRM"> -->
+        <id column="TestType_id" property="id"/>
+        <result column="TestType_testName" property="testName"/>
+        <result column="TestType_desc" property="desc"/>
+		<!-- </discriminator> -->
+	</resultMap>
+    
+    <!-- 根据主键查询一条记录,专供preAdminEdit调用 -->
+	<select id="getVo_preAdminEdit" resultMap="RM_getVo_preAdminEdit">
+		Select
+		<include refid="Sql_SelectColumns" />
+		#{chooseRM} As _chooseRM
+		From	tb_test_type	As	tb_test_type
+		Where
+		tb_test_type.id = #{id}
+	</select>
+    
+    <resultMap type="TestTypeVo" id="RM_getVo_AdminEdit">
+		<!-- <discriminator javaType="int" column="_chooseRM"> -->
+        <id column="TestType_id" property="id"/>
+        <result column="TestType_testName" property="testName"/>
+        <result column="TestType_desc" property="desc"/>
+		<!-- </discriminator> -->
+	</resultMap>
+    
+    <!-- 根据主键查询一条记录,专供AdminEdit调用 -->
+	<select id="getVo_AdminEdit" resultMap="RM_getVo_AdminEdit">
+		Select
+		<include refid="Sql_SelectColumns" />
+		#{chooseRM} As _chooseRM
+		From	tb_test_type	As	tb_test_type
+		Where
+		tb_test_type.id = #{id}
+	</select>
+    
+    <resultMap type="TestTypeVo" id="RM_queryVos_AdminList">
+		<!-- <discriminator javaType="int" column="_chooseRM"> -->
+        <id column="TestType_id" property="id"/>
+        <result column="TestType_testName" property="testName"/>
+        <result column="TestType_desc" property="desc"/>
+		<!-- </discriminator> -->
+	</resultMap>
+    
+    <sql id="Sql_SelectColumns">
+        tb_test_type.id As TestType_id,
+        tb_test_type.test_name As TestType_testName,
+        tb_test_type.desc As TestType_desc,
+	</sql>
+    
+    <sql id="Sql_Order">
+		<trim prefix="Order By ">
+    		<choose>
+                <when test="TestTypeSearch.sort != null">
+                    TestType_${TestTypeSearch.sort} 
+                    <if test="TestTypeSearch.order != null">
+                        ${TestTypeSearch.order}
+                    </if>
+                </when>
+                <otherwise>
+                    TestType_id Desc
+                </otherwise>
+            </choose>
+		</trim>
+	</sql>
+    
+    <sql id="Sql_Where">
+        <if test="TestTypeSearch.eqId != null">
+			<![CDATA[ And tb_test_type.id = #{TestTypeSearch.eqId} ]]>
+		</if>
+		<if test="TestTypeSearch.neId != null">
+			<![CDATA[ And tb_test_type.id != #{TestTypeSearch.neId} ]]>
+		</if>
+        <if test="TestTypeSearch.eqTestName != null">
+			<![CDATA[ And tb_test_type.test_name = #{TestTypeSearch.eqTestName} ]]>
+		</if>
+		<if test="TestTypeSearch.lkTestName != null">
+			<![CDATA[ And tb_test_type.test_name Like '%${TestTypeSearch.lkTestName}%' ]]>
+		</if>
+        <if test="TestTypeSearch.eqDesc != null">
+			<![CDATA[ And tb_test_type.desc = #{TestTypeSearch.eqDesc} ]]>
+		</if>
+		<if test="TestTypeSearch.lkDesc != null">
+			<![CDATA[ And tb_test_type.desc Like '%${TestTypeSearch.lkDesc}%' ]]>
+		</if>
+    </sql>
+</mapper>
+
+
