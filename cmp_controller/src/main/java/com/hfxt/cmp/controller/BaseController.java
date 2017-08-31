@@ -59,6 +59,7 @@ public abstract class BaseController {
     
     @Autowired
     protected IRoleService roleService;
+    
     @Autowired
     protected IRoleRightService roleRightService;
     @Autowired
