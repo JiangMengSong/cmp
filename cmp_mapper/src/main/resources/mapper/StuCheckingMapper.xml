@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hfxt.cmp.mapper.StuCheckingMapper">
+    <resultMap id="StuCheckingBean" type="com.hfxt.cmp.model.StuChecking">
+        <id column="stuCheckingId" jdbcType="INTEGER" property="stucheckingid"/>
+        <result column="cheTime" jdbcType="TIMESTAMP" property="chetime"/>
+        <result column="cheStatus" jdbcType="INTEGER" property="chestatus"/>
+        <result column="stuCheckingDesc" jdbcType="VARCHAR" property="stucheckingdesc"/>
+        <collection property="student" resultMap="com.hfxt.cmp.mapper.StudentMapper.StudentBean"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        stuCheckingId, stuId, cheTime, cheStatus, stuCheckingDesc
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="StuCheckingBean">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_student_checking
+        where stuCheckingId = #{stucheckingid,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_student_checking
+    where stuCheckingId = #{stucheckingid,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.hfxt.cmp.model.StuChecking">
+    insert into tb_student_checking (stuCheckingId, stuId, cheTime, 
+      cheStatus, stuCheckingDesc)
+    values (#{stucheckingid,jdbcType=INTEGER}, #{stuid,jdbcType=INTEGER}, #{chetime,jdbcType=TIMESTAMP}, 
+      #{chestatus,jdbcType=INTEGER}, #{stucheckingdesc,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.hfxt.cmp.model.StuChecking">
+        insert into tb_student_checking
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="stucheckingid != null">
+                stuCheckingId,
+            </if>
+            <if test="stuid != null">
+                stuId,
+            </if>
+            <if test="chetime != null">
+                cheTime,
+            </if>
+            <if test="chestatus != null">
+                cheStatus,
+            </if>
+            <if test="stucheckingdesc != null">
+                stuCheckingDesc,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="stucheckingid != null">
+                #{stucheckingid,jdbcType=INTEGER},
+            </if>
+            <if test="stuid != null">
+                #{stuid,jdbcType=INTEGER},
+            </if>
+            <if test="chetime != null">
+                #{chetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="chestatus != null">
+                #{chestatus,jdbcType=INTEGER},
+            </if>
+            <if test="stucheckingdesc != null">
+                #{stucheckingdesc,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.hfxt.cmp.model.StuChecking">
+        update tb_student_checking
+        <set>
+            <if test="stuid != null">
+                stuId = #{stuid,jdbcType=INTEGER},
+            </if>
+            <if test="chetime != null">
+                cheTime = #{chetime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="chestatus != null">
+                cheStatus = #{chestatus,jdbcType=INTEGER},
+            </if>
+            <if test="stucheckingdesc != null">
+                stuCheckingDesc = #{stucheckingdesc,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where stuCheckingId = #{stucheckingid,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.hfxt.cmp.model.StuChecking">
+    update tb_student_checking
+    set stuId = #{stuid,jdbcType=INTEGER},
+      cheTime = #{chetime,jdbcType=TIMESTAMP},
+      cheStatus = #{chestatus,jdbcType=INTEGER},
+      stuCheckingDesc = #{stucheckingdesc,jdbcType=VARCHAR}
+    where stuCheckingId = #{stucheckingid,jdbcType=INTEGER}
+  </update>
+</mapper>

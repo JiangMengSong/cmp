@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hfxt.cmp.mapper.ClazzMapper">
+    <resultMap id="ClazzBean" type="com.hfxt.cmp.model.Clazz">
+        <id column="clazzId" jdbcType="INTEGER" property="clazzid"/>
+        <result column="className" jdbcType="VARCHAR" property="classname"/>
+        <result column="stuNum" jdbcType="INTEGER" property="stunum"/>
+        <result column="majorId" jdbcType="INTEGER" property="majorid"/>
+        <result column="classCode" jdbcType="VARCHAR" property="classcode"/>
+        <result column="classStatus" jdbcType="INTEGER" property="classstatus"/>
+        <result column="classBeginTime" jdbcType="TIMESTAMP" property="classbegintime"/>
+        <result column="classEndTime" jdbcType="TIMESTAMP" property="classendtime"/>
+        <result column="classDesc" jdbcType="VARCHAR" property="classdesc"/>
+        <collection property="employeeA" resultMap="com.hfxt.cmp.mapper.EmployeeMapper.EmployeeBean"/>
+        <collection property="employeeB" resultMap="com.hfxt.cmp.mapper.EmployeeMapper.EmployeeBean"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    clazzId, className, teaId, teaClassId, stuNum, majorId, classCode, classStatus, classBeginTime, 
+    classEndTime, classDesc
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ClazzBean">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_clazz
+        where clazzId = #{clazzid,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_clazz
+    where clazzId = #{clazzid,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.hfxt.cmp.model.Clazz">
+    insert into tb_clazz (clazzId, className, teaId, 
+      teaClassId, stuNum, majorId, 
+      classCode, classStatus, classBeginTime, 
+      classEndTime, classDesc)
+    values (#{clazzid,jdbcType=INTEGER}, #{classname,jdbcType=VARCHAR}, #{teaid,jdbcType=INTEGER}, 
+      #{teaclassid,jdbcType=INTEGER}, #{stunum,jdbcType=INTEGER}, #{majorid,jdbcType=INTEGER}, 
+      #{classcode,jdbcType=VARCHAR}, #{classstatus,jdbcType=INTEGER}, #{classbegintime,jdbcType=TIMESTAMP}, 
+      #{classendtime,jdbcType=TIMESTAMP}, #{classdesc,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.hfxt.cmp.model.Clazz">
+        insert into tb_clazz
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="clazzid != null">
+                clazzId,
+            </if>
+            <if test="classname != null">
+                className,
+            </if>
+            <if test="teaid != null">
+                teaId,
+            </if>
+            <if test="teaclassid != null">
+                teaClassId,
+            </if>
+            <if test="stunum != null">
+                stuNum,
+            </if>
+            <if test="majorid != null">
+                majorId,
+            </if>
+            <if test="classcode != null">
+                classCode,
+            </if>
+            <if test="classstatus != null">
+                classStatus,
+            </if>
+            <if test="classbegintime != null">
+                classBeginTime,
+            </if>
+            <if test="classendtime != null">
+                classEndTime,
+            </if>
+            <if test="classdesc != null">
+                classDesc,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="clazzid != null">
+                #{clazzid,jdbcType=INTEGER},
+            </if>
+            <if test="classname != null">
+                #{classname,jdbcType=VARCHAR},
+            </if>
+            <if test="teaid != null">
+                #{teaid,jdbcType=INTEGER},
+            </if>
+            <if test="teaclassid != null">
+                #{teaclassid,jdbcType=INTEGER},
+            </if>
+            <if test="stunum != null">
+                #{stunum,jdbcType=INTEGER},
+            </if>
+            <if test="majorid != null">
+                #{majorid,jdbcType=INTEGER},
+            </if>
+            <if test="classcode != null">
+                #{classcode,jdbcType=VARCHAR},
+            </if>
+            <if test="classstatus != null">
+                #{classstatus,jdbcType=INTEGER},
+            </if>
+            <if test="classbegintime != null">
+                #{classbegintime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="classendtime != null">
+                #{classendtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="classdesc != null">
+                #{classdesc,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.hfxt.cmp.model.Clazz">
+        update tb_clazz
+        <set>
+            <if test="classname != null">
+                className = #{classname,jdbcType=VARCHAR},
+            </if>
+            <if test="teaid != null">
+                teaId = #{teaid,jdbcType=INTEGER},
+            </if>
+            <if test="teaclassid != null">
+                teaClassId = #{teaclassid,jdbcType=INTEGER},
+            </if>
+            <if test="stunum != null">
+                stuNum = #{stunum,jdbcType=INTEGER},
+            </if>
+            <if test="majorid != null">
+                majorId = #{majorid,jdbcType=INTEGER},
+            </if>
+            <if test="classcode != null">
+                classCode = #{classcode,jdbcType=VARCHAR},
+            </if>
+            <if test="classstatus != null">
+                classStatus = #{classstatus,jdbcType=INTEGER},
+            </if>
+            <if test="classbegintime != null">
+                classBeginTime = #{classbegintime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="classendtime != null">
+                classEndTime = #{classendtime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="classdesc != null">
+                classDesc = #{classdesc,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where clazzId = #{clazzid,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.hfxt.cmp.model.Clazz">
+    update tb_clazz
+    set className = #{classname,jdbcType=VARCHAR},
+      teaId = #{teaid,jdbcType=INTEGER},
+      teaClassId = #{teaclassid,jdbcType=INTEGER},
+      stuNum = #{stunum,jdbcType=INTEGER},
+      majorId = #{majorid,jdbcType=INTEGER},
+      classCode = #{classcode,jdbcType=VARCHAR},
+      classStatus = #{classstatus,jdbcType=INTEGER},
+      classBeginTime = #{classbegintime,jdbcType=TIMESTAMP},
+      classEndTime = #{classendtime,jdbcType=TIMESTAMP},
+      classDesc = #{classdesc,jdbcType=VARCHAR}
+    where clazzId = #{clazzid,jdbcType=INTEGER}
+  </update>
+</mapper>

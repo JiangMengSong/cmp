@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hfxt.cmp.mapper.ExperimentTypeMapper">
+    <resultMap id="BaseResultMap" type="com.hfxt.cmp.model.ExperimentType">
+        <id column="typId" jdbcType="INTEGER" property="typid"/>
+        <result column="typeName" jdbcType="VARCHAR" property="typename"/>
+        <result column="typeDesc" jdbcType="VARCHAR" property="typedesc"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        typId, typeName, typeDesc
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_experiment_type
+        where typId = #{typid,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from tb_experiment_type
+        where typId = #{typid,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.hfxt.cmp.model.ExperimentType">
+        insert into tb_experiment_type (typId, typeName, typeDesc
+        )
+        values (#{typid,jdbcType=INTEGER}, #{typename,jdbcType=VARCHAR}, #{typedesc,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.hfxt.cmp.model.ExperimentType">
+        insert into tb_experiment_type
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="typid != null">
+                typId,
+            </if>
+            <if test="typename != null">
+                typeName,
+            </if>
+            <if test="typedesc != null">
+                typeDesc,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="typid != null">
+                #{typid,jdbcType=INTEGER},
+            </if>
+            <if test="typename != null">
+                #{typename,jdbcType=VARCHAR},
+            </if>
+            <if test="typedesc != null">
+                #{typedesc,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.hfxt.cmp.model.ExperimentType">
+        update tb_experiment_type
+        <set>
+            <if test="typename != null">
+                typeName = #{typename,jdbcType=VARCHAR},
+            </if>
+            <if test="typedesc != null">
+                typeDesc = #{typedesc,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where typId = #{typid,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.hfxt.cmp.model.ExperimentType">
+        update tb_experiment_type
+        set typeName = #{typename,jdbcType=VARCHAR},
+        typeDesc = #{typedesc,jdbcType=VARCHAR}
+        where typId = #{typid,jdbcType=INTEGER}
+    </update>
+</mapper>

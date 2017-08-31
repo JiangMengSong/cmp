@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hfxt.cmp.mapper.MajorMapper">
+    <resultMap id="MajorBean" type="com.hfxt.cmp.model.Major">
+        <id column="majorId" jdbcType="INTEGER" property="majorid"/>
+        <result column="majorName" jdbcType="VARCHAR" property="majorname"/>
+        <result column="majorDesc" jdbcType="VARCHAR" property="majordesc"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        majorId, majorName, majorDesc
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="MajorBean">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_major
+        where majorId = #{majorid,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from tb_major
+        where majorId = #{majorid,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.hfxt.cmp.model.Major">
+        insert into tb_major (majorId, majorName, majorDesc
+        )
+        values (#{majorid,jdbcType=INTEGER}, #{majorname,jdbcType=VARCHAR}, #{majordesc,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.hfxt.cmp.model.Major">
+        insert into tb_major
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="majorid != null">
+                majorId,
+            </if>
+            <if test="majorname != null">
+                majorName,
+            </if>
+            <if test="majordesc != null">
+                majorDesc,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="majorid != null">
+                #{majorid,jdbcType=INTEGER},
+            </if>
+            <if test="majorname != null">
+                #{majorname,jdbcType=VARCHAR},
+            </if>
+            <if test="majordesc != null">
+                #{majordesc,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.hfxt.cmp.model.Major">
+        update tb_major
+        <set>
+            <if test="majorname != null">
+                majorName = #{majorname,jdbcType=VARCHAR},
+            </if>
+            <if test="majordesc != null">
+                majorDesc = #{majordesc,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where majorId = #{majorid,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.hfxt.cmp.model.Major">
+        update tb_major
+        set majorName = #{majorname,jdbcType=VARCHAR},
+        majorDesc = #{majordesc,jdbcType=VARCHAR}
+        where majorId = #{majorid,jdbcType=INTEGER}
+    </update>
+</mapper>

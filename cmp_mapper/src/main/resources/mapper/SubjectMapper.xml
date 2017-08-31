@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hfxt.cmp.mapper.SubjectMapper">
+    <resultMap id="SubjectBean" type="com.hfxt.cmp.model.Subject">
+        <id column="subId" jdbcType="INTEGER" property="subid"/>
+        <result column="subName" jdbcType="VARCHAR" property="subname"/>
+        <result column="subDesc" jdbcType="VARCHAR" property="subdesc"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        subId, subName, subDesc
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="SubjectBean">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_subject
+        where subId = #{subid,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_subject
+    where subId = #{subid,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.hfxt.cmp.model.Subject">
+    insert into tb_subject (subId, subName, subDesc
+      )
+    values (#{subid,jdbcType=INTEGER}, #{subname,jdbcType=VARCHAR}, #{subdesc,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.hfxt.cmp.model.Subject">
+        insert into tb_subject
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="subid != null">
+                subId,
+            </if>
+            <if test="subname != null">
+                subName,
+            </if>
+            <if test="subdesc != null">
+                subDesc,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="subid != null">
+                #{subid,jdbcType=INTEGER},
+            </if>
+            <if test="subname != null">
+                #{subname,jdbcType=VARCHAR},
+            </if>
+            <if test="subdesc != null">
+                #{subdesc,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.hfxt.cmp.model.Subject">
+        update tb_subject
+        <set>
+            <if test="subname != null">
+                subName = #{subname,jdbcType=VARCHAR},
+            </if>
+            <if test="subdesc != null">
+                subDesc = #{subdesc,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where subId = #{subid,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.hfxt.cmp.model.Subject">
+    update tb_subject
+    set subName = #{subname,jdbcType=VARCHAR},
+      subDesc = #{subdesc,jdbcType=VARCHAR}
+    where subId = #{subid,jdbcType=INTEGER}
+  </update>
+</mapper>

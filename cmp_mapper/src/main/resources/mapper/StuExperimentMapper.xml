@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hfxt.cmp.mapper.StuExperimentMapper">
+    <resultMap id="StuExperimentBean" type="com.hfxt.cmp.model.StuExperiment">
+        <id column="expId" jdbcType="INTEGER" property="expid"/>
+        <result column="expContent" jdbcType="VARCHAR" property="expcontent"/>
+        <result column="expTime" jdbcType="TIMESTAMP" property="exptime"/>
+        <result column="expScore" jdbcType="INTEGER" property="expscore"/>
+        <result column="expDesc" jdbcType="VARCHAR" property="expdesc"/>
+        <result column="expType" jdbcType="INTEGER" property="exptype"/>
+        <collection property="employee" resultMap="com.hfxt.cmp.mapper.EmployeeMapper.EmployeeBean"/>
+        <collection property="student" resultMap="com.hfxt.cmp.mapper.StudentMapper.StudentBean"/>
+        <collection property="subject" resultMap="com.hfxt.cmp.mapper.SubjectMapper.SubjectBean"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        expId, subId, empId, stuId, expContent, expTime, expScore, expDesc, expType
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="StuExperimentBean">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_student_experiment
+        where expId = #{expid,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_student_experiment
+    where expId = #{expid,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.hfxt.cmp.model.StuExperiment">
+    insert into tb_student_experiment (expId, subId, empId, 
+      stuId, expContent, expTime, 
+      expScore, expDesc, expType
+      )
+    values (#{expid,jdbcType=INTEGER}, #{subid,jdbcType=INTEGER}, #{empid,jdbcType=INTEGER}, 
+      #{stuid,jdbcType=INTEGER}, #{expcontent,jdbcType=VARCHAR}, #{exptime,jdbcType=TIMESTAMP}, 
+      #{expscore,jdbcType=INTEGER}, #{expdesc,jdbcType=VARCHAR}, #{exptype,jdbcType=INTEGER}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.hfxt.cmp.model.StuExperiment">
+        insert into tb_student_experiment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="expid != null">
+                expId,
+            </if>
+            <if test="subid != null">
+                subId,
+            </if>
+            <if test="empid != null">
+                empId,
+            </if>
+            <if test="stuid != null">
+                stuId,
+            </if>
+            <if test="expcontent != null">
+                expContent,
+            </if>
+            <if test="exptime != null">
+                expTime,
+            </if>
+            <if test="expscore != null">
+                expScore,
+            </if>
+            <if test="expdesc != null">
+                expDesc,
+            </if>
+            <if test="exptype != null">
+                expType,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="expid != null">
+                #{expid,jdbcType=INTEGER},
+            </if>
+            <if test="subid != null">
+                #{subid,jdbcType=INTEGER},
+            </if>
+            <if test="empid != null">
+                #{empid,jdbcType=INTEGER},
+            </if>
+            <if test="stuid != null">
+                #{stuid,jdbcType=INTEGER},
+            </if>
+            <if test="expcontent != null">
+                #{expcontent,jdbcType=VARCHAR},
+            </if>
+            <if test="exptime != null">
+                #{exptime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="expscore != null">
+                #{expscore,jdbcType=INTEGER},
+            </if>
+            <if test="expdesc != null">
+                #{expdesc,jdbcType=VARCHAR},
+            </if>
+            <if test="exptype != null">
+                #{exptype,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.hfxt.cmp.model.StuExperiment">
+        update tb_student_experiment
+        <set>
+            <if test="subid != null">
+                subId = #{subid,jdbcType=INTEGER},
+            </if>
+            <if test="empid != null">
+                empId = #{empid,jdbcType=INTEGER},
+            </if>
+            <if test="stuid != null">
+                stuId = #{stuid,jdbcType=INTEGER},
+            </if>
+            <if test="expcontent != null">
+                expContent = #{expcontent,jdbcType=VARCHAR},
+            </if>
+            <if test="exptime != null">
+                expTime = #{exptime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="expscore != null">
+                expScore = #{expscore,jdbcType=INTEGER},
+            </if>
+            <if test="expdesc != null">
+                expDesc = #{expdesc,jdbcType=VARCHAR},
+            </if>
+            <if test="exptype != null">
+                expType = #{exptype,jdbcType=INTEGER},
+            </if>
+        </set>
+        where expId = #{expid,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.hfxt.cmp.model.StuExperiment">
+    update tb_student_experiment
+    set subId = #{subid,jdbcType=INTEGER},
+      empId = #{empid,jdbcType=INTEGER},
+      stuId = #{stuid,jdbcType=INTEGER},
+      expContent = #{expcontent,jdbcType=VARCHAR},
+      expTime = #{exptime,jdbcType=TIMESTAMP},
+      expScore = #{expscore,jdbcType=INTEGER},
+      expDesc = #{expdesc,jdbcType=VARCHAR},
+      expType = #{exptype,jdbcType=INTEGER}
+    where expId = #{expid,jdbcType=INTEGER}
+  </update>
+</mapper>
