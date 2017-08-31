@@ -36,6 +36,7 @@
     <orderEntry type="module" module-name="cmp_service" />
     <orderEntry type="module" module-name="cmp_mapper" />
     <orderEntry type="module" module-name="cmp_model" />
+    <orderEntry type="module" module-name="cmp_common" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.9.0" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.9.0" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.9.0" level="project" />

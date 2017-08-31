@@ -7,12 +7,12 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>cmp_model</artifactId>
-    <!--<dependencies>-->
-        <!--<dependency>-->
-            <!--<groupId>com.hfxt.cmp</groupId>-->
-            <!--<artifactId>cmp_common</artifactId>-->
-            <!--<version>${project.version}</version>-->
-        <!--</dependency>-->
-    <!--</dependencies>-->
+    <dependencies>
+        <dependency>
+            <groupId>com.hfxt.cmp</groupId>
+            <artifactId>cmp_common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
     <build/>
 </project>
