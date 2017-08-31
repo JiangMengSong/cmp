@@ -1,4 +1,4 @@
-package com.hfxt.cmp.service.impl;
+package com.hfxt.cmp.service;
 
 import com.hfxt.cmp.mapper.*;
 import org.slf4j.Logger;
