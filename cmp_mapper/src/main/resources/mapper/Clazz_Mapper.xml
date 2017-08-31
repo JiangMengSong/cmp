@@ -1,0 +1,336 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hfxt.cmp.mapper.IClazzDao">
+<!-- 新增的方法写在这里 -->
+
+
+<!-- 保存非空列,返回受影响的行数 -->
+	<insert id="saveSelective" useGeneratedKeys="true" keyProperty="Vo.id">
+		Insert Into tb_clazz 
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="Vo.className != null">class_name,</if>
+            <if test="Vo.teacherId != null">teacher_id,</if>
+            <if test="Vo.teacherClassId != null">teacher_class_id,</if>
+            <if test="Vo.studentNum != null">student_num,</if>
+            <if test="Vo.majorId != null">major_id,</if>
+            <if test="Vo.classCode != null">class_code,</if>
+            <if test="Vo.classStatus != null">class_status,</if>
+            <if test="Vo.classBeginTime != null">class_beginTime,</if>
+            <if test="Vo.classEndTime != null">class_endTime,</if>
+            <if test="Vo.desc != null">desc,</if>
+           
+		</trim>
+		<trim prefix="Values (" suffix=")" suffixOverrides=",">
+            <if test="Vo.className != null">#{Vo.className},</if>
+            <if test="Vo.teacherId != null">#{Vo.teacherId},</if>
+            <if test="Vo.teacherClassId != null">#{Vo.teacherClassId},</if>
+            <if test="Vo.studentNum != null">#{Vo.studentNum},</if>
+            <if test="Vo.majorId != null">#{Vo.majorId},</if>
+            <if test="Vo.classCode != null">#{Vo.classCode},</if>
+            <if test="Vo.classStatus != null">#{Vo.classStatus},</if>
+            <if test="Vo.classBeginTime != null">#{Vo.classBeginTime},</if>
+            <if test="Vo.classEndTime != null">#{Vo.classEndTime},</if>
+            <if test="Vo.desc != null">#{Vo.desc},</if>
+            
+		</trim>
+	</insert>
+    
+    <!-- 根据主键删除-->
+	<delete id="delete">
+		Delete From tb_clazz
+		Where id = #{id}
+	</delete>
+    
+    <!-- 删除所有记录,返回受影响的行数 -->
+	<delete id="deleteAll">
+		Delete From tb_clazz
+	</delete>
+    
+    <!-- 更新非空列,返回受影响的行数 -->
+	<update id="updateSelective">
+		Update tb_clazz
+		<trim prefix="Set" suffixOverrides=",">
+            <if test="Vo.className != null">class_name = #{Vo.className},</if>
+            <if test="Vo.teacherId != null">teacher_id = #{Vo.teacherId},</if>
+            <if test="Vo.teacherClassId != null">teacher_class_id = #{Vo.teacherClassId},</if>
+            <if test="Vo.studentNum != null">student_num = #{Vo.studentNum},</if>
+            <if test="Vo.majorId != null">major_id = #{Vo.majorId},</if>
+            <if test="Vo.classCode != null">class_code = #{Vo.classCode},</if>
+            <if test="Vo.classStatus != null">class_status = #{Vo.classStatus},</if>
+            <if test="Vo.classBeginTime != null">class_beginTime = #{Vo.classBeginTime},</if>
+            <if test="Vo.classEndTime != null">class_endTime = #{Vo.classEndTime},</if>
+            <if test="Vo.desc != null">desc = #{Vo.desc},</if>
+		</trim>
+		Where tb_clazz.id = #{Vo.id}
+	</update>
+    
+    <resultMap type="ClazzVo" id="RM_Default">
+        <id column="Clazz_id" property="id"/>
+        <result column="Clazz_className" property="className"/>
+        <result column="Clazz_teacherId" property="teacherId"/>
+        <result column="Clazz_teacherClassId" property="teacherClassId"/>
+        <result column="Clazz_studentNum" property="studentNum"/>
+        <result column="Clazz_majorId" property="majorId"/>
+        <result column="Clazz_classCode" property="classCode"/>
+        <result column="Clazz_classStatus" property="classStatus"/>
+        <result column="Clazz_classBeginTime" property="classBeginTime"/>
+        <result column="Clazz_classEndTime" property="classEndTime"/>
+        <result column="Clazz_desc" property="desc"/>
+	</resultMap>
+    
+     <!-- ResultMap -->
+	<resultMap type="ClazzVo" id="RM_getVo_Auto">
+		<discriminator javaType="int" column="_chooseRM">
+			<case value="0" resultMap="RM_Default" /><!-- Auto -->
+		</discriminator>
+	</resultMap>
+    
+    <!-- 根据主键查询一条记录,通过'__chooseRM'控制返回的列 -->
+	<select id="getVo_Auto" resultMap="RM_getVo_Auto">
+		Select
+		<include refid="Sql_SelectColumns" />
+		#{chooseRM} As _chooseRM
+		From	tb_clazz	As	tb_clazz
+		Where
+		tb_clazz.id = #{id}
+	</select>
+    
+    <!-- 传入id,判断是否存在该记录 -->
+	<select id="isExist_Auto" resultType="boolean">
+		Select Count(id) > 0
+		From	tb_clazz	As	tb_clazz
+		Where
+		tb_clazz.id = #{id}
+	</select>
+    
+    <!-- 查询记录数量 -->
+	<select id="queryCount_Auto" resultType="Long">
+		Select Count(tb_clazz.id)
+		From	tb_clazz	As	tb_clazz
+        <trim prefix="Where" prefixOverrides="And | Or">
+			<include refid="Sql_Where"/>
+		</trim>
+	</select>
+    
+    <resultMap type="ClazzVo" id="RM_queryVos_Auto">
+        <discriminator javaType="int" column="_chooseRM">
+			<case value="0" resultMap="RM_Default" /><!-- Auto -->
+		</discriminator>
+	</resultMap>
+    
+    <!-- 查询记录集合,通过'__chooseRM'控制返回的列 -->
+	<select id="queryVos_Auto" resultMap="RM_queryVos_Auto">
+		Select
+		<include refid="Sql_SelectColumns"/>
+		#{ClazzSearch.chooseRM} As _chooseRM
+		From	tb_clazz	As	tb_clazz
+        <trim prefix="Where" prefixOverrides="And | Or">
+			<include refid="Sql_Where"/>
+		</trim>
+		<include refid="Sql_Order"/>
+		Limit #{ClazzSearch.offset},#{ClazzSearch.limit}
+	</select>
+    
+
+    <resultMap type="ClazzVo" id="RM_getVo_AdminView">
+		<!-- <discriminator javaType="int" column="_chooseRM"> -->
+        <id column="Clazz_id" property="id"/>
+        <result column="Clazz_className" property="className"/>
+        <result column="Clazz_teacherId" property="teacherId"/>
+        <result column="Clazz_teacherClassId" property="teacherClassId"/>
+        <result column="Clazz_studentNum" property="studentNum"/>
+        <result column="Clazz_majorId" property="majorId"/>
+        <result column="Clazz_classCode" property="classCode"/>
+        <result column="Clazz_classStatus" property="classStatus"/>
+        <result column="Clazz_classBeginTime" property="classBeginTime"/>
+        <result column="Clazz_classEndTime" property="classEndTime"/>
+        <result column="Clazz_desc" property="desc"/>
+		<!-- </discriminator> -->
+	</resultMap>
+    
+    <!-- 根据主键查询一条记录,专供AdminView调用 -->
+	<select id="getVo_AdminView" resultMap="RM_getVo_AdminView">
+		Select
+		<include refid="Sql_SelectColumns" />
+		#{chooseRM} As _chooseRM
+		From	tb_clazz	As	tb_clazz
+		Where
+		tb_clazz.id = #{id}
+	</select>
+    
+    <resultMap type="ClazzVo" id="RM_getVo_preAdminEdit">
+		<!-- <discriminator javaType="int" column="_chooseRM"> -->
+        <id column="Clazz_id" property="id"/>
+        <result column="Clazz_className" property="className"/>
+        <result column="Clazz_teacherId" property="teacherId"/>
+        <result column="Clazz_teacherClassId" property="teacherClassId"/>
+        <result column="Clazz_studentNum" property="studentNum"/>
+        <result column="Clazz_majorId" property="majorId"/>
+        <result column="Clazz_classCode" property="classCode"/>
+        <result column="Clazz_classStatus" property="classStatus"/>
+        <result column="Clazz_classBeginTime" property="classBeginTime"/>
+        <result column="Clazz_classEndTime" property="classEndTime"/>
+        <result column="Clazz_desc" property="desc"/>
+		<!-- </discriminator> -->
+	</resultMap>
+    
+    <!-- 根据主键查询一条记录,专供preAdminEdit调用 -->
+	<select id="getVo_preAdminEdit" resultMap="RM_getVo_preAdminEdit">
+		Select
+		<include refid="Sql_SelectColumns" />
+		#{chooseRM} As _chooseRM
+		From	tb_clazz	As	tb_clazz
+		Where
+		tb_clazz.id = #{id}
+	</select>
+    
+    <resultMap type="ClazzVo" id="RM_getVo_AdminEdit">
+		<!-- <discriminator javaType="int" column="_chooseRM"> -->
+        <id column="Clazz_id" property="id"/>
+        <result column="Clazz_className" property="className"/>
+        <result column="Clazz_teacherId" property="teacherId"/>
+        <result column="Clazz_teacherClassId" property="teacherClassId"/>
+        <result column="Clazz_studentNum" property="studentNum"/>
+        <result column="Clazz_majorId" property="majorId"/>
+        <result column="Clazz_classCode" property="classCode"/>
+        <result column="Clazz_classStatus" property="classStatus"/>
+        <result column="Clazz_classBeginTime" property="classBeginTime"/>
+        <result column="Clazz_classEndTime" property="classEndTime"/>
+        <result column="Clazz_desc" property="desc"/>
+		<!-- </discriminator> -->
+	</resultMap>
+    
+    <!-- 根据主键查询一条记录,专供AdminEdit调用 -->
+	<select id="getVo_AdminEdit" resultMap="RM_getVo_AdminEdit">
+		Select
+		<include refid="Sql_SelectColumns" />
+		#{chooseRM} As _chooseRM
+		From	tb_clazz	As	tb_clazz
+		Where
+		tb_clazz.id = #{id}
+	</select>
+    
+    <resultMap type="ClazzVo" id="RM_queryVos_AdminList">
+		<!-- <discriminator javaType="int" column="_chooseRM"> -->
+        <id column="Clazz_id" property="id"/>
+        <result column="Clazz_className" property="className"/>
+        <result column="Clazz_teacherId" property="teacherId"/>
+        <result column="Clazz_teacherClassId" property="teacherClassId"/>
+        <result column="Clazz_studentNum" property="studentNum"/>
+        <result column="Clazz_majorId" property="majorId"/>
+        <result column="Clazz_classCode" property="classCode"/>
+        <result column="Clazz_classStatus" property="classStatus"/>
+        <result column="Clazz_classBeginTime" property="classBeginTime"/>
+        <result column="Clazz_classEndTime" property="classEndTime"/>
+        <result column="Clazz_desc" property="desc"/>
+		<!-- </discriminator> -->
+	</resultMap>
+    
+    <sql id="Sql_SelectColumns">
+        tb_clazz.id As Clazz_id,
+        tb_clazz.class_name As Clazz_className,
+        tb_clazz.teacher_id As Clazz_teacherId,
+        tb_clazz.teacher_class_id As Clazz_teacherClassId,
+        tb_clazz.student_num As Clazz_studentNum,
+        tb_clazz.major_id As Clazz_majorId,
+        tb_clazz.class_code As Clazz_classCode,
+        tb_clazz.class_status As Clazz_classStatus,
+        tb_clazz.class_beginTime As Clazz_classBeginTime,
+        tb_clazz.class_endTime As Clazz_classEndTime,
+        tb_clazz.desc As Clazz_desc,
+	</sql>
+    
+    <sql id="Sql_Order">
+		<trim prefix="Order By ">
+    		<choose>
+                <when test="ClazzSearch.sort != null">
+                    Clazz_${ClazzSearch.sort} 
+                    <if test="ClazzSearch.order != null">
+                        ${ClazzSearch.order}
+                    </if>
+                </when>
+                <otherwise>
+                    Clazz_id Desc
+                </otherwise>
+            </choose>
+		</trim>
+	</sql>
+    
+    <sql id="Sql_Where">
+        <if test="ClazzSearch.eqId != null">
+			<![CDATA[ And tb_clazz.id = #{ClazzSearch.eqId} ]]>
+		</if>
+		<if test="ClazzSearch.neId != null">
+			<![CDATA[ And tb_clazz.id != #{ClazzSearch.neId} ]]>
+		</if>
+        <if test="ClazzSearch.eqClassName != null">
+			<![CDATA[ And tb_clazz.class_name = #{ClazzSearch.eqClassName} ]]>
+		</if>
+		<if test="ClazzSearch.lkClassName != null">
+			<![CDATA[ And tb_clazz.class_name Like '%${ClazzSearch.lkClassName}%' ]]>
+		</if>
+        <if test="ClazzSearch.eqTeacherId != null">
+			<![CDATA[ And tb_clazz.teacher_id = #{ClazzSearch.eqTeacherId} ]]>
+		</if>
+		<if test="ClazzSearch.neTeacherId != null">
+			<![CDATA[ And tb_clazz.teacher_id != #{ClazzSearch.neTeacherId} ]]>
+		</if>
+        <if test="ClazzSearch.eqTeacherClassId != null">
+			<![CDATA[ And tb_clazz.teacher_class_id = #{ClazzSearch.eqTeacherClassId} ]]>
+		</if>
+		<if test="ClazzSearch.neTeacherClassId != null">
+			<![CDATA[ And tb_clazz.teacher_class_id != #{ClazzSearch.neTeacherClassId} ]]>
+		</if>
+        <if test="ClazzSearch.eqStudentNum != null">
+			<![CDATA[ And tb_clazz.student_num = #{ClazzSearch.eqStudentNum} ]]>
+		</if>
+		<if test="ClazzSearch.neStudentNum != null">
+			<![CDATA[ And tb_clazz.student_num != #{ClazzSearch.neStudentNum} ]]>
+		</if>
+        <if test="ClazzSearch.eqMajorId != null">
+			<![CDATA[ And tb_clazz.major_id = #{ClazzSearch.eqMajorId} ]]>
+		</if>
+		<if test="ClazzSearch.neMajorId != null">
+			<![CDATA[ And tb_clazz.major_id != #{ClazzSearch.neMajorId} ]]>
+		</if>
+        <if test="ClazzSearch.eqClassCode != null">
+			<![CDATA[ And tb_clazz.class_code = #{ClazzSearch.eqClassCode} ]]>
+		</if>
+		<if test="ClazzSearch.lkClassCode != null">
+			<![CDATA[ And tb_clazz.class_code Like '%${ClazzSearch.lkClassCode}%' ]]>
+		</if>
+        <if test="ClazzSearch.eqClassStatus != null">
+			<![CDATA[ And tb_clazz.class_status = #{ClazzSearch.eqClassStatus} ]]>
+		</if>
+		<if test="ClazzSearch.lkClassStatus != null">
+			<![CDATA[ And tb_clazz.class_status Like '%${ClazzSearch.lkClassStatus}%' ]]>
+		</if>
+        <if test="ClazzSearch.eqClassBeginTime != null">
+			<![CDATA[ And date_format(tb_clazz.class_beginTime,'%Y-%m-%d') = date_format(#{ClazzSearch.eqClassBeginTime},'%Y-%m-%d') ]]>
+		</if>
+		<if test="ClazzSearch.geClassBeginTime != null">
+			<![CDATA[ And tb_clazz.class_beginTime >= #{ClazzSearch.geClassBeginTime} ]]>
+		</if>
+		<if test="ClazzSearch.ltClassBeginTime != null">
+			<![CDATA[ And tb_clazz.class_beginTime < #{ClazzSearch.ltClassBeginTime} ]]>
+		</if>
+        
+        <if test="ClazzSearch.eqClassEndTime != null">
+			<![CDATA[ And date_format(tb_clazz.class_endTime,'%Y-%m-%d') = date_format(#{ClazzSearch.eqClassEndTime},'%Y-%m-%d') ]]>
+		</if>
+		<if test="ClazzSearch.geClassEndTime != null">
+			<![CDATA[ And tb_clazz.class_endTime >= #{ClazzSearch.geClassEndTime} ]]>
+		</if>
+		<if test="ClazzSearch.ltClassEndTime != null">
+			<![CDATA[ And tb_clazz.class_endTime < #{ClazzSearch.ltClassEndTime} ]]>
+		</if>
+        
+        <if test="ClazzSearch.eqDesc != null">
+			<![CDATA[ And tb_clazz.desc = #{ClazzSearch.eqDesc} ]]>
+		</if>
+		<if test="ClazzSearch.lkDesc != null">
+			<![CDATA[ And tb_clazz.desc Like '%${ClazzSearch.lkDesc}%' ]]>
+		</if>
+    </sql>
+</mapper>
+
+

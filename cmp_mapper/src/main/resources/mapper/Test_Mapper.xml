@@ -1,0 +1,272 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hfxt.cmp.mapper.ITestDao">
+<!-- 新增的方法写在这里 -->
+
+
+<!-- 保存非空列,返回受影响的行数 -->
+	<insert id="saveSelective" useGeneratedKeys="true" keyProperty="Vo.id">
+		Insert Into tb_test 
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="Vo.subjectId != null">subject_id,</if>
+            <if test="Vo.testTime != null">test_time,</if>
+            <if test="Vo.employeeId != null">employee_id,</if>
+            <if test="Vo.testType != null">test_type,</if>
+            <if test="Vo.desc != null">desc,</if>
+            <if test="Vo.testContent != null">test_content,</if>
+           
+		</trim>
+		<trim prefix="Values (" suffix=")" suffixOverrides=",">
+            <if test="Vo.subjectId != null">#{Vo.subjectId},</if>
+            <if test="Vo.testTime != null">#{Vo.testTime},</if>
+            <if test="Vo.employeeId != null">#{Vo.employeeId},</if>
+            <if test="Vo.testType != null">#{Vo.testType},</if>
+            <if test="Vo.desc != null">#{Vo.desc},</if>
+            <if test="Vo.testContent != null">#{Vo.testContent},</if>
+            
+		</trim>
+	</insert>
+    
+    <!-- 根据主键删除-->
+	<delete id="delete">
+		Delete From tb_test
+		Where id = #{id}
+	</delete>
+    
+    <!-- 删除所有记录,返回受影响的行数 -->
+	<delete id="deleteAll">
+		Delete From tb_test
+	</delete>
+    
+    <!-- 更新非空列,返回受影响的行数 -->
+	<update id="updateSelective">
+		Update tb_test
+		<trim prefix="Set" suffixOverrides=",">
+            <if test="Vo.subjectId != null">subject_id = #{Vo.subjectId},</if>
+            <if test="Vo.testTime != null">test_time = #{Vo.testTime},</if>
+            <if test="Vo.employeeId != null">employee_id = #{Vo.employeeId},</if>
+            <if test="Vo.testType != null">test_type = #{Vo.testType},</if>
+            <if test="Vo.desc != null">desc = #{Vo.desc},</if>
+            <if test="Vo.testContent != null">test_content = #{Vo.testContent},</if>
+		</trim>
+		Where tb_test.id = #{Vo.id}
+	</update>
+    
+    <resultMap type="TestVo" id="RM_Default">
+        <id column="Test_id" property="id"/>
+        <result column="Test_subjectId" property="subjectId"/>
+        <result column="Test_testTime" property="testTime"/>
+        <result column="Test_employeeId" property="employeeId"/>
+        <result column="Test_testType" property="testType"/>
+        <result column="Test_desc" property="desc"/>
+        <result column="Test_testContent" property="testContent"/>
+	</resultMap>
+    
+     <!-- ResultMap -->
+	<resultMap type="TestVo" id="RM_getVo_Auto">
+		<discriminator javaType="int" column="_chooseRM">
+			<case value="0" resultMap="RM_Default" /><!-- Auto -->
+		</discriminator>
+	</resultMap>
+    
+    <!-- 根据主键查询一条记录,通过'__chooseRM'控制返回的列 -->
+	<select id="getVo_Auto" resultMap="RM_getVo_Auto">
+		Select
+		<include refid="Sql_SelectColumns" />
+		#{chooseRM} As _chooseRM
+		From	tb_test	As	tb_test
+		Where
+		tb_test.id = #{id}
+	</select>
+    
+    <!-- 传入id,判断是否存在该记录 -->
+	<select id="isExist_Auto" resultType="boolean">
+		Select Count(id) > 0
+		From	tb_test	As	tb_test
+		Where
+		tb_test.id = #{id}
+	</select>
+    
+    <!-- 查询记录数量 -->
+	<select id="queryCount_Auto" resultType="Long">
+		Select Count(tb_test.id)
+		From	tb_test	As	tb_test
+        <trim prefix="Where" prefixOverrides="And | Or">
+			<include refid="Sql_Where"/>
+		</trim>
+	</select>
+    
+    <resultMap type="TestVo" id="RM_queryVos_Auto">
+        <discriminator javaType="int" column="_chooseRM">
+			<case value="0" resultMap="RM_Default" /><!-- Auto -->
+		</discriminator>
+	</resultMap>
+    
+    <!-- 查询记录集合,通过'__chooseRM'控制返回的列 -->
+	<select id="queryVos_Auto" resultMap="RM_queryVos_Auto">
+		Select
+		<include refid="Sql_SelectColumns"/>
+		#{TestSearch.chooseRM} As _chooseRM
+		From	tb_test	As	tb_test
+        <trim prefix="Where" prefixOverrides="And | Or">
+			<include refid="Sql_Where"/>
+		</trim>
+		<include refid="Sql_Order"/>
+		Limit #{TestSearch.offset},#{TestSearch.limit}
+	</select>
+    
+
+    <resultMap type="TestVo" id="RM_getVo_AdminView">
+		<!-- <discriminator javaType="int" column="_chooseRM"> -->
+        <id column="Test_id" property="id"/>
+        <result column="Test_subjectId" property="subjectId"/>
+        <result column="Test_testTime" property="testTime"/>
+        <result column="Test_employeeId" property="employeeId"/>
+        <result column="Test_testType" property="testType"/>
+        <result column="Test_desc" property="desc"/>
+        <result column="Test_testContent" property="testContent"/>
+		<!-- </discriminator> -->
+	</resultMap>
+    
+    <!-- 根据主键查询一条记录,专供AdminView调用 -->
+	<select id="getVo_AdminView" resultMap="RM_getVo_AdminView">
+		Select
+		<include refid="Sql_SelectColumns" />
+		#{chooseRM} As _chooseRM
+		From	tb_test	As	tb_test
+		Where
+		tb_test.id = #{id}
+	</select>
+    
+    <resultMap type="TestVo" id="RM_getVo_preAdminEdit">
+		<!-- <discriminator javaType="int" column="_chooseRM"> -->
+        <id column="Test_id" property="id"/>
+        <result column="Test_subjectId" property="subjectId"/>
+        <result column="Test_testTime" property="testTime"/>
+        <result column="Test_employeeId" property="employeeId"/>
+        <result column="Test_testType" property="testType"/>
+        <result column="Test_desc" property="desc"/>
+        <result column="Test_testContent" property="testContent"/>
+		<!-- </discriminator> -->
+	</resultMap>
+    
+    <!-- 根据主键查询一条记录,专供preAdminEdit调用 -->
+	<select id="getVo_preAdminEdit" resultMap="RM_getVo_preAdminEdit">
+		Select
+		<include refid="Sql_SelectColumns" />
+		#{chooseRM} As _chooseRM
+		From	tb_test	As	tb_test
+		Where
+		tb_test.id = #{id}
+	</select>
+    
+    <resultMap type="TestVo" id="RM_getVo_AdminEdit">
+		<!-- <discriminator javaType="int" column="_chooseRM"> -->
+        <id column="Test_id" property="id"/>
+        <result column="Test_subjectId" property="subjectId"/>
+        <result column="Test_testTime" property="testTime"/>
+        <result column="Test_employeeId" property="employeeId"/>
+        <result column="Test_testType" property="testType"/>
+        <result column="Test_desc" property="desc"/>
+        <result column="Test_testContent" property="testContent"/>
+		<!-- </discriminator> -->
+	</resultMap>
+    
+    <!-- 根据主键查询一条记录,专供AdminEdit调用 -->
+	<select id="getVo_AdminEdit" resultMap="RM_getVo_AdminEdit">
+		Select
+		<include refid="Sql_SelectColumns" />
+		#{chooseRM} As _chooseRM
+		From	tb_test	As	tb_test
+		Where
+		tb_test.id = #{id}
+	</select>
+    
+    <resultMap type="TestVo" id="RM_queryVos_AdminList">
+		<!-- <discriminator javaType="int" column="_chooseRM"> -->
+        <id column="Test_id" property="id"/>
+        <result column="Test_subjectId" property="subjectId"/>
+        <result column="Test_testTime" property="testTime"/>
+        <result column="Test_employeeId" property="employeeId"/>
+        <result column="Test_testType" property="testType"/>
+        <result column="Test_desc" property="desc"/>
+        <result column="Test_testContent" property="testContent"/>
+		<!-- </discriminator> -->
+	</resultMap>
+    
+    <sql id="Sql_SelectColumns">
+        tb_test.id As Test_id,
+        tb_test.subject_id As Test_subjectId,
+        tb_test.test_time As Test_testTime,
+        tb_test.employee_id As Test_employeeId,
+        tb_test.test_type As Test_testType,
+        tb_test.desc As Test_desc,
+        tb_test.test_content As Test_testContent,
+	</sql>
+    
+    <sql id="Sql_Order">
+		<trim prefix="Order By ">
+    		<choose>
+                <when test="TestSearch.sort != null">
+                    Test_${TestSearch.sort} 
+                    <if test="TestSearch.order != null">
+                        ${TestSearch.order}
+                    </if>
+                </when>
+                <otherwise>
+                    Test_id Desc
+                </otherwise>
+            </choose>
+		</trim>
+	</sql>
+    
+    <sql id="Sql_Where">
+        <if test="TestSearch.eqId != null">
+			<![CDATA[ And tb_test.id = #{TestSearch.eqId} ]]>
+		</if>
+		<if test="TestSearch.neId != null">
+			<![CDATA[ And tb_test.id != #{TestSearch.neId} ]]>
+		</if>
+        <if test="TestSearch.eqSubjectId != null">
+			<![CDATA[ And tb_test.subject_id = #{TestSearch.eqSubjectId} ]]>
+		</if>
+		<if test="TestSearch.neSubjectId != null">
+			<![CDATA[ And tb_test.subject_id != #{TestSearch.neSubjectId} ]]>
+		</if>
+        <if test="TestSearch.eqTestTime != null">
+			<![CDATA[ And date_format(tb_test.test_time,'%Y-%m-%d') = date_format(#{TestSearch.eqTestTime},'%Y-%m-%d') ]]>
+		</if>
+		<if test="TestSearch.geTestTime != null">
+			<![CDATA[ And tb_test.test_time >= #{TestSearch.geTestTime} ]]>
+		</if>
+		<if test="TestSearch.ltTestTime != null">
+			<![CDATA[ And tb_test.test_time < #{TestSearch.ltTestTime} ]]>
+		</if>
+        
+        <if test="TestSearch.eqEmployeeId != null">
+			<![CDATA[ And tb_test.employee_id = #{TestSearch.eqEmployeeId} ]]>
+		</if>
+		<if test="TestSearch.neEmployeeId != null">
+			<![CDATA[ And tb_test.employee_id != #{TestSearch.neEmployeeId} ]]>
+		</if>
+        <if test="TestSearch.eqTestType != null">
+			<![CDATA[ And tb_test.test_type = #{TestSearch.eqTestType} ]]>
+		</if>
+		<if test="TestSearch.neTestType != null">
+			<![CDATA[ And tb_test.test_type != #{TestSearch.neTestType} ]]>
+		</if>
+        <if test="TestSearch.eqDesc != null">
+			<![CDATA[ And tb_test.desc = #{TestSearch.eqDesc} ]]>
+		</if>
+		<if test="TestSearch.lkDesc != null">
+			<![CDATA[ And tb_test.desc Like '%${TestSearch.lkDesc}%' ]]>
+		</if>
+        <if test="TestSearch.eqTestContent != null">
+			<![CDATA[ And tb_test.test_content = #{TestSearch.eqTestContent} ]]>
+		</if>
+		<if test="TestSearch.lkTestContent != null">
+			<![CDATA[ And tb_test.test_content Like '%${TestSearch.lkTestContent}%' ]]>
+		</if>
+    </sql>
+</mapper>
+
+
