@@ -53,13 +53,10 @@ public abstract class BaseController {
     protected INoticeService noticeService;
     @Autowired
     protected IProductService productService;
-    
     @Autowired
     protected IRightService rightService;
-    
     @Autowired
     protected IRoleService roleService;
-    
     @Autowired
     protected IRoleRightService roleRightService;
     @Autowired
