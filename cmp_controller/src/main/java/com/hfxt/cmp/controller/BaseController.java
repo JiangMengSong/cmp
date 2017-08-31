@@ -35,6 +35,7 @@ public abstract class BaseController {
 	protected final Logger log = LoggerFactory.getLogger(this.getClass());
     @Autowired
     protected IAdminUserService adminUserService;
+    
     @Autowired
     protected ICheckinginService checkinginService;
     @Autowired
