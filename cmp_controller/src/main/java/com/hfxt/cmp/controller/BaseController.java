@@ -28,7 +28,7 @@ import com.hfxt.cmp.service.ITestTypeService;
 /**
  * @author:wanison
  * jdk-version:jdk1.7.0_67
- * createtime：2017-08-28
+ * createtime锛�2017-08-28
  */
 public abstract class BaseController {
 
@@ -53,8 +53,10 @@ public abstract class BaseController {
     protected INoticeService noticeService;
     @Autowired
     protected IProductService productService;
+    
     @Autowired
     protected IRightService rightService;
+    
     @Autowired
     protected IRoleService roleService;
     @Autowired
