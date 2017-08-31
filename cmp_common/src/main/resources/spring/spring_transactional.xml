@@ -4,9 +4,9 @@
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="
 	http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
 	http://www.springframework.org/schema/tx
-	http://www.springframework.org/schema/tx/spring-tx.xsd"
+	http://www.springframework.org/schema/tx/spring-tx-4.3.xsd"
 	default-lazy-init="true">
 
 	<description>Spring的事务管理配置文件</description>

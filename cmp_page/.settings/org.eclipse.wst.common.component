@@ -16,6 +16,9 @@
         <dependent-module archiveName="cmp_model-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cmp_model/cmp_model">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="cmp_common-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/cmp_common/cmp_common">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="cmp_page"/>
         <property name="java-output-path" value="/cmp_page Maven Webapp/target/classes"/>
     </wb-module>
