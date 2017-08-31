@@ -12,10 +12,6 @@
             <if test="Vo.testEvaluate != null">test_evaluate,</if>
             <if test="Vo.studentScore != null">student_score,</if>
             <if test="Vo.desc != null">desc,</if>
-            <if test="Vo.creatorId != null">creator_id,</if>
-             create_time,
-            <if test="Vo.updaterId != null">updater_id,</if>
-            <if test="Vo.updateTime != null">update_time,</if>
            
 		</trim>
 		<trim prefix="Values (" suffix=")" suffixOverrides=",">
@@ -24,11 +20,6 @@
             <if test="Vo.testEvaluate != null">#{Vo.testEvaluate},</if>
             <if test="Vo.studentScore != null">#{Vo.studentScore},</if>
             <if test="Vo.desc != null">#{Vo.desc},</if>
-            <if test="Vo.creatorId != null">#{Vo.creatorId},</if>
-            now(),
-            <if test="Vo.updaterId != null">#{Vo.updaterId},</if>
-            <if test="Vo.updateTime != null">#{Vo.updateTime},</if>
-            
 		</trim>
 	</insert>
     
@@ -52,10 +43,6 @@
             <if test="Vo.testEvaluate != null">test_evaluate = #{Vo.testEvaluate},</if>
             <if test="Vo.studentScore != null">student_score = #{Vo.studentScore},</if>
             <if test="Vo.desc != null">desc = #{Vo.desc},</if>
-            <if test="Vo.creatorId != null">creator_id = #{Vo.creatorId},</if>
-            <if test="Vo.createTime != null">create_time = #{Vo.createTime},</if>
-            <if test="Vo.updaterId != null">updater_id = #{Vo.updaterId},</if>
-            <if test="Vo.updateTime != null">update_time = #{Vo.updateTime},</if>
 		</trim>
 		Where tb_student_score.id = #{Vo.id}
 	</update>
@@ -67,10 +54,6 @@
         <result column="StudentScore_testEvaluate" property="testEvaluate"/>
         <result column="StudentScore_studentScore" property="studentScore"/>
         <result column="StudentScore_desc" property="desc"/>
-        <result column="StudentScore_creatorId" property="creatorId"/>
-        <result column="StudentScore_createTime" property="createTime"/>
-        <result column="StudentScore_updaterId" property="updaterId"/>
-        <result column="StudentScore_updateTime" property="updateTime"/>
 	</resultMap>
     
      <!-- ResultMap -->
@@ -135,10 +118,6 @@
         <result column="StudentScore_testEvaluate" property="testEvaluate"/>
         <result column="StudentScore_studentScore" property="studentScore"/>
         <result column="StudentScore_desc" property="desc"/>
-        <result column="StudentScore_creatorId" property="creatorId"/>
-        <result column="StudentScore_createTime" property="createTime"/>
-        <result column="StudentScore_updaterId" property="updaterId"/>
-        <result column="StudentScore_updateTime" property="updateTime"/>
 		<!-- </discriminator> -->
 	</resultMap>
     
@@ -160,10 +139,6 @@
         <result column="StudentScore_testEvaluate" property="testEvaluate"/>
         <result column="StudentScore_studentScore" property="studentScore"/>
         <result column="StudentScore_desc" property="desc"/>
-        <result column="StudentScore_creatorId" property="creatorId"/>
-        <result column="StudentScore_createTime" property="createTime"/>
-        <result column="StudentScore_updaterId" property="updaterId"/>
-        <result column="StudentScore_updateTime" property="updateTime"/>
 		<!-- </discriminator> -->
 	</resultMap>
     
@@ -185,10 +160,6 @@
         <result column="StudentScore_testEvaluate" property="testEvaluate"/>
         <result column="StudentScore_studentScore" property="studentScore"/>
         <result column="StudentScore_desc" property="desc"/>
-        <result column="StudentScore_creatorId" property="creatorId"/>
-        <result column="StudentScore_createTime" property="createTime"/>
-        <result column="StudentScore_updaterId" property="updaterId"/>
-        <result column="StudentScore_updateTime" property="updateTime"/>
 		<!-- </discriminator> -->
 	</resultMap>
     
@@ -210,10 +181,6 @@
         <result column="StudentScore_testEvaluate" property="testEvaluate"/>
         <result column="StudentScore_studentScore" property="studentScore"/>
         <result column="StudentScore_desc" property="desc"/>
-        <result column="StudentScore_creatorId" property="creatorId"/>
-        <result column="StudentScore_createTime" property="createTime"/>
-        <result column="StudentScore_updaterId" property="updaterId"/>
-        <result column="StudentScore_updateTime" property="updateTime"/>
 		<!-- </discriminator> -->
 	</resultMap>
     
@@ -224,10 +191,6 @@
         tb_student_score.test_evaluate As StudentScore_testEvaluate,
         tb_student_score.student_score As StudentScore_studentScore,
         tb_student_score.desc As StudentScore_desc,
-        tb_student_score.creator_id As StudentScore_creatorId,
-        tb_student_score.create_time As StudentScore_createTime,
-        tb_student_score.updater_id As StudentScore_updaterId,
-        tb_student_score.update_time As StudentScore_updateTime,
 	</sql>
     
     <sql id="Sql_Order">
@@ -282,37 +245,6 @@
 		</if>
 		<if test="StudentScoreSearch.lkDesc != null">
 			<![CDATA[ And tb_student_score.desc Like '%${StudentScoreSearch.lkDesc}%' ]]>
-		</if>
-        <if test="StudentScoreSearch.eqCreatorId != null">
-			<![CDATA[ And tb_student_score.creator_id = #{StudentScoreSearch.eqCreatorId} ]]>
-		</if>
-		<if test="StudentScoreSearch.neCreatorId != null">
-			<![CDATA[ And tb_student_score.creator_id != #{StudentScoreSearch.neCreatorId} ]]>
-		</if>
-        <if test="StudentScoreSearch.eqCreateTime != null">
-			<![CDATA[ And date_format(tb_student_score.create_time,'%Y-%m-%d') = date_format(#{StudentScoreSearch.eqCreateTime},'%Y-%m-%d') ]]>
-		</if>
-		<if test="StudentScoreSearch.geCreateTime != null">
-			<![CDATA[ And tb_student_score.create_time >= #{StudentScoreSearch.geCreateTime} ]]>
-		</if>
-		<if test="StudentScoreSearch.ltCreateTime != null">
-			<![CDATA[ And tb_student_score.create_time < #{StudentScoreSearch.ltCreateTime} ]]>
-		</if>
-        
-        <if test="StudentScoreSearch.eqUpdaterId != null">
-			<![CDATA[ And tb_student_score.updater_id = #{StudentScoreSearch.eqUpdaterId} ]]>
-		</if>
-		<if test="StudentScoreSearch.neUpdaterId != null">
-			<![CDATA[ And tb_student_score.updater_id != #{StudentScoreSearch.neUpdaterId} ]]>
-		</if>
-        <if test="StudentScoreSearch.eqUpdateTime != null">
-			<![CDATA[ And date_format(tb_student_score.update_time,'%Y-%m-%d') = date_format(#{StudentScoreSearch.eqUpdateTime},'%Y-%m-%d') ]]>
-		</if>
-		<if test="StudentScoreSearch.geUpdateTime != null">
-			<![CDATA[ And tb_student_score.update_time >= #{StudentScoreSearch.geUpdateTime} ]]>
-		</if>
-		<if test="StudentScoreSearch.ltUpdateTime != null">
-			<![CDATA[ And tb_student_score.update_time < #{StudentScoreSearch.ltUpdateTime} ]]>
 		</if>
         
     </sql>

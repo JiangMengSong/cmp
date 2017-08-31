@@ -2,8 +2,6 @@ package com.hfxt.cmp.mapper;
 
 import java.util.List;
 
-import com.hfxt.cmp.model.search.RightSearch;
-import com.hfxt.cmp.model.vo.RightVo;
 import org.apache.ibatis.annotations.Param;
 
 /**

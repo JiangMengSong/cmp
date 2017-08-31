@@ -1,4 +1,4 @@
-
+﻿
 package com.hfxt.cmp.model.search;
 
 /**
@@ -76,11 +76,11 @@ public class ClazzSearch extends BaseSearch {
      * class_status(765)
 	 * dbValue == thisValue
 	 */
-    private String eqClassStatus;
+    private Integer eqClassStatus;
     /**
 	 * dbValue like %thisValue%
 	 */
-    private String lkClassStatus;
+    private Integer lkClassStatus;
     /**
      * class_beginTime
 	 * dbValue = thisValue (yyyy-MM-dd)
@@ -167,10 +167,10 @@ public class ClazzSearch extends BaseSearch {
         return lkClassCode;
     }
     
-    public String getEqClassStatus() {
+    public Integer getEqClassStatus() {
         return eqClassStatus;
     }
-    public String getLkClassStatus() {
+    public Integer getLkClassStatus() {
         return lkClassStatus;
     }
     
@@ -245,10 +245,10 @@ public class ClazzSearch extends BaseSearch {
 		this.lkClassCode = lkClassCode;
 	}
 
-	public void setEqClassStatus(String eqClassStatus) {
+	public void setEqClassStatus(Integer eqClassStatus) {
 		this.eqClassStatus = eqClassStatus;
 	}
-    public void setLkClassStatus(String lkClassStatus) {
+    public void setLkClassStatus(Integer lkClassStatus) {
 		this.lkClassStatus = lkClassStatus;
 	}
     public void setEqClassBeginTime(java.util.Date eqClassBeginTime) {

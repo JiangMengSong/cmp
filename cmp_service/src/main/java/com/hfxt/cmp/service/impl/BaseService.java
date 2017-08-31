@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.hfxt.cmp.mapper.IAdminUserDao;
 import com.hfxt.cmp.mapper.ICheckinginDao;
 import com.hfxt.cmp.mapper.IClazzDao;
 import com.hfxt.cmp.mapper.IClazzExperimentDao;
@@ -13,7 +12,6 @@ import com.hfxt.cmp.mapper.IEmployeeLoginDao;
 import com.hfxt.cmp.mapper.IInterviewDao;
 import com.hfxt.cmp.mapper.IMajorDao;
 import com.hfxt.cmp.mapper.INoticeDao;
-import com.hfxt.cmp.mapper.IProductDao;
 import com.hfxt.cmp.mapper.IRightDao;
 import com.hfxt.cmp.mapper.IRoleDao;
 import com.hfxt.cmp.mapper.IRoleRightDao;
@@ -25,7 +23,6 @@ import com.hfxt.cmp.mapper.IStudentScoreDao;
 import com.hfxt.cmp.mapper.ISubjectDao;
 import com.hfxt.cmp.mapper.ITestDao;
 import com.hfxt.cmp.mapper.ITestTypeDao;
-import common.exception.CustomException;
 
 /**
  * @author:wanison
@@ -53,8 +50,6 @@ public abstract class BaseService {
     protected IMajorDao majorDao;
     @Autowired
     protected INoticeDao noticeDao;
-    @Autowired
-    protected IProductDao productDao;
     @Autowired
     protected IRightDao rightDao;
     @Autowired

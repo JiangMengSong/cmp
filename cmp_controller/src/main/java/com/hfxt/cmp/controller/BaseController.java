@@ -28,14 +28,13 @@ import com.hfxt.cmp.service.ITestTypeService;
 /**
  * @author:wanison
  * jdk-version:jdk1.7.0_67
- * createtime锛�2017-08-28
+ * createtime：2017-08-28
  */
 public abstract class BaseController {
 
 	protected final Logger log = LoggerFactory.getLogger(this.getClass());
     @Autowired
     protected IAdminUserService adminUserService;
-    
     @Autowired
     protected ICheckinginService checkinginService;
     @Autowired

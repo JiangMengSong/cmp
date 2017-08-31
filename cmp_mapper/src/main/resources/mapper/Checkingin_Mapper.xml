@@ -8,13 +8,9 @@
 		Insert Into tb_checkingin 
 		<trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="Vo.checkStatusName != null">check_status_name,</if>
-            <if test="Vo.desc != null">desc,</if>
-           
 		</trim>
 		<trim prefix="Values (" suffix=")" suffixOverrides=",">
             <if test="Vo.checkStatusName != null">#{Vo.checkStatusName},</if>
-            <if test="Vo.desc != null">#{Vo.desc},</if>
-            
 		</trim>
 	</insert>
     
@@ -34,7 +30,6 @@
 		Update tb_checkingin
 		<trim prefix="Set" suffixOverrides=",">
             <if test="Vo.checkStatusName != null">check_status_name = #{Vo.checkStatusName},</if>
-            <if test="Vo.desc != null">desc = #{Vo.desc},</if>
 		</trim>
 		Where tb_checkingin.id = #{Vo.id}
 	</update>
@@ -42,7 +37,6 @@
     <resultMap type="CheckinginVo" id="RM_Default">
         <id column="Checkingin_id" property="id"/>
         <result column="Checkingin_checkStatusName" property="checkStatusName"/>
-        <result column="Checkingin_desc" property="desc"/>
 	</resultMap>
     
      <!-- ResultMap -->
@@ -121,7 +115,6 @@
 		<!-- <discriminator javaType="int" column="_chooseRM"> -->
         <id column="Checkingin_id" property="id"/>
         <result column="Checkingin_checkStatusName" property="checkStatusName"/>
-        <result column="Checkingin_desc" property="desc"/>
 		<!-- </discriminator> -->
 	</resultMap>
     
@@ -139,7 +132,6 @@
 		<!-- <discriminator javaType="int" column="_chooseRM"> -->
         <id column="Checkingin_id" property="id"/>
         <result column="Checkingin_checkStatusName" property="checkStatusName"/>
-        <result column="Checkingin_desc" property="desc"/>
 		<!-- </discriminator> -->
 	</resultMap>
     
@@ -157,14 +149,12 @@
 		<!-- <discriminator javaType="int" column="_chooseRM"> -->
         <id column="Checkingin_id" property="id"/>
         <result column="Checkingin_checkStatusName" property="checkStatusName"/>
-        <result column="Checkingin_desc" property="desc"/>
 		<!-- </discriminator> -->
 	</resultMap>
     
     <sql id="Sql_SelectColumns">
         tb_checkingin.id As Checkingin_id,
         tb_checkingin.check_status_name As Checkingin_checkStatusName,
-        tb_checkingin.desc As Checkingin_desc,
 	</sql>
     
     <sql id="Sql_Order">
@@ -195,12 +185,6 @@
 		</if>
 		<if test="CheckinginSearch.lkCheckStatusName != null">
 			<![CDATA[ And tb_checkingin.check_status_name Like '%${CheckinginSearch.lkCheckStatusName}%' ]]>
-		</if>
-        <if test="CheckinginSearch.eqDesc != null">
-			<![CDATA[ And tb_checkingin.desc = #{CheckinginSearch.eqDesc} ]]>
-		</if>
-		<if test="CheckinginSearch.lkDesc != null">
-			<![CDATA[ And tb_checkingin.desc Like '%${CheckinginSearch.lkDesc}%' ]]>
 		</if>
     </sql>
 </mapper>

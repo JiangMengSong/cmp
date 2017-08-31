@@ -2,8 +2,6 @@ package com.hfxt.cmp.mapper;
 
 import java.util.List;
 
-import com.hfxt.cmp.model.search.RoleRightSearch;
-import com.hfxt.cmp.model.vo.RoleRightVo;
 import org.apache.ibatis.annotations.Param;
 
 /**

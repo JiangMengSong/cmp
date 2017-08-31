@@ -21,11 +21,6 @@ public class CheckinginVo extends BaseVo {
 	/** identifier field */
 
 	private String checkStatusName;
-    
-	/** identifier field */
-
-	private String desc;
-    
 
 	/**
 	 * @return 返回 id。
@@ -52,18 +47,5 @@ public class CheckinginVo extends BaseVo {
 	 */
 	public void setCheckStatusName(String checkStatusName) {
 		this.checkStatusName = checkStatusName;
-	}
-	/**
-	 * @return 返回 desc。
-	 */
-	public String getDesc() {
-		return desc;
-	}
-
-	/**
-	 * @param desc 要设置的 desc。
-	 */
-	public void setDesc(String desc) {
-		this.desc = desc;
 	}
 }

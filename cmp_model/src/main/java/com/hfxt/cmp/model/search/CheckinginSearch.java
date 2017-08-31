@@ -1,4 +1,4 @@
-
+﻿
 package com.hfxt.cmp.model.search;
 
 /**
@@ -27,15 +27,6 @@ public class CheckinginSearch extends BaseSearch {
 	 * dbValue like %thisValue%
 	 */
     private String lkCheckStatusName;
-    /**
-     * desc(765)
-	 * dbValue == thisValue
-	 */
-    private String eqDesc;
-    /**
-	 * dbValue like %thisValue%
-	 */
-    private String lkDesc;
 
     
     public Integer getEqId() {
@@ -51,13 +42,7 @@ public class CheckinginSearch extends BaseSearch {
     public String getLkCheckStatusName() {
         return lkCheckStatusName;
     }
-    
-    public String getEqDesc() {
-        return eqDesc;
-    }
-    public String getLkDesc() {
-        return lkDesc;
-    }
+
     public void setEqId(Integer eqId) {
 		this.eqId = eqId;
 	}
@@ -70,13 +55,6 @@ public class CheckinginSearch extends BaseSearch {
 	}
     public void setLkCheckStatusName(String lkCheckStatusName) {
 		this.lkCheckStatusName = lkCheckStatusName;
-	}
-
-	public void setEqDesc(String eqDesc) {
-		this.eqDesc = eqDesc;
-	}
-    public void setLkDesc(String lkDesc) {
-		this.lkDesc = lkDesc;
 	}
 
 }

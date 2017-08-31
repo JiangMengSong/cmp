@@ -1,4 +1,4 @@
-
+﻿
 
 package com.hfxt.cmp.model.vo;
 
@@ -44,7 +44,7 @@ public class ClazzVo extends BaseVo {
     
 	/** identifier field */
 
-	private String classStatus;
+	private Integer classStatus;
     
 	/** identifier field */
 
@@ -153,14 +153,14 @@ public class ClazzVo extends BaseVo {
 	/**
 	 * @return 返回 classStatus。
 	 */
-	public String getClassStatus() {
+	public Integer getClassStatus() {
 		return classStatus;
 	}
 
 	/**
 	 * @param classStatus 要设置的 classStatus。
 	 */
-	public void setClassStatus(String classStatus) {
+	public void setClassStatus(Integer classStatus) {
 		this.classStatus = classStatus;
 	}
 	/**
