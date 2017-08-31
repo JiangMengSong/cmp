@@ -7,5 +7,12 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>cmp_common</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>com.hfxt.cmp</groupId>
+            <artifactId>cmp_page</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
     <build/>
 </project>
