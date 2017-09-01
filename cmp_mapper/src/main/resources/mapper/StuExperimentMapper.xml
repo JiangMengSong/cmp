@@ -7,10 +7,10 @@
         <result column="expTime" jdbcType="TIMESTAMP" property="exptime"/>
         <result column="expScore" jdbcType="INTEGER" property="expscore"/>
         <result column="expDesc" jdbcType="VARCHAR" property="expdesc"/>
-        <result column="expType" jdbcType="INTEGER" property="exptype"/>
         <collection property="employee" resultMap="com.hfxt.cmp.mapper.EmployeeMapper.EmployeeBean"/>
         <collection property="student" resultMap="com.hfxt.cmp.mapper.StudentMapper.StudentBean"/>
         <collection property="subject" resultMap="com.hfxt.cmp.mapper.SubjectMapper.SubjectBean"/>
+        <collection property="experimentType" resultMap="com.hfxt.cmp.mapper.ExperimentTypeMapper.BaseResultMap"/>
     </resultMap>
     <sql id="Base_Column_List">
         expId, subId, empId, stuId, expContent, expTime, expScore, expDesc, expType

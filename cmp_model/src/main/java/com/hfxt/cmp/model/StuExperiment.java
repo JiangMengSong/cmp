@@ -19,7 +19,7 @@ public class StuExperiment {
 
     private String expdesc;
 
-    private Integer exptype;
+    private ExperimentType experimentType;
 
     public Integer getExpid() {
         return expid;
@@ -85,11 +85,11 @@ public class StuExperiment {
         this.expdesc = expdesc == null ? null : expdesc.trim();
     }
 
-    public Integer getExptype() {
-        return exptype;
+    public ExperimentType getExperimentType() {
+        return experimentType;
     }
 
-    public void setExptype(Integer exptype) {
-        this.exptype = exptype;
+    public void setExperimentType(ExperimentType experimentType) {
+        this.experimentType = experimentType;
     }
 }
