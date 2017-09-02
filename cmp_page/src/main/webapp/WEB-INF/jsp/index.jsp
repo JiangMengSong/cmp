@@ -59,7 +59,7 @@
                 <ul>
                     <li><a data-href="${pro}/employee/toHello.html" data-title="职工信息" href="javascript:void(0)">职工管理</a></li>
                     <li><a data-href="article-list.html" data-title="学生信息" href="javascript:void(0)">学生管理</a></li>
-                    <li><a data-href="article-list.html" data-title="作业测验" href="javascript:void(0)">学生管理</a></li>
+                    <li><a data-href="article-list.html" data-title="作业测验" href="javascript:void(0)">作业测验</a></li>
                 </ul>
             </dd>
         </dl>
