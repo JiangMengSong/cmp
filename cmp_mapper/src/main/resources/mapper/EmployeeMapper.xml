@@ -28,7 +28,7 @@
         where empId = #{empid,jdbcType=INTEGER}
     </select>
     <select id="getEmployeeByName" resultMap="EmployeeBean">
-         select empId, empName, loginName, loginPwd from tb_employee
+         select empId, empName, loginName, loginPwd ,empRole from tb_employee
          where loginName = #{loginName}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
