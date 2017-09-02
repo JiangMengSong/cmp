@@ -103,4 +103,14 @@ public class EmployeeController {
         if (null == request.getSession().getAttribute("emp")) return "redirect:/employee/login/toLogin.html";
         return "hello"; // 返回hello页面
     }
+
+    /**
+     * 员工列表
+     * */
+    @RequestMapping(value = "/empList.html",produces = "text/html;charset=utf-8")
+    public String empList(HttpServletRequest request){
+        if (null == request.getSession().getAttribute("emp")) return "redirect:/employee/login/toLogin.html";
+        request.setAttribute("empList",employeeService.getEmployee());
+        return "employee/emp_list"; // 返回hello页面
+    }
 }

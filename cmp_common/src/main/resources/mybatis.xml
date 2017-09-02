@@ -55,41 +55,9 @@
                enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false">
             <columnOverride column="clazzId" javaType="java.lang.Integer"/>
         </table>
-        <table tableName="tb_employee" domainObjectName="Employee" enableCountByExample="false"
+        <table tableName="tb_employee_clazz" domainObjectName="EmployeeClazz" enableCountByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false">
-            <columnOverride column="empId" javaType="java.lang.Integer"/>
-        </table>
-        <table tableName="tb_employee_checking" domainObjectName="EmpChecking" enableCountByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false">
-            <columnOverride column="empCheckingId" javaType="java.lang.Integer"/>
-        </table>
-        <table tableName="tb_experiment_type" domainObjectName="ExperimentType" enableCountByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false">
-            <columnOverride column="typId" javaType="java.lang.Integer"/>
-        </table>
-        <table tableName="tb_interview" domainObjectName="Interview" enableCountByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false">
-            <columnOverride column="inteId" javaType="java.lang.Integer"/>
-        </table>
-        <table tableName="tb_major" domainObjectName="Major" enableCountByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false">
-            <columnOverride column="majorId" javaType="java.lang.Integer"/>
-        </table>
-        <table tableName="tb_student" domainObjectName="Student" enableCountByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false">
-            <columnOverride column="stuId" javaType="java.lang.Integer"/>
-        </table>
-        <table tableName="tb_student_checking" domainObjectName="StuCheckingin" enableCountByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false">
-            <columnOverride column="stuCheckingId" javaType="java.lang.Integer"/>
-        </table>
-        <table tableName="tb_student_experiment" domainObjectName="StuExperiment" enableCountByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false">
-            <columnOverride column="expId" javaType="java.lang.Integer"/>
-        </table>
-        <table tableName="tb_subject" domainObjectName="Subject" enableCountByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false">
-            <columnOverride column="subId" javaType="java.lang.Integer"/>
+            <columnOverride column="empClazzId" javaType="java.lang.Integer"/>
         </table>
     </context>
 </generatorConfiguration>

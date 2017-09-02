@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hfxt.cmp.mapper.EmployeeClazzMapper" >
+  <resultMap id="EmpClazzBean" type="com.hfxt.cmp.model.EmployeeClazz" >
+    <id column="empClazzId" property="empclazzid" jdbcType="INTEGER" />
+    <collection property="employee" resultMap="com.hfxt.cmp.mapper.EmployeeMapper.EmployeeBean"/>
+    <collection property="clazz" resultMap="com.hfxt.cmp.mapper.ClazzMapper.ClazzBean"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    empClazzId, empId, clazzId
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="EmpClazzBean" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_employee_clazz
+    where empClazzId = #{empclazzid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_employee_clazz
+    where empClazzId = #{empclazzid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hfxt.cmp.model.EmployeeClazz" >
+    insert into tb_employee_clazz (empClazzId, empId, clazzId
+      )
+    values (#{empclazzid,jdbcType=INTEGER}, #{empid,jdbcType=INTEGER}, #{clazzid,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hfxt.cmp.model.EmployeeClazz" >
+    insert into tb_employee_clazz
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="empclazzid != null" >
+        empClazzId,
+      </if>
+      <if test="empid != null" >
+        empId,
+      </if>
+      <if test="clazzid != null" >
+        clazzId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="empclazzid != null" >
+        #{empclazzid,jdbcType=INTEGER},
+      </if>
+      <if test="empid != null" >
+        #{empid,jdbcType=INTEGER},
+      </if>
+      <if test="clazzid != null" >
+        #{clazzid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hfxt.cmp.model.EmployeeClazz" >
+    update tb_employee_clazz
+    <set >
+      <if test="empid != null" >
+        empId = #{empid,jdbcType=INTEGER},
+      </if>
+      <if test="clazzid != null" >
+        clazzId = #{clazzid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where empClazzId = #{empclazzid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hfxt.cmp.model.EmployeeClazz" >
+    update tb_employee_clazz
+    set empId = #{empid,jdbcType=INTEGER},
+      clazzId = #{clazzid,jdbcType=INTEGER}
+    where empClazzId = #{empclazzid,jdbcType=INTEGER}
+  </update>
+</mapper>

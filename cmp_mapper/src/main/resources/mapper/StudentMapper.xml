@@ -27,6 +27,10 @@
         from tb_student
         where stuId = #{stuid,jdbcType=INTEGER}
     </select>
+    <select id="getStudent" resultMap="StudentBean">
+        select * from tb_student
+        inner join tb_clazz on tb_student.classId = tb_clazz.clazzId
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from tb_student
     where stuId = #{stuid,jdbcType=INTEGER}

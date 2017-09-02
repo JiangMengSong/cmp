@@ -7,10 +7,6 @@ public class Clazz {
 
     private String classname;
 
-    private Employee employeeA;
-
-    private Employee employeeB;
-
     private Integer stunum;
 
     private Integer majorid;
@@ -39,22 +35,6 @@ public class Clazz {
 
     public void setClassname(String classname) {
         this.classname = classname == null ? null : classname.trim();
-    }
-
-    public Employee getEmployeeA() {
-        return employeeA;
-    }
-
-    public void setEmployeeA(Employee employeeA) {
-        this.employeeA = employeeA;
-    }
-
-    public Employee getEmployeeB() {
-        return employeeB;
-    }
-
-    public void setEmployeeB(Employee employeeB) {
-        this.employeeB = employeeB;
     }
 
     public Integer getStunum() {
