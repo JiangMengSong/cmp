@@ -16,6 +16,9 @@
     clazzId, className, stuNum, majorId, classCode, classStatus, classBeginTime, classEndTime, 
     classDesc
   </sql>
+  <select id="getClazz" resultMap="ClazzBean">
+  	select * from tb_clazz
+  </select>
   <select id="selectByPrimaryKey" resultMap="ClazzBean" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />

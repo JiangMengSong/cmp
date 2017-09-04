@@ -8,12 +8,9 @@
             http://www.springframework.org/schema/context/spring-context.xsd"
 >
 
-
 	<component-scan base-package="com.hfxt.cmp.service" use-default-filters="false" >
 		<include-filter type="annotation" expression="org.springframework.stereotype.Service" />
-	</component-scan>
-	
-	
+	</component-scan>	
 
 	 
 </beans:beans>

@@ -1,5 +1,7 @@
 package com.hfxt.cmp.mapper;
 
+import java.util.List;
+
 import com.hfxt.cmp.model.Clazz;
 
 public interface ClazzMapper {
@@ -14,4 +16,6 @@ public interface ClazzMapper {
     int updateByPrimaryKeySelective(Clazz record);
 
     int updateByPrimaryKey(Clazz record);
+    
+    List<Clazz> getClazz();
 }
