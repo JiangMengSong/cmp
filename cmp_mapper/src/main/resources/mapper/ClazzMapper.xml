@@ -18,6 +18,7 @@
   </sql>
   <select id="getClazz" resultMap="ClazzBean">
   	select * from tb_clazz
+  	inner join tb_major on tb_clazz.majorId = tb_major.majorId
   </select>
   <select id="selectByPrimaryKey" resultMap="ClazzBean" parameterType="java.lang.Integer" >
     select 
