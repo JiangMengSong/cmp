@@ -7,6 +7,7 @@ import common.utils.Validity;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -110,6 +111,20 @@ public class EmployeeController {
     public String empList(HttpServletRequest request){
         if (null == request.getSession().getAttribute("emp")) return "redirect:/employee/login/toLogin.html";
         request.setAttribute("empList",employeeService.getEmployee());
-        return "employee/emp_list"; // 返回hello页面
+        return "employee/emp_list";
+    }
+
+    /**
+     * 根据Id删除员工
+     */
+    @RequestMapping(value = "/delEmp/{empId}",produces = "text/html;charset=utf-8")
+    @ResponseBody
+    public String delEmp(HttpSession session, @PathVariable Integer empId){
+        if (null == session.getAttribute("emp")) return "redirect:/employee/login/toLogin.html";
+        JSONObject result = new JSONObject();
+        result.put("flag",false);
+        if (null == empId || empId < 1) return result.toString();
+        if (employeeService.delEmployee(empId) > 0) result.put("flag",true);
+        return result.toString();
     }
 }

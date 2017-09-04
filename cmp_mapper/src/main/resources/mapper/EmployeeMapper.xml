@@ -38,6 +38,9 @@
     delete from tb_employee
     where empId = #{empid,jdbcType=INTEGER}
   </delete>
+    <delete id="delEmployee">
+        delete from tb_employee where empId = #{empId}
+    </delete>
     <insert id="insert" parameterType="com.hfxt.cmp.model.Employee">
     insert into tb_employee (empId, empName, loginName, 
       loginPwd, empAddress, empSex, 

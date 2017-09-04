@@ -35,6 +35,9 @@
     delete from tb_student
     where stuId = #{stuid,jdbcType=INTEGER}
   </delete>
+    <delete id="delStudent">
+        delete from tb_student where stuId = #{stuId}
+    </delete>
     <insert id="insert" parameterType="com.hfxt.cmp.model.Student">
     insert into tb_student (stuId, stuName, stuSex, 
       classId, stuBirth, stuPhone, 

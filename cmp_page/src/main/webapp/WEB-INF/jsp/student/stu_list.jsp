@@ -105,7 +105,7 @@
                     <td class="f-14">
                         <a title="编辑" href="javascript:;" onclick="admin_role_edit('角色编辑','admin-role-add.html','1')"
                            style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
-                        <a title="删除" href="javascript:;" onclick="admin_role_del(this,'1')" class="ml-5"
+                        <a title="删除" href="javascript:;" onclick="stu_del(${student.stuid})" class="ml-5"
                            style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
                     </td>
                 </tr>
@@ -119,32 +119,23 @@
 <script type="text/javascript" src="${pro}/resources/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="${pro}/resources/lib/laypage/1.2/laypage.js"></script>
 <script type="text/javascript">
-    /*管理员-角色-添加*/
-    function admin_role_add(title, url, w, h) {
-        layer_show(title, url, w, h);
-    }
-
-    /*管理员-角色-编辑*/
-    function admin_role_edit(title, url, id, w, h) {
-        layer_show(title, url, w, h);
-    }
-
-    /*管理员-角色-删除*/
-    function admin_role_del(obj, id) {
-        layer.confirm('角色删除须谨慎，确认要删除吗？', function (index) {
+    function stu_del(stuId) {
+        if(confirm('确认要删除吗？')) {
             $.ajax({
                 type: 'POST',
-                url: '',
+                url: '${pro}/student/delStu/'+stuId,
                 dataType: 'json',
                 success: function (data) {
-                    $(obj).parents("tr").remove();
-                    layer.msg('已删除!', {icon: 1, time: 1000});
+                    if (data.flag){
+                        alert("删除成功");
+                        location.replace(location.href);
+                    } else alert("删除失败")
                 },
                 error: function (data) {
                     console.log(data.msg);
                 },
-            });
-        });
+            })
+        }
     }
 </script>
 </body>

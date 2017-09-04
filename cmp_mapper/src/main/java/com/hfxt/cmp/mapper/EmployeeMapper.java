@@ -20,11 +20,16 @@ public interface EmployeeMapper {
 
     /**
      * 登录方法
-     * */
+     */
     Employee getEmployeeByName(@Param("loginName") String loginName);
 
     /**
      * 获取所有员工信息
-     * */
+     */
     List<Employee> getEmployee();
+
+    /**
+     * 删除员工方法
+     */
+    int delEmployee(@Param("empId")Integer empId);
 }

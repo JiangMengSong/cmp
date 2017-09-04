@@ -5,12 +5,12 @@
     <id column="clazzId" property="clazzid" jdbcType="INTEGER" />
     <result column="className" property="classname" jdbcType="VARCHAR" />
     <result column="stuNum" property="stunum" jdbcType="INTEGER" />
-    <result column="majorId" property="majorid" jdbcType="INTEGER" />
     <result column="classCode" property="classcode" jdbcType="VARCHAR" />
     <result column="classStatus" property="classstatus" jdbcType="INTEGER" />
     <result column="classBeginTime" property="classbegintime" jdbcType="TIMESTAMP" />
     <result column="classEndTime" property="classendtime" jdbcType="TIMESTAMP" />
     <result column="classDesc" property="classdesc" jdbcType="VARCHAR" />
+    <collection property="major" resultMap="com.hfxt.cmp.mapper.MajorMapper.MajorBean"/>
   </resultMap>
   <sql id="Base_Column_List" >
     clazzId, className, stuNum, majorId, classCode, classStatus, classBeginTime, classEndTime, 

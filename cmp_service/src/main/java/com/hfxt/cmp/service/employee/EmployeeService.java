@@ -10,4 +10,6 @@ public interface EmployeeService {
     Employee getEmployeeByName(String loginName);
 
     List<Employee> getEmployee();
+
+    int delEmployee(Integer empId);
 }

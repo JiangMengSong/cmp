@@ -18,4 +18,9 @@ public class EmployeeServiceImpl extends BaseService implements EmployeeService 
     public List<Employee> getEmployee() {
         return employeeMapper.getEmployee();
     }
+
+    @Override
+    public int delEmployee(Integer empId) {
+        return employeeMapper.delEmployee(empId);
+    }
 }

@@ -1,6 +1,7 @@
 package com.hfxt.cmp.mapper;
 
 import com.hfxt.cmp.model.Student;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -21,4 +22,9 @@ public interface StudentMapper {
      * 获取所有学生
      * */
     List<Student> getStudent();
+
+    /**
+     * 根据id删除学生
+     */
+    int delStudent(@Param("stuId")Integer stuId);
 }

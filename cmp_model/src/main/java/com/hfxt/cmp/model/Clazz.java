@@ -9,7 +9,7 @@ public class Clazz {
 
     private Integer stunum;
 
-    private Integer majorid;
+    private Major major;
 
     private String classcode;
 
@@ -45,12 +45,12 @@ public class Clazz {
         this.stunum = stunum;
     }
 
-    public Integer getMajorid() {
-        return majorid;
+    public Major getMajor() {
+        return major;
     }
 
-    public void setMajorid(Integer majorid) {
-        this.majorid = majorid;
+    public void setMajor(Major major) {
+        this.major = major;
     }
 
     public String getClasscode() {
