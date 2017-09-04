@@ -21,6 +21,13 @@
         from tb_student_experiment
         where expId = #{expid,jdbcType=INTEGER}
     </select>
+    <select id="getStuExperiment" resultMap="StuExperimentBean">
+        select * from tb_student_experiment
+        inner join tb_experiment_type on tb_student_experiment.expType = tb_experiment_type.typId
+        inner join tb_student on tb_student_experiment.stuId = tb_student.stuId
+        inner join tb_subject on tb_student_experiment.subId = tb_subject.subId
+        inner join tb_employee on tb_student_experiment.empId = tb_employee.empId
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from tb_student_experiment
     where expId = #{expid,jdbcType=INTEGER}
