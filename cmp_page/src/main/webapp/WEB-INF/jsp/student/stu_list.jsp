@@ -1,11 +1,4 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: Administrator
-  Date: 2017/9/2 0002
-  Time: 8:43
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -14,7 +7,7 @@
 </head>
 <body>
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 人员管理 <span
-        class="c-gray en">&gt;</span> 学生管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px"
+        class="c-gray en">&gt;</span> 职工管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px"
                                               href="javascript:location.replace(location.href);" title="刷新"><i
         class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
@@ -34,9 +27,9 @@
             <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius">
                 <i class="Hui-iconfont">&#xe6e2;</i> 批量删除
             </a>
-            <a href="javascript:;" onclick="member_add('添加学生','member-add.html','','510')"
+            <a href="javascript:;" onclick="stu_edit(0)"
                class="btn btn-primary radius">
-                <i class="Hui-iconfont">&#xe600;</i> 添加用户
+                <i class="Hui-iconfont">&#xe600;</i> 添加学生
             </a>
         </span>
         <span class="r">共有数据：<strong>88</strong> 条</span>
@@ -45,7 +38,7 @@
         <table class="table table-border table-bordered table-hover table-bg table-sort">
             <thead>
             <tr>
-                <th scope="col" colspan="15">学生管理</th>
+                <th scope="col" colspan="16">学生管理</th>
             </tr>
             <tr class="text-c">
                 <th><input type="checkbox" value="" name=""></th>
@@ -103,7 +96,7 @@
                         <c:if test="${empty student.studesc or student.studesc ==''}">未填写</c:if>
                     </td>
                     <td class="f-14">
-                        <a title="编辑" href="javascript:;" onclick="admin_role_edit('角色编辑','admin-role-add.html','1')"
+                        <a title="编辑" href="javascript:;" onclick="stu_edit(${student.stuid})"
                            style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
                         <a title="删除" href="javascript:;" onclick="stu_del(${student.stuid})" class="ml-5"
                            style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
@@ -114,11 +107,36 @@
         </table>
     </div>
 </div>
-<script type="text/javascript" src="${pro}/resources/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+
+<!--请在下方写此页面业务相关的脚本-->
 <script type="text/javascript" src="${pro}/resources/lib/My97DatePicker/4.8/WdatePicker.js"></script>
 <script type="text/javascript" src="${pro}/resources/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="${pro}/resources/lib/laypage/1.2/laypage.js"></script>
 <script type="text/javascript">
+    $(function () {
+        $('.table-sort').dataTable({
+            "aaSorting": [[1, "desc"]],//默认第几个排序
+            "bStateSave": true,//状态保存
+            "aoColumnDefs": [
+                //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+                {"orderable": false, "aTargets": [0, 8, 9]}// 制定列不参与排序
+            ]
+        });
+    });
+
+    /*跳转编辑学生信息*/
+    function stu_edit(expId){
+        layer.open({
+            type: 2,
+            area: [800 + 'px', ($(window).height() - 50) + 'px'],
+            fix: false, //不固定
+            maxmin: true,
+            shade: 0.4,
+            title: "编辑学生",
+            content: "${pro}/student/toEditStu/"+expId
+        });
+    }
+
     function stu_del(stuId) {
         if(confirm('确认要删除吗？')) {
             $.ajax({
@@ -140,3 +158,4 @@
 </script>
 </body>
 </html>
+

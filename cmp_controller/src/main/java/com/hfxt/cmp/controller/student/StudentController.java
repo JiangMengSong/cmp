@@ -40,4 +40,14 @@ public class StudentController {
         //if (studentService.delStudent(stuId) > 0) result.put("flag",true);
         return result.toString();
     }
+
+    /**
+     * 跳转编辑学生信息
+     */
+    @RequestMapping(value = "/toEditStu/{stuId}",produces = "text/html;charset=utf-8")
+    public String toEditExp(HttpServletRequest request, @PathVariable Integer stuId){
+        if (null == request.getSession().getAttribute("emp")) return "redirect:/employee/login/toLogin.html";
+        if (stuId != null && stuId > 0) request.setAttribute("stu",studentService.getStudentById(stuId));
+        return "student/stu_edit"; // 返回hello页面
+    }
 }

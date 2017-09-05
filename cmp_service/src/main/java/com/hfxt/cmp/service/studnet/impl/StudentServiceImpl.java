@@ -13,4 +13,9 @@ public class StudentServiceImpl extends BaseService implements StudentService {
     public List<Student> getStudent() {
         return studentMapper.getStudent();
     }
+
+    @Override
+    public Student getStudentById(Integer stuId) {
+        return studentMapper.getStudentById(stuId);
+    }
 }

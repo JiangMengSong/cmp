@@ -24,9 +24,9 @@
         -
         <input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax"
                class="input-text Wdate" style="width:120px;">
-        <input type="text" class="input-text" style="width:250px" placeholder="输入测验名称" id="" name="">
+        <input type="text" class="input-text" style="width:250px" placeholder="输入测验内容" id="" name="">
         <button type="submit" class="btn btn-success radius" id="selStuBtn" name=""><i class="Hui-iconfont">&#xe665;</i>
-            搜学生
+            搜测验内容
         </button>
     </div>
     <div class="cl pd-5 bg-1 bk-gray mt-20">
@@ -82,7 +82,7 @@
                         <c:if test="${empty experiment.expdesc or experiment.expdesc ==''}">未填写</c:if>
                     </td>
                     <td class="f-14">
-                        <a title="编辑" href="javascript:;" onclick="admin_role_edit('角色编辑','admin-role-add.html','1')"
+                        <a title="编辑" href="javascript:;" onclick="stuExp_edit()"
                            style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
                         <a title="删除" href="javascript:;" onclick="admin_role_del(this,'1')" class="ml-5"
                            style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
@@ -93,36 +93,30 @@
         </table>
     </div>
 </div>
-<script type="text/javascript" src="${pro}/resources/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="${pro}/resources/lib/My97DatePicker/4.8/WdatePicker.js"></script>
 <script type="text/javascript" src="${pro}/resources/lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="${pro}/resources/lib/laypage/1.2/laypage.js"></script>
 <script type="text/javascript">
-    /*管理员-角色-添加*/
-    function admin_role_add(title, url, w, h) {
-        layer_show(title, url, w, h);
-    }
+    $(function () {
+        $('.table-sort').dataTable({
+            "aaSorting": [[1, "desc"]],//默认第几个排序
+            "bStateSave": true,//状态保存
+            "aoColumnDefs": [
+                //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+                {"orderable": false, "aTargets": [0, 8, 9]}// 制定列不参与排序
+            ]
+        });
+    });
 
-    /*管理员-角色-编辑*/
-    function admin_role_edit(title, url, id, w, h) {
-        layer_show(title, url, w, h);
-    }
-
-    /*管理员-角色-删除*/
-    function admin_role_del(obj, id) {
-        layer.confirm('角色删除须谨慎，确认要删除吗？', function (index) {
-            $.ajax({
-                type: 'POST',
-                url: '',
-                dataType: 'json',
-                success: function (data) {
-                    $(obj).parents("tr").remove();
-                    layer.msg('已删除!', {icon: 1, time: 1000});
-                },
-                error: function (data) {
-                    console.log(data.msg);
-                },
-            });
+    function stuExp_edit(){
+        layer.open({
+            type: 2,
+            area: [800 + 'px', ($(window).height() - 50) + 'px'],
+            fix: false, //不固定
+            maxmin: true,
+            shade: 0.4,
+            title: "测验编辑",
+            content: "${pro}/employee/toHello.html"
         });
     }
 </script>

@@ -25,6 +25,13 @@ public interface StudentMapper {
 
     /**
      * 根据id删除学生
+     * @param stuId 学生Id
      */
     int delStudent(@Param("stuId")Integer stuId);
+
+    /**
+     * 根据学生Id获取指定学生信息
+     * @param stuId 学生Id
+     */
+    Student getStudentById(@Param("stuId")Integer stuId);
 }
