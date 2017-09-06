@@ -45,7 +45,7 @@
         <table class="table table-border table-bordered table-hover table-bg table-sort">
             <thead>
             <tr>
-                <th scope="col" colspan="15">职工管理</th>
+                <th scope="col" colspan="16">职工管理</th>
             </tr>
             <tr class="text-c">
                 <th><input type="checkbox" value="" name=""></th>
@@ -56,6 +56,7 @@
                 <th>角色</th>
                 <th>入职日期</th>
                 <th>出生日期</th>
+                <th>当前状态</th>
                 <th>电话</th>
                 <th>住址</th>
                 <th>QQ</th>
@@ -86,6 +87,10 @@
                                         pattern="yyyy-MM-dd HH:mm:ss"/></td>
                     <td><fmt:formatDate value="${employee.empbirth}"
                                         pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                    <td>
+                        <c:if test="${employee.empstauts == 1}">已离职</c:if>
+                        <c:if test="${employee.empstauts == 0}">在职</c:if>
+                    </td>
                     <td>${employee.empphone}</td>
                     <td>${employee.empaddress}</td>
                     <td>

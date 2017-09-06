@@ -125,7 +125,7 @@
     });
 
     /*跳转编辑学生信息*/
-    function stu_edit(expId){
+    function stu_edit(stuId){
         layer.open({
             type: 2,
             area: [800 + 'px', ($(window).height() - 50) + 'px'],
@@ -133,7 +133,7 @@
             maxmin: true,
             shade: 0.4,
             title: "编辑学生",
-            content: "${pro}/student/toEditStu/"+expId
+            content: "${pro}/student/toEditStu/"+stuId
         });
     }
 

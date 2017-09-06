@@ -9,6 +9,7 @@
         <result column="empAddress" jdbcType="VARCHAR" property="empaddress"/>
         <result column="empSex" jdbcType="INTEGER" property="empsex"/>
         <result column="empBirth" jdbcType="TIMESTAMP" property="empbirth"/>
+        <result column="empStauts" jdbcType="INTEGER" property="empstauts"/>
         <result column="empDesc" jdbcType="VARCHAR" property="empdesc"/>
         <result column="empQQ" jdbcType="VARCHAR" property="empqq"/>
         <result column="empEntryTime" jdbcType="TIMESTAMP" property="empentrytime"/>
@@ -18,7 +19,7 @@
         <result column="empRole" jdbcType="INTEGER" property="emprole"/>
     </resultMap>
     <sql id="Base_Column_List">
-        empId, empName, loginName, loginPwd, empAddress, empSex, empBirth, empDesc, empQQ,
+        empId, empName, loginName, loginPwd, empAddress, empSex, empBirth, empStauts, empDesc, empQQ,
         empEntryTime, empMajor, empEmail, empPhone, empRole
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="EmployeeBean">
@@ -44,105 +45,17 @@
     <insert id="insert" parameterType="com.hfxt.cmp.model.Employee">
     insert into tb_employee (empId, empName, loginName, 
       loginPwd, empAddress, empSex, 
-      empBirth, empDesc, empQQ, 
+      empBirth, empStauts, empDesc, empQQ,
       empEntryTime, empMajor, empEmail, 
       empPhone, empRole)
     values (#{empid,jdbcType=INTEGER}, #{empname,jdbcType=VARCHAR}, #{loginname,jdbcType=VARCHAR}, 
       #{loginpwd,jdbcType=VARCHAR}, #{empaddress,jdbcType=VARCHAR}, #{empsex,jdbcType=INTEGER}, 
-      #{empbirth,jdbcType=TIMESTAMP}, #{empdesc,jdbcType=VARCHAR}, #{empqq,jdbcType=VARCHAR}, 
-      #{empentrytime,jdbcType=TIMESTAMP}, #{empmajor,jdbcType=VARCHAR}, #{empemail,jdbcType=VARCHAR}, 
-      #{empphone,jdbcType=VARCHAR}, #{emprole,jdbcType=INTEGER})
+      #{empbirth,jdbcType=TIMESTAMP}, #{empstauts,jdbcType=INTEGER}, #{empdesc,jdbcType=VARCHAR},
+      #{empqq,jdbcType=VARCHAR}, #{empentrytime,jdbcType=TIMESTAMP}, #{empmajor,jdbcType=VARCHAR},
+      #{empemail,jdbcType=VARCHAR}, #{empphone,jdbcType=VARCHAR}, #{emprole,jdbcType=INTEGER})
   </insert>
     <insert id="insertSelective" parameterType="com.hfxt.cmp.model.Employee">
-        insert into tb_employee
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="empid != null">
-                empId,
-            </if>
-            <if test="empname != null">
-                empName,
-            </if>
-            <if test="loginname != null">
-                loginName,
-            </if>
-            <if test="loginpwd != null">
-                loginPwd,
-            </if>
-            <if test="empaddress != null">
-                empAddress,
-            </if>
-            <if test="empsex != null">
-                empSex,
-            </if>
-            <if test="empbirth != null">
-                empBirth,
-            </if>
-            <if test="empdesc != null">
-                empDesc,
-            </if>
-            <if test="empqq != null">
-                empQQ,
-            </if>
-            <if test="empentrytime != null">
-                empEntryTime,
-            </if>
-            <if test="empmajor != null">
-                empMajor,
-            </if>
-            <if test="empemail != null">
-                empEmail,
-            </if>
-            <if test="empphone != null">
-                empPhone,
-            </if>
-            <if test="emprole != null">
-                empRole,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="empid != null">
-                #{empid,jdbcType=INTEGER},
-            </if>
-            <if test="empname != null">
-                #{empname,jdbcType=VARCHAR},
-            </if>
-            <if test="loginname != null">
-                #{loginname,jdbcType=VARCHAR},
-            </if>
-            <if test="loginpwd != null">
-                #{loginpwd,jdbcType=VARCHAR},
-            </if>
-            <if test="empaddress != null">
-                #{empaddress,jdbcType=VARCHAR},
-            </if>
-            <if test="empsex != null">
-                #{empsex,jdbcType=INTEGER},
-            </if>
-            <if test="empbirth != null">
-                #{empbirth,jdbcType=TIMESTAMP},
-            </if>
-            <if test="empdesc != null">
-                #{empdesc,jdbcType=VARCHAR},
-            </if>
-            <if test="empqq != null">
-                #{empqq,jdbcType=VARCHAR},
-            </if>
-            <if test="empentrytime != null">
-                #{empentrytime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="empmajor != null">
-                #{empmajor,jdbcType=VARCHAR},
-            </if>
-            <if test="empemail != null">
-                #{empemail,jdbcType=VARCHAR},
-            </if>
-            <if test="empphone != null">
-                #{empphone,jdbcType=VARCHAR},
-            </if>
-            <if test="emprole != null">
-                #{emprole,jdbcType=INTEGER},
-            </if>
-        </trim>
+
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.hfxt.cmp.model.Employee">
         update tb_employee
@@ -164,6 +77,9 @@
             </if>
             <if test="empbirth != null">
                 empBirth = #{empbirth,jdbcType=TIMESTAMP},
+            </if>
+            <if test="empstauts != null">
+                empStauts = #{empstauts,jdbcType=INTEGER}
             </if>
             <if test="empdesc != null">
                 empDesc = #{empdesc,jdbcType=VARCHAR},
@@ -190,20 +106,6 @@
         where empId = #{empid,jdbcType=INTEGER}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.hfxt.cmp.model.Employee">
-    update tb_employee
-    set empName = #{empname,jdbcType=VARCHAR},
-      loginName = #{loginname,jdbcType=VARCHAR},
-      loginPwd = #{loginpwd,jdbcType=VARCHAR},
-      empAddress = #{empaddress,jdbcType=VARCHAR},
-      empSex = #{empsex,jdbcType=INTEGER},
-      empBirth = #{empbirth,jdbcType=TIMESTAMP},
-      empDesc = #{empdesc,jdbcType=VARCHAR},
-      empQQ = #{empqq,jdbcType=VARCHAR},
-      empEntryTime = #{empentrytime,jdbcType=TIMESTAMP},
-      empMajor = #{empmajor,jdbcType=VARCHAR},
-      empEmail = #{empemail,jdbcType=VARCHAR},
-      empPhone = #{empphone,jdbcType=VARCHAR},
-      empRole = #{emprole,jdbcType=INTEGER}
-    where empId = #{empid,jdbcType=INTEGER}
+
   </update>
 </mapper>

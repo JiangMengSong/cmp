@@ -4,7 +4,7 @@
     <resultMap id="StudentBean" type="com.hfxt.cmp.model.Student">
         <id column="stuId" jdbcType="INTEGER" property="stuid"/>
         <result column="stuName" jdbcType="VARCHAR" property="stuname"/>
-        <result column="stuSex" jdbcType="VARCHAR" property="stusex"/>
+        <result column="stuSex" jdbcType="INTEGER" property="stusex"/>
         <result column="stuBirth" jdbcType="TIMESTAMP" property="stubirth"/>
         <result column="stuPhone" jdbcType="VARCHAR" property="stuphone"/>
         <result column="stuCode" jdbcType="VARCHAR" property="stucode"/>
@@ -21,12 +21,6 @@
         stuId, stuName, stuSex, classId, stuBirth, stuPhone, stuCode, stuAddress, stuContact,
         stuDesc, stuQQ, stuEmail, stuEntryTime, stuDegree
     </sql>
-    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="StudentBean">
-        select
-        <include refid="Base_Column_List"/>
-        from tb_student
-        where stuId = #{stuid,jdbcType=INTEGER}
-    </select>
     <select id="getStudent" resultMap="StudentBean">
         select * from tb_student
         inner join tb_clazz on tb_student.classId = tb_clazz.clazzId
@@ -34,176 +28,68 @@
     <select id="getStudentById" resultMap="StudentBean">
         select * from tb_student where stuId = #{stuId}
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from tb_student
-    where stuId = #{stuid,jdbcType=INTEGER}
-  </delete>
-    <delete id="delStudent">
-        delete from tb_student where stuId = #{stuId}
+    <select id="getStuCodeIsEmpty" resultType="java.lang.Integer">
+        select count(*) from tb_student where stuCode = #{stuCode,jdbcType=VARCHAR}
+    </select>
+    <delete id="delStudent" statementType="CALLABLE" parameterType="java.util.Map">
+        {
+          call del_student(
+            #{map.stuId,jdbcType=INTEGER,mode=IN},#{map.delCount,jdbcType=INTEGER,mode=OUT}
+          )
+        }
     </delete>
-    <insert id="insert" parameterType="com.hfxt.cmp.model.Student">
-    insert into tb_student (stuId, stuName, stuSex, 
-      classId, stuBirth, stuPhone, 
-      stuCode, stuAddress, stuContact, 
-      stuDesc, stuQQ, stuEmail, 
-      stuEntryTime, stuDegree)
-    values (#{stuid,jdbcType=INTEGER}, #{stuname,jdbcType=VARCHAR}, #{stusex,jdbcType=VARCHAR}, 
-      #{classid,jdbcType=INTEGER}, #{stubirth,jdbcType=TIMESTAMP}, #{stuphone,jdbcType=VARCHAR}, 
-      #{stucode,jdbcType=VARCHAR}, #{stuaddress,jdbcType=VARCHAR}, #{stucontact,jdbcType=VARCHAR}, 
-      #{studesc,jdbcType=VARCHAR}, #{stuqq,jdbcType=VARCHAR}, #{stuemail,jdbcType=VARCHAR}, 
-      #{stuentrytime,jdbcType=TIMESTAMP}, #{studegree,jdbcType=VARCHAR})
-  </insert>
-    <insert id="insertSelective" parameterType="com.hfxt.cmp.model.Student">
-        insert into tb_student
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="stuid != null">
-                stuId,
-            </if>
-            <if test="stuname != null">
-                stuName,
-            </if>
-            <if test="stusex != null">
-                stuSex,
-            </if>
-            <if test="classid != null">
-                classId,
-            </if>
-            <if test="stubirth != null">
-                stuBirth,
-            </if>
-            <if test="stuphone != null">
-                stuPhone,
-            </if>
-            <if test="stucode != null">
-                stuCode,
-            </if>
-            <if test="stuaddress != null">
-                stuAddress,
-            </if>
-            <if test="stucontact != null">
-                stuContact,
-            </if>
-            <if test="studesc != null">
-                stuDesc,
-            </if>
-            <if test="stuqq != null">
-                stuQQ,
-            </if>
-            <if test="stuemail != null">
-                stuEmail,
-            </if>
-            <if test="stuentrytime != null">
-                stuEntryTime,
-            </if>
-            <if test="studegree != null">
-                stuDegree,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="stuid != null">
-                #{stuid,jdbcType=INTEGER},
-            </if>
-            <if test="stuname != null">
-                #{stuname,jdbcType=VARCHAR},
-            </if>
-            <if test="stusex != null">
-                #{stusex,jdbcType=VARCHAR},
-            </if>
-            <if test="classid != null">
-                #{classid,jdbcType=INTEGER},
-            </if>
-            <if test="stubirth != null">
-                #{stubirth,jdbcType=TIMESTAMP},
-            </if>
-            <if test="stuphone != null">
-                #{stuphone,jdbcType=VARCHAR},
-            </if>
-            <if test="stucode != null">
-                #{stucode,jdbcType=VARCHAR},
-            </if>
-            <if test="stuaddress != null">
-                #{stuaddress,jdbcType=VARCHAR},
-            </if>
-            <if test="stucontact != null">
-                #{stucontact,jdbcType=VARCHAR},
-            </if>
-            <if test="studesc != null">
-                #{studesc,jdbcType=VARCHAR},
-            </if>
-            <if test="stuqq != null">
-                #{stuqq,jdbcType=VARCHAR},
-            </if>
-            <if test="stuemail != null">
-                #{stuemail,jdbcType=VARCHAR},
-            </if>
-            <if test="stuentrytime != null">
-                #{stuentrytime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="studegree != null">
-                #{studegree,jdbcType=VARCHAR},
-            </if>
-        </trim>
+    <insert id="addStudent" parameterType="com.hfxt.cmp.model.Student">
+        insert into tb_student (stuId, stuName, stuSex,
+          classId, stuBirth, stuPhone,
+          stuCode, stuAddress, stuContact,
+          stuDesc, stuQQ, stuEmail,
+          stuEntryTime, stuDegree)
+        values (0, #{stu.stuname,jdbcType=VARCHAR}, #{stu.stusex,jdbcType=INTEGER},
+          #{stu.clazz.clazzid,jdbcType=INTEGER}, #{stu.stubirth,jdbcType=TIMESTAMP}, #{stu.stuphone,jdbcType=VARCHAR},
+          #{stu.stucode,jdbcType=VARCHAR}, #{stu.stuaddress,jdbcType=VARCHAR}, #{stu.stucontact,jdbcType=VARCHAR},
+          #{stu.studesc,jdbcType=VARCHAR}, #{stu.stuqq,jdbcType=VARCHAR}, #{stu.stuemail,jdbcType=VARCHAR},
+          #{stu.stuentrytime,jdbcType=TIMESTAMP}, #{stu.studegree,jdbcType=VARCHAR})
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.hfxt.cmp.model.Student">
+    <update id="updateStudent" parameterType="com.hfxt.cmp.model.Student">
         update tb_student
         <set>
-            <if test="stuname != null">
-                stuName = #{stuname,jdbcType=VARCHAR},
+            <if test="stu.stuname != null">
+                stuName = #{stu.stuname,jdbcType=VARCHAR},
             </if>
-            <if test="stusex != null">
-                stuSex = #{stusex,jdbcType=VARCHAR},
+            <if test="stu.stusex != null">
+                stuSex = #{stu.stusex,jdbcType=INTEGER},
             </if>
-            <if test="classid != null">
-                classId = #{classid,jdbcType=INTEGER},
+            <if test="stu.clazz != null and stu.clazz.clazzid != null and stu.clazz.clazzid > 0">
+                classId = #{stu.clazz.clazzid,jdbcType=INTEGER},
             </if>
-            <if test="stubirth != null">
-                stuBirth = #{stubirth,jdbcType=TIMESTAMP},
+            <if test="stu.stubirth != null">
+                stuBirth = #{stu.stubirth,jdbcType=TIMESTAMP},
             </if>
-            <if test="stuphone != null">
-                stuPhone = #{stuphone,jdbcType=VARCHAR},
+            <if test="stu.stuphone != null">
+                stuPhone = #{stu.stuphone,jdbcType=VARCHAR},
             </if>
-            <if test="stucode != null">
-                stuCode = #{stucode,jdbcType=VARCHAR},
+            <if test="stu.stuaddress != null">
+                stuAddress = #{stu.stuaddress,jdbcType=VARCHAR},
             </if>
-            <if test="stuaddress != null">
-                stuAddress = #{stuaddress,jdbcType=VARCHAR},
+            <if test="stu.stucontact != null">
+                stuContact = #{stu.stucontact,jdbcType=VARCHAR},
             </if>
-            <if test="stucontact != null">
-                stuContact = #{stucontact,jdbcType=VARCHAR},
+            <if test="stu.studesc != null">
+                stuDesc = #{stu.studesc,jdbcType=VARCHAR},
             </if>
-            <if test="studesc != null">
-                stuDesc = #{studesc,jdbcType=VARCHAR},
+            <if test="stu.stuqq != null">
+                stuQQ = #{stu.stuqq,jdbcType=VARCHAR},
             </if>
-            <if test="stuqq != null">
-                stuQQ = #{stuqq,jdbcType=VARCHAR},
+            <if test="stu.stuemail != null">
+                stuEmail = #{stu.stuemail,jdbcType=VARCHAR},
             </if>
-            <if test="stuemail != null">
-                stuEmail = #{stuemail,jdbcType=VARCHAR},
+            <if test="stu.stuentrytime != null">
+                stuEntryTime = #{stu.stuentrytime,jdbcType=TIMESTAMP},
             </if>
-            <if test="stuentrytime != null">
-                stuEntryTime = #{stuentrytime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="studegree != null">
-                stuDegree = #{studegree,jdbcType=VARCHAR},
+            <if test="stu.studegree != null">
+                stuDegree = #{stu.studegree,jdbcType=VARCHAR},
             </if>
         </set>
-        where stuId = #{stuid,jdbcType=INTEGER}
+        where stuId = #{stu.stuid,jdbcType=INTEGER}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.hfxt.cmp.model.Student">
-    update tb_student
-    set stuName = #{stuname,jdbcType=VARCHAR},
-      stuSex = #{stusex,jdbcType=VARCHAR},
-      classId = #{classid,jdbcType=INTEGER},
-      stuBirth = #{stubirth,jdbcType=TIMESTAMP},
-      stuPhone = #{stuphone,jdbcType=VARCHAR},
-      stuCode = #{stucode,jdbcType=VARCHAR},
-      stuAddress = #{stuaddress,jdbcType=VARCHAR},
-      stuContact = #{stucontact,jdbcType=VARCHAR},
-      stuDesc = #{studesc,jdbcType=VARCHAR},
-      stuQQ = #{stuqq,jdbcType=VARCHAR},
-      stuEmail = #{stuemail,jdbcType=VARCHAR},
-      stuEntryTime = #{stuentrytime,jdbcType=TIMESTAMP},
-      stuDegree = #{studegree,jdbcType=VARCHAR}
-    where stuId = #{stuid,jdbcType=INTEGER}
-  </update>
 </mapper>

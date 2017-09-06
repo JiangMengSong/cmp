@@ -1,5 +1,7 @@
 package com.hfxt.cmp.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class Student {
@@ -7,10 +9,11 @@ public class Student {
 
     private String stuname;
 
-    private String stusex;
+    private Integer stusex;
 
     private Clazz clazz;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date stubirth;
 
     private String stuphone;
@@ -27,6 +30,7 @@ public class Student {
 
     private String stuemail;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date stuentrytime;
 
     private String studegree;
@@ -47,12 +51,12 @@ public class Student {
         this.stuname = stuname == null ? null : stuname.trim();
     }
 
-    public String getStusex() {
+    public Integer getStusex() {
         return stusex;
     }
 
-    public void setStusex(String stusex) {
-        this.stusex = stusex == null ? null : stusex.trim();
+    public void setStusex(Integer stusex) {
+        this.stusex = stusex;
     }
 
     public Clazz getClazz() {
