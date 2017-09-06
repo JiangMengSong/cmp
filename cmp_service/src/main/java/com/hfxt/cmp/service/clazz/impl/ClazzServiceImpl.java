@@ -12,9 +12,9 @@ import com.hfxt.cmp.service.clazz.ClazzService;
 public class ClazzServiceImpl extends BaseService implements ClazzService {
 
 	@Override
-	public List<Clazz> getClazz() {
+	public List<Clazz> getClazz(Clazz clazz) {
 		// TODO Auto-generated method stub
-		return clazzMapper.getClazz();
+		return clazzMapper.getClazz(clazz);
 	}
 
 	@Override

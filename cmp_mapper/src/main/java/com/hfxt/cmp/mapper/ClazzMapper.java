@@ -17,5 +17,5 @@ public interface ClazzMapper {
 
     int updateByPrimaryKey(Clazz record);
     
-    List<Clazz> getClazz();
+    List<Clazz> getClazz(Clazz clazz);
 }

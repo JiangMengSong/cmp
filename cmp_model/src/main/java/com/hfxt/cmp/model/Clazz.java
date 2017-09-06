@@ -2,6 +2,8 @@ package com.hfxt.cmp.model;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class Clazz {
     private Integer clazzid;
 
@@ -14,9 +16,9 @@ public class Clazz {
     private String classcode;
 
     private Integer classstatus;
-
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date classbegintime;
-
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date classendtime;
 
     private String classdesc;

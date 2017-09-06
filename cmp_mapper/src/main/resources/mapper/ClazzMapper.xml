@@ -18,7 +18,16 @@
   </sql>
   <select id="getClazz" resultMap="ClazzBean">
   	select * from tb_clazz
-  	inner join tb_major on tb_clazz.majorId = tb_major.majorId
+  	inner join tb_major on tb_clazz.majorId = tb_major.majorId where 1=1  	
+    <if test="classbegintime != null" >
+       and classBeginTime &gt; #{classbegintime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="classendtime != null" >
+       and classEndTime &lt; #{classendtime,jdbcType=TIMESTAMP}
+    </if>
+    <if test="classname != null" >
+       and className like concat('%',#{classname,jdbcType=VARCHAR},'%') 
+    </if>
   </select>
   <select id="selectByPrimaryKey" resultMap="ClazzBean" parameterType="java.lang.Integer" >
     select 
@@ -31,28 +40,25 @@
     where clazzId = #{clazzid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.hfxt.cmp.model.Clazz" >
-    insert into tb_clazz (clazzId, className, stuNum, 
+    insert into tb_clazz (className, stuNum, 
       majorId, classCode, classStatus, 
       classBeginTime, classEndTime, classDesc
       )
-    values (#{clazzid,jdbcType=INTEGER}, #{classname,jdbcType=VARCHAR}, #{stunum,jdbcType=INTEGER}, 
-      #{majorid,jdbcType=INTEGER}, #{classcode,jdbcType=VARCHAR}, #{classstatus,jdbcType=INTEGER}, 
+    values (#{classname,jdbcType=VARCHAR}, #{stunum,jdbcType=INTEGER}, 
+      #{major.majorid,jdbcType=INTEGER}, #{classcode,jdbcType=VARCHAR}, #{classstatus,jdbcType=INTEGER}, 
       #{classbegintime,jdbcType=TIMESTAMP}, #{classendtime,jdbcType=TIMESTAMP}, #{classdesc,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.hfxt.cmp.model.Clazz" >
     insert into tb_clazz
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="clazzid != null" >
-        clazzId,
-      </if>
       <if test="classname != null" >
         className,
       </if>
       <if test="stunum != null" >
         stuNum,
       </if>
-      <if test="majorid != null" >
+      <if test="majorid != null and majorid > 0 " >
         majorId,
       </if>
       <if test="classcode != null" >
@@ -72,16 +78,13 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="clazzid != null" >
-        #{clazzid,jdbcType=INTEGER},
-      </if>
       <if test="classname != null" >
         #{classname,jdbcType=VARCHAR},
       </if>
       <if test="stunum != null" >
         #{stunum,jdbcType=INTEGER},
       </if>
-      <if test="majorid != null" >
+      <if test="majorid != null and majorid > 0 " >
         #{majorid,jdbcType=INTEGER},
       </if>
       <if test="classcode != null" >
@@ -110,8 +113,8 @@
       <if test="stunum != null" >
         stuNum = #{stunum,jdbcType=INTEGER},
       </if>
-      <if test="majorid != null" >
-        majorId = #{majorid,jdbcType=INTEGER},
+      <if test="major.majorid != null and major.majorid>0" >
+        majorId = #{major.majorid,jdbcType=INTEGER},
       </if>
       <if test="classcode != null" >
         classCode = #{classcode,jdbcType=VARCHAR},
@@ -135,7 +138,7 @@
     update tb_clazz
     set className = #{classname,jdbcType=VARCHAR},
       stuNum = #{stunum,jdbcType=INTEGER},
-      majorId = #{majorid,jdbcType=INTEGER},
+      majorId = #{major.majorid,jdbcType=INTEGER},
       classCode = #{classcode,jdbcType=VARCHAR},
       classStatus = #{classstatus,jdbcType=INTEGER},
       classBeginTime = #{classbegintime,jdbcType=TIMESTAMP},

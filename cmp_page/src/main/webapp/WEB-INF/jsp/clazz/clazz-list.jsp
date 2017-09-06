@@ -3,6 +3,7 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <!DOCTYPE HTML>
@@ -14,14 +15,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body>
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 用户中心 <span class="c-gray en">&gt;</span> 用户管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
-	<div class="text-c"> 日期范围：
-		<input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" class="input-text Wdate" style="width:120px;">
+	<div class="text-c"><form method="post" action="${pro }/clazz/clazzList.html"> 日期范围：
+		<input type="text" name="classbegintime" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" class="input-text Wdate" style="width:120px;">
 		-
-		<input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" class="input-text Wdate" style="width:120px;">
-		<input type="text" class="input-text" style="width:250px;" id="" name="">
+		<input type="text" name="classendtime" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" class="input-text Wdate" style="width:120px;">
+		<input type="text" class="input-text" style="width:250px;" id="" name="classname">
 		<button type="submit" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜用户</button>
+		</form>
 	</div>
-	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="member_add('添加用户','member-add.html','','510')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加用户</a></span> <span class="r">共有数据：<strong>88</strong> 条</span> </div>
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="clazz_add(0)" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加用户</a></span> <span class="r">共有数据：<strong>88</strong> 条</span> </div>
 	<div class="mt-20">
 	<table class="table table-border table-bordered table-hover table-bg table-sort">
 		<thead>
@@ -29,7 +31,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<th width="25"><input type="checkbox" name="" value=""></th>
 				<th width="80">班级ID</th>
 				<th width="100">班级名称</th>
-				<th width="40">学生人数</th>
+				<th width="100">学生人数</th>
 				<th width="90">所属专业</th>
 				<th width="150">班级编号</th>
 				<th width="">班级状态</th>
@@ -43,14 +45,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<tr class="text-c">
 				<td><input type="checkbox" value="1" name=""></td>
 				<td>${clazz.clazzid }</td>
-				<td><u style="cursor:pointer" class="text-primary" onclick="member_show('张三','member-show.html','10001','360','400')">${clazz.classname }</u></td>
+				<td><a href="${pro}/clazz/clazzshow/${clazz.clazzid }" style="cursor:pointer" class="text-primary" onclick="clazz_show(${clazz.clazzid }">${clazz.classname }</a></td>
 				<td>${clazz.stunum }</td>
 				<td>${clazz.major.majorname }</td>
 				<td>${clazz.classcode }</td>
-				<td class="text-l">${clazz.classstatus }</td>
-				<td>${clazz.classbegintime }</td>
-				<td class="td-status"><span class="label label-success radius">${clazz.classendtime }</span></td>
-				<td class="td-manage"><a style="text-decoration:none" onClick="member_stop(this,'10001')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a> <a title="编辑" href="javascript:;" onclick="member_edit('编辑','member-add.html','4','','510')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a style="text-decoration:none" class="ml-5" onClick="change_password('修改密码','change-password.html','10001','600','270')" href="javascript:;" title="修改密码"><i class="Hui-iconfont">&#xe63f;</i></a> <a title="删除" href="javascript:;" onclick="member_del(this,'1')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+				<td>
+					<c:if test="${clazz.classstatus eq 0 }">
+						未开班
+					</c:if>
+					<c:if test="${clazz.classstatus eq 1 }">
+						预科
+					</c:if>
+					<c:if test="${clazz.classstatus eq 2 }">
+						已开班
+					</c:if>
+					<c:if test="${clazz.classstatus eq 3 }">
+						结业
+					</c:if>
+				</td>
+				<td><fmt:formatDate value="${clazz.classbegintime }"
+                                        pattern="yyyy-MM-dd"/></td>
+                <td><fmt:formatDate value="${clazz.classendtime }"
+                                        pattern="yyyy-MM-dd"/></td>
+				<td class="td-manage"><a style="text-decoration:none" onClick="member_stop(this,'10001')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe631;</i></a> <a title="编辑" href="javascript:;" onclick="clazz_add(${clazz.clazzid })" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a> <a style="text-decoration:none" class="ml-5" onClick="change_password('修改密码','change-password.html','10001','600','270')" href="javascript:;" title="修改密码"><i class="Hui-iconfont">&#xe63f;</i></a> <a title="删除" href="javascript:;" onclick="clazz_del(${clazz.clazzid })" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
 			</tr>
 			</c:forEach>
 		</tbody>
@@ -73,6 +90,37 @@ $(function(){
 	});
 	
 });
+/*用户添加*/
+    function clazz_add(clazzId){
+        layer.open({
+            type: 2,
+            area: [800 + 'px', ($(window).height() - 50) + 'px'],
+            fix: false, //不固定
+            maxmin: true,
+            shade: 0.4,
+            title: "用户",
+            content: "${pro}/clazz/toAddClazz/"+clazzId
+        });
+    }
+    //删除
+    function clazz_del(clazzId) {
+        if(confirm('确认要删除吗？')) {
+            $.ajax({
+                type: 'POST',
+                url: '${pro}/clazz/delClazz/'+clazzId,
+                dataType: 'json',
+                success: function (data) {
+                    if (data.flag){
+                        alert("删除成功");
+                        location.replace(location.href);
+                    } else alert("删除失败")
+                },
+                error: function (data) {
+                    console.log(data.msg);
+                },
+            })
+        }
+    }
 /*用户-添加*/
 function member_add(title,url,w,h){
 	layer_show(title,url,w,h);

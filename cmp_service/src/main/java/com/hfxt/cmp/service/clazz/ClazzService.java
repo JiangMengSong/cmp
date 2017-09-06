@@ -9,7 +9,7 @@ import com.hfxt.cmp.model.Clazz;
 @Transactional
 public interface ClazzService {
 
-	List<Clazz> getClazz();
+	List<Clazz> getClazz(Clazz clazz);
 	
     int deleteByPrimaryKey(Integer clazzid);
 
