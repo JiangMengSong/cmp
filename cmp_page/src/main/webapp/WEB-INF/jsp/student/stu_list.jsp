@@ -24,7 +24,7 @@
     </div>
     <div class="cl pd-5 bg-1 bk-gray mt-20">
         <span class="l">
-            <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius">
+            <a href="javascript:;" onclick="data_del()" class="btn btn-danger radius">
                 <i class="Hui-iconfont">&#xe6e2;</i> 批量删除
             </a>
             <a href="javascript:;" onclick="stu_edit(0)"
@@ -38,11 +38,10 @@
         <table class="table table-border table-bordered table-hover table-bg table-sort">
             <thead>
             <tr>
-                <th scope="col" colspan="16">学生管理</th>
+                <th scope="col" colspan="15">学生管理</th>
             </tr>
             <tr class="text-c">
                 <th><input type="checkbox" value="" name=""></th>
-                <th>ID</th>
                 <th>姓名</th>
                 <th>性别</th>
                 <th>班级</th>
@@ -62,8 +61,7 @@
             <tbody>
             <c:forEach items="${stuList}" var="student">
                 <tr class="text-c">
-                    <td><input type="checkbox" value="" name=""></td>
-                    <td>${student.stuid}</td>
+                    <td><input type="checkbox" value="${student.stuid}" name="stuId"></td>
                     <td><a href="#">${student.stuname}</a></td>
                     <td>
                         <c:if test="${student.stusex == 1}">男</c:if>
@@ -137,11 +135,38 @@
         });
     }
 
+    /* 删除单个学生 */
     function stu_del(stuId) {
         if(confirm('确认要删除吗？')) {
             $.ajax({
                 type: 'POST',
                 url: '${pro}/student/delStu/'+stuId,
+                dataType: 'json',
+                success: function (data) {
+                    if (data.flag){
+                        alert("删除成功");
+                        location.replace(location.href);
+                    } else alert("删除失败")
+                },
+                error: function (data) {
+                    console.log(data.msg);
+                },
+            })
+        }
+    }
+
+    /* 批量删除学生 */
+    function data_del() {
+        var stuId = new Array();
+        $.each($("input[name=stuId]:checked"),function () {
+            stuId.push($(this).val());
+        })
+        alert(stuId);
+        if(confirm('确认要删除吗？')) {
+            $.ajax({
+                type: 'POST',
+                url: '${pro}/student/delStudent',
+                data:{"stuId" : stuId},
                 dataType: 'json',
                 success: function (data) {
                     if (data.flag){

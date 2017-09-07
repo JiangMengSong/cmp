@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -44,6 +45,30 @@ public class StudentController {
         result.put("flag",false);
         if (null == stuId || stuId < 1) return result.toString();
         if (studentService.delStudent(stuId) > 0) result.put("flag",true);
+        return result.toString();
+    }
+
+    /**
+     * 根据Id批量删除学生
+     */
+    @RequestMapping(value = "/delStudent",produces = "text/html;charset=utf-8")
+    @ResponseBody
+    public String delStudent(HttpSession session, @RequestParam("stuId[]") Integer[] stuId){
+        if (null == session.getAttribute("emp")) return "redirect:/employee/login/toLogin.html";
+        JSONObject result = new JSONObject();
+        result.put("flag",false);
+        if(stuId == null || stuId.length == 0) return result.toString();
+        for (Integer stuid: stuId) {
+            if (null == stuid || stuid < 1) {
+                result.put("flag",false);
+                result.put("msg","id不允许为空");
+            }
+            else if (studentService.delStudent(stuid) > 0) result.put("flag",true);
+            else {
+                result.put("flag",false);
+                result.put("msg","id"+stuid+"删除出现错误,请查询该记录是否存在或直接联系管理员");
+            }
+        }
         return result.toString();
     }
 
