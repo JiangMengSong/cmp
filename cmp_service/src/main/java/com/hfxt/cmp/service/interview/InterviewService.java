@@ -1,11 +1,16 @@
-package com.hfxt.cmp.mapper;
+package com.hfxt.cmp.service.interview;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import com.hfxt.cmp.model.Interview;
 
-public interface InterviewMapper {
-    int deleteByPrimaryKey(Integer inteid);
+
+@Transactional
+public interface InterviewService {
+
+	int deleteByPrimaryKey(Integer inteid);
 
     int insert(Interview record);
 
@@ -18,4 +23,5 @@ public interface InterviewMapper {
     int updateByPrimaryKey(Interview record);
     
     List<Interview> getInterview(Interview interview);
+	
 }

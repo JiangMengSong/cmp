@@ -8,59 +8,73 @@
         <collection property="student" resultMap="com.hfxt.cmp.mapper.StudentMapper.StudentBean"/>
         <collection property="employee" resultMap="com.hfxt.cmp.mapper.EmployeeMapper.EmployeeBean"/>
     </resultMap>
+    <resultMap id="InterviewBean1" type="com.hfxt.cmp.model.Interview">
+        <id column="inteId" jdbcType="INTEGER" property="inteid"/>
+        <result column="inteTime" jdbcType="TIMESTAMP" property="intetime"/>
+        <result column="inteDesc" jdbcType="VARCHAR" property="intedesc"/>
+        <collection property="student" resultMap="com.hfxt.cmp.mapper.StudentMapper.StudentBean"/>
+        <collection property="employee" resultMap="com.hfxt.cmp.mapper.EmployeeMapper.EmployeeBean"/>
+    </resultMap>
     <sql id="Base_Column_List">
         inteId, inteTime, stuId, inteDesc, empId
     </sql>
+    <select id="getInterview" resultMap="InterviewBean">
+  		select * from tb_interview
+  		inner join tb_student on tb_interview.stuId = tb_student.stuId
+  		inner join tb_employee on tb_interview.empId = tb_employee.empId where 1=1  	
+    	<if test="student != null and student.stuname != null" >
+       		and stuName like concat('%',#{student.stuname,jdbcType=VARCHAR},'%') 
+   		</if>
+    	<if test="employee != null and employee.empname != null" >
+       		and empName like concat('%',#{employee.empname,jdbcType=VARCHAR},'%') 
+    	</if>
+ 	</select>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="InterviewBean">
-        select
-        <include refid="Base_Column_List"/>
-        from tb_interview
-        where inteId = #{inteid,jdbcType=INTEGER}
+        select i.inteid,i.inteTime,i.inteDesc,s.stuName,e.empName
+        <!-- <include refid="Base_Column_List"/> -->
+        from tb_interview as i
+        inner join tb_student as s on i.stuId = s.stuId
+  		inner join tb_employee as e on i.empId = e.empId
+        where i.inteId = #{inteid,jdbcType=INTEGER}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from tb_interview
     where inteId = #{inteid,jdbcType=INTEGER}
   </delete>
     <insert id="insert" parameterType="com.hfxt.cmp.model.Interview">
-    insert into tb_interview (inteId, inteTime, stuId, 
+    insert into tb_interview (inteTime, stuId, 
       inteDesc, empId)
-    values (#{inteid,jdbcType=INTEGER}, #{intetime,jdbcType=TIMESTAMP}, #{stuid,jdbcType=INTEGER}, 
+    values (#{intetime,jdbcType=TIMESTAMP}, #{stuid,jdbcType=INTEGER}, 
       #{intedesc,jdbcType=VARCHAR}, #{empid,jdbcType=INTEGER})
   </insert>
     <insert id="insertSelective" parameterType="com.hfxt.cmp.model.Interview">
         insert into tb_interview
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="inteid != null">
-                inteId,
-            </if>
             <if test="intetime != null">
                 inteTime,
             </if>
-            <if test="stuid != null">
+            <if test="student != null and student.stuid != null">
                 stuId,
             </if>
             <if test="intedesc != null">
                 inteDesc,
             </if>
-            <if test="empid != null">
+            <if test="employee != null and employee.empid != null">
                 empId,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="inteid != null">
-                #{inteid,jdbcType=INTEGER},
-            </if>
             <if test="intetime != null">
                 #{intetime,jdbcType=TIMESTAMP},
             </if>
-            <if test="stuid != null">
-                #{stuid,jdbcType=INTEGER},
+            <if test="student != null and student.stuid != null">
+                #{student.stuid,jdbcType=INTEGER},
             </if>
             <if test="intedesc != null">
                 #{intedesc,jdbcType=VARCHAR},
             </if>
-            <if test="empid != null">
-                #{empid,jdbcType=INTEGER},
+            <if test="employee != null and employee.empid != null">
+                #{employee.empid,jdbcType=INTEGER},
             </if>
         </trim>
     </insert>
@@ -70,14 +84,14 @@
             <if test="intetime != null">
                 inteTime = #{intetime,jdbcType=TIMESTAMP},
             </if>
-            <if test="stuid != null">
-                stuId = #{stuid,jdbcType=INTEGER},
+            <if test="student !=null and student.stuid != null">
+                stuId = #{student.stuid,jdbcType=INTEGER},
             </if>
             <if test="intedesc != null">
                 inteDesc = #{intedesc,jdbcType=VARCHAR},
             </if>
-            <if test="empid != null">
-                empId = #{empid,jdbcType=INTEGER},
+            <if test="employee != null and employee.empid != null">
+                empId = #{employee.empid,jdbcType=INTEGER},
             </if>
         </set>
         where inteId = #{inteid,jdbcType=INTEGER}
