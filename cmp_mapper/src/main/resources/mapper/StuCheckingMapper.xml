@@ -17,6 +17,20 @@
         from tb_student_checking
         where stuCheckingId = #{stucheckingid,jdbcType=INTEGER}
     </select>
+    <select id="getStuCheck"  parameterType="com.hfxt.cmp.model.StuChecking"  resultMap="StuCheckingBean">
+        select *
+        from tb_student_checking
+        inner join tb_student on tb_student_checking.stuId = tb_student.stuId
+        <!--  <if test="empcheck">
+          <where>
+              <if test="empcheck.employee.empid!= null">
+                  empid=#{empid}
+              </if>
+
+          </where>
+          </if>-->
+    </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from tb_student_checking
     where stuCheckingId = #{stucheckingid,jdbcType=INTEGER}

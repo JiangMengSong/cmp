@@ -10,7 +10,7 @@
 <html>
 <head>
     <%@include file="/resources/common/cs_js.jsp" %>
-    <title>职工管理</title>
+    <title>考勤管理</title>
 </head>
 <body>
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 人员管理 <span
@@ -45,74 +45,38 @@
         <table class="table table-border table-bordered table-hover table-bg table-sort">
             <thead>
             <tr>
-                <th scope="col" colspan="16">职工管理</th>
+                <th scope="col" colspan="15">考勤管理</th>
             </tr>
             <tr class="text-c">
                 <th><input type="checkbox" value="" name=""></th>
                 <th>ID</th>
-                <th>用户名</th>
-                <th>登录名</th>
-                <th>性别</th>
-                <th>角色</th>
-                <th>入职日期</th>
-                <th>出生日期</th>
-                <th>当前状态</th>
-                <th>电话</th>
-                <th>住址</th>
-                <th>QQ</th>
-                <th>学历</th>
-                <th>邮箱</th>
-                <th>描述</th>
+                <th>员工ID</th>
+                <th>考勤时间</th>
+                <th>考勤情况</th>
+                <th>考勤说明</th>
                 <th>操作</th>
             </tr>
             </thead>
             <tbody>
-            <c:forEach items="${empList}" var="employee">
+            <c:forEach items="${checkList}" var="empcheck">
                 <tr class="text-c">
                     <td><input type="checkbox" value="" name=""></td>
-                    <td>${employee.empid}</td>
-                    <td><a href="#">${employee.empname}</a></td>
-                    <td>${employee.loginname}</td>
-                    <td>
-                        <c:if test="${employee.empsex == 1}">男</c:if>
-                        <c:if test="${employee.empsex == 0}">女</c:if>
-                    </td>
-                    <td>
-                        <c:if test="${employee.emprole == 1}">超级管理员</c:if>
-                        <c:if test="${employee.emprole == 2}">校长</c:if>
-                        <c:if test="${employee.emprole == 3}">教员</c:if>
-                        <c:if test="${employee.emprole == 4}">班主任</c:if>
-                    </td>
-                    <td><fmt:formatDate value="${employee.empentrytime}"
-                                        pattern="yyyy-MM-dd HH:mm:ss"/></td>
-                    <td><fmt:formatDate value="${employee.empbirth}"
+                    <td>${empcheck.empcheckingid}</td>
+                    <td><a href="#">${empcheck.employee.empid}</a></td>
+                    <td><fmt:formatDate value="${empcheck.chetime}"
                                         pattern="yyyy-MM-dd HH:mm:ss"/></td>
                     <td>
-                        <c:if test="${employee.empstauts == 1}">已离职</c:if>
-                        <c:if test="${employee.empstauts == 0}">在职</c:if>
+                        <c:if test="${empcheck.chestatus == 1}">正常</c:if>
+                        <c:if test="${empcheck.chestatus == 2}">迟到</c:if>
+                        <c:if test="${empcheck.chestatus == 3}">请假</c:if>
+                        <c:if test="${empcheck.chestatus == 4}">旷课</c:if>
                     </td>
-                    <td>${employee.empphone}</td>
-                    <td>${employee.empaddress}</td>
-                    <td>
-                            ${employee.empqq}
-                        <c:if test="${empty employee.empqq or employee.empqq ==''}">未填写</c:if>
-                    </td>
-                    <td>
-                            ${employee.empmajor}
-                        <c:if test="${empty employee.empmajor or employee.empmajor ==''}">未填写</c:if>
-                    </td>
-                    <td>
-                            ${employee.empemail}
-                        <c:if test="${empty employee.empemail or employee.empemail ==''}">未填写</c:if>
-                    </td>
-                    <td>
-                            ${employee.empdesc}
-                        <c:if test="${empty employee.empdesc or employee.empdesc ==''}">未填写</c:if>
-                    </td>
+                    <td>${empcheck.empcheckdesc}</td>
+
                     <td class="f-14">
-                        <a title="编辑" href="javascript:;" onclick="admin_role_edit('员工编辑','${pro}/employee/toHello.html','1')"
+                        <a title="编辑" href="javascript:;" onclick="emp_up('员工编辑','${pro}/employee/toHello.html','1')"
                            style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
-                        <a title="删除" href="javascript:;" onclick="emp_del(${employee.empid})" class="ml-5"
+                        <a title="删除" href="javascript:;" onclick="emp_del(${empcheck.empcheckingid})" class="ml-5"
                            style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
                     </td>
                 </tr>
