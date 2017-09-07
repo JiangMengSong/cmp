@@ -116,7 +116,7 @@ $(function(){
 				"classname" : "请输入班级名称！",
 				"stunum" : {
 					required : "请输入学生人数！",
-					minlength : "学生人数不能小于1位！",
+					minlength : "学生人数不能小于1位！"},
 				"major.majorid" : "请选择所属专业",
 				"classcode" : "请输入班级编号",
 				"classstatus" : "请选择班级状态"

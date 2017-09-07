@@ -2,9 +2,12 @@ package com.hfxt.cmp.model;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class Interview {
     private Integer inteid;
 
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date intetime;
 
     private Student student;
