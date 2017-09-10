@@ -22,7 +22,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<button type="submit" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜用户</button>
 		</form>
 	</div>
-	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="clazz_add(0)" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加用户</a></span> <span class="r">共有数据：<strong>88</strong> 条</span> </div>
+	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="data_del()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="clazz_add(0)" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加用户</a></span> </div>
 	<div class="mt-20">
 	<table class="table table-border table-bordered table-hover table-bg table-sort">
 		<thead>
@@ -39,7 +39,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<tbody>
 			<c:forEach var="in" items="${interviewList }">
 			<tr class="text-c">
-				<td><input type="checkbox" value="1" name=""></td>
+				<td><input type="checkbox" value="${in.inteid}" name="inteid"></td>
 				<td>${in.inteid }</td>
                 <td><fmt:formatDate value="${in.intetime }"
                                         pattern="yyyy-MM-dd"/></td>
@@ -102,6 +102,30 @@ $(function(){
             })
         }
     }
+/* 批量删除 */
+function data_del() {
+    var inteid = new Array();
+    $.each($("input[name=inteid]:checked"),function () {
+        inteid.push($(this).val());
+    })
+    if(confirm('确认要删除吗？')) {
+        $.ajax({
+            type: 'POST',
+            url: '${pro}/interview/delInterview1',
+            data:{"inteid" : inteid},
+            dataType: 'json',
+            success: function (data) {
+                if (data.flag){
+                    alert("删除成功");
+                    location.replace(location.href);
+                } else alert("删除失败")
+            },
+            error: function (data) {
+                console.log(data.msg);
+            },
+        })
+    }
+}
 /*用户-添加*/
 function member_add(title,url,w,h){
 	layer_show(title,url,w,h);

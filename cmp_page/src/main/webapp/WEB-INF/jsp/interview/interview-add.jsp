@@ -34,11 +34,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>访谈学员：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
 				<select class="select" size="1" id="student.stuid" name="student.stuid">
-					<option value="0" selected>请选择访谈学员</option>
+					<option value="0">请选择访谈学员</option>
 					<c:forEach var="s" items="${studentList }">
-						
-							<%-- <c:if test='${m.majorid eq clazz.major.majorid }'>selected</c:if> --%> 
-						<option value="${s.stuid }" >${s.stuname }</option>
+							<%-- <c:if test='${s.stuid eq inteverview.student.stuid }'>selected</c:if> --%>
+						<option <c:if test='${s.stuid == interview.student.stuid }'>selected</c:if> value="${s.stuid }" >${s.stuname }</option>
 					</c:forEach>
 				</select>
 				</span> </div>
@@ -47,11 +46,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>访谈者：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
 				<select class="select" size="1" id="employee.empid" name="employee.empid">
-					<option value="0" selected>请选择访谈者</option>
+					<option value="0">请选择访谈者</option>
 					<c:forEach var="e" items="${employeeList }">
 						
-							<%-- <c:if test='${m.majorid eq clazz.major.majorid }'>selected</c:if> --%> 
-						<option value="${e.empid }" >${e.empname }</option>
+							<%-- <c:if test='${e.empid eq interview.employee.empid }'>selected</c:if> --%>
+						<option
+								<c:if test='${e.empid == interview.employee.empid }'>
+									selected
+						</c:if>
+								value="${e.empid }" >${e.empname }</option>
 					</c:forEach>
 				</select>
 				</span> </div>

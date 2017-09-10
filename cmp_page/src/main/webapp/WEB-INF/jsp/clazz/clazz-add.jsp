@@ -40,11 +40,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<label class="form-label col-xs-4 col-sm-3">所属专业：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
 				<select class="select" size="1" id="majorid" name="major.majorid">
-					<option value="0" selected>请选择所属专业</option>
+					<option value="0">请选择所属专业</option>
 					<c:forEach var="m" items="${majorList }">
 						
 							<%-- <c:if test='${m.majorid eq clazz.major.majorid }'>selected</c:if> --%> 
-						<option value="${m.majorid }" >${m.majorname }</option>
+						<option <c:if test='${m.majorid == clazz.major.majorid }'>selected</c:if> value="${m.majorid }" >${m.majorname }</option>
 					</c:forEach>
 				</select>
 				</span>
@@ -60,10 +60,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<label class="form-label col-xs-4 col-sm-3">班级状态：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
 				<select class="select" size="1" id="classstatus" name="classstatus">
-					<option value="0">未开班</option>
-					<option value="1">预科</option>
-					<option value="2">已开班</option>
-					<option value="3">结业</option>
+					<option value="0" <c:if test='${clazz.classstatus==0 }'>selected</c:if> >未开班</option>
+					<option value="1" <c:if test='${clazz.classstatus==1 }'>selected</c:if> >预科</option>
+					<option value="2" <c:if test='${clazz.classstatus==2 }'>selected</c:if> >已开班</option>
+					<option value="3" <c:if test='${clazz.classstatus==3 }'>selected</c:if> >结业</option>
 				</select>
 				</span> </div>
 		</div>

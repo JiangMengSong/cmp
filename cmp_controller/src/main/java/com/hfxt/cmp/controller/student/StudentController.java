@@ -67,6 +67,7 @@ public class StudentController {
             else {
                 result.put("flag",false);
                 result.put("msg","id"+stuid+"删除出现错误,请查询该记录是否存在或直接联系管理员");
+                return result.toString();
             }
         }
         return result.toString();

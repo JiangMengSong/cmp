@@ -30,11 +30,11 @@
     	</if>
  	</select>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="InterviewBean">
-        select i.inteid,i.inteTime,i.inteDesc,s.stuName,e.empName
+        select *
         <!-- <include refid="Base_Column_List"/> -->
         from tb_interview as i
         inner join tb_student as s on i.stuId = s.stuId
-  		inner join tb_employee as e on i.empId = e.empId
+        inner join tb_employee on i.empId = tb_employee.empId
         where i.inteId = #{inteid,jdbcType=INTEGER}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
