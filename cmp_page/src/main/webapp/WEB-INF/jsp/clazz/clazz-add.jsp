@@ -82,7 +82,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div class="row cl">
 			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
-				<input id="btn" class="btn btn-primary radius" type="button" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+				<input id="btn" class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
 			</div>
 		</div>
 	</form>
@@ -93,6 +93,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="${pro }/resources/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
 <script type="text/javascript" src="${pro }/resources/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
 <script type="text/javascript" src="${pro }/resources/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript" src="${pro}/resources/lib/webuploader/0.1.5/webuploader.min.js"></script>
+<script type="text/javascript" src="${pro}/resources/lib/ueditor/1.4.3/ueditor.config.js"></script>
+<script type="text/javascript" src="${pro}/resources/lib/ueditor/1.4.3/ueditor.all.min.js"></script>
+<script type="text/javascript" src="${pro}/resources/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
 <script type="text/javascript">
 $(function(){
 	$('.skin-minimal input').iCheck({
@@ -120,33 +124,34 @@ $(function(){
 				"major.majorid" : "请选择所属专业",
 				"classcode" : "请输入班级编号",
 				"classstatus" : "请选择班级状态"
-			}
-		}
-	});
-	$("#btn").click(function() {
-			//验证
-			if ($("#form-member-add").valid()) {
-				//通过验证
-				$.ajax({
-				url:"${pro}/clazz/addClazz.html",
-				data:$("#form-member-add").serialize(),
-				dataType:"json",
-				type:"post",
-				success:function(result){
-					if (result.flag == true) {
-						alert('操作成功');					
-						window.location.href = "${pro}/clazz/clazzList.html";
-					} else {
-						alert('操作失败');
-					}
-				},error:function(){
-					alert("錯誤");
-				}
-			});
-			}
+			},
+        onkeyup: false,
+        focusCleanup: true,
+        success: "valid",
+        submitHandler: function (form) {
+            if ($("#majorid").val() == 0){
+                alert("请选择所属专业")
+                return false;
+            }
+            $.ajax({
+                url:"${pro}/clazz/addClazz.html",
+                data:$("#form-member-add").serialize(),
+                dataType:"json",
+                type:"post",
+                success:function (result) {
+                    if (result.flag){
+                        alert("操作成功");
+                        var index = parent.layer.getFrameIndex(window.name); // 获取当前页面信息
+                        parent.location.replace(parent.location.href); // 刷新父页面
+                        parent.layer.close(index); // 关闭当前页面
+                    }else alert(result.msg);
+                },error: function (data) {
+                    console.log(data.msg);
+                }
+            })
+        }
 
-		});
-		
+	});
 });
 </script> 
 <!--/请在上方写此页面业务相关的脚本-->

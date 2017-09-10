@@ -33,7 +33,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>访谈学员：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
-				<select class="select" size="1" id="student.stuid" name="student.stuid">
+				<select class="select" size="1" id="stuid" name="student.stuid">
 					<option value="0">请选择访谈学员</option>
 					<c:forEach var="s" items="${studentList }">
 							<%-- <c:if test='${s.stuid eq inteverview.student.stuid }'>selected</c:if> --%>
@@ -45,7 +45,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>访谈者：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
-				<select class="select" size="1" id="employee.empid" name="employee.empid">
+				<select class="select" size="1" id="empid" name="employee.empid">
 					<option value="0">请选择访谈者</option>
 					<c:forEach var="e" items="${employeeList }">
 						
@@ -67,7 +67,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		<div class="row cl">
 			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
-				<input id="btn" class="btn btn-primary radius" type="button" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+				<input id="btn" class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
 			</div>
 		</div>
 	</form>
@@ -78,6 +78,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="${pro }/resources/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
 <script type="text/javascript" src="${pro }/resources/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
 <script type="text/javascript" src="${pro }/resources/lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript" src="${pro}/resources/lib/webuploader/0.1.5/webuploader.min.js"></script>
+<script type="text/javascript" src="${pro}/resources/lib/ueditor/1.4.3/ueditor.config.js"></script>
+<script type="text/javascript" src="${pro}/resources/lib/ueditor/1.4.3/ueditor.all.min.js"></script>
+<script type="text/javascript" src="${pro}/resources/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
 <script type="text/javascript">
 $(function(){
 	$('.skin-minimal input').iCheck({
@@ -102,33 +106,38 @@ $(function(){
 				},
 				"employee.empid" : "请输入访谈者",
 				"intedesc" : "请输入访谈说明"
-			}
+			},
+        onkeyup: false,
+        focusCleanup: true,
+        success: "valid",
+        submitHandler: function (form) {
+            if ($("#stuid").val() == 0){
+                alert("请输入访谈学员")
+                return false;
+            }
+            if ($("#empid").val() == 0){
+                alert("请输入访谈者")
+                return false;
+            }
+            $.ajax({
+                url:"${pro}/interview/addInterview.html",
+                data:$("#form-member-add").serialize(),
+                dataType:"json",
+                type:"post",
+                success:function (result) {
+                    if (result.flag){
+                        alert("操作成功");
+                        var index = parent.layer.getFrameIndex(window.name); // 获取当前页面信息
+                        parent.location.replace(parent.location.href); // 刷新父页面
+                        parent.layer.close(index); // 关闭当前页面
+                    }else alert(result.msg);
+                },error: function (data) {
+                    console.log(data.msg);
+                }
+            })
+        }
 		}
 	);
-	
-	$("#btn").click(function() {
-			//验证
-			if ($("#form-member-add").valid()) {
-				//通过验证
-				$.ajax({
-				url:"${pro}/interview/addInterview.html",
-				data:$("#form-member-add").serialize(),
-				dataType:"json",
-				type:"post",
-				success:function(result){
-					if (result.flag == true) {
-						alert('操作成功');					
-						window.location.href = "${pro}/interview/interviewList.html";
-					} else {
-						alert('操作失败');
-					}
-				},error:function(){
-					alert("錯誤");
-				}
-			});
-			}
-
-		});
 		
 });
 </script> 

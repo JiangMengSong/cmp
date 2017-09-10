@@ -60,7 +60,7 @@
                     <li><a data-href="${pro}/employee/empList.html" data-title="职工信息" href="javascript:void(0)">职工管理</a></li>
                     <li><a data-href="${pro}/student/stuList.html" data-title="学生信息" href="javascript:void(0)">学生管理</a></li>
                     <li><a data-href="${pro}/student/expList.html" data-title="作业测验" href="javascript:void(0)">作业测验</a></li>
-                    <li><a data-href="${pro}/student/expList.html" data-title="访谈管理" href="javascript:void(0)">访谈管理</a></li>
+                    <li><a data-href="${pro}/interview/interviewList.html" data-title="访谈管理" href="javascript:void(0)">访谈管理</a></li>
                 </ul>
             </dd>
         </dl>
