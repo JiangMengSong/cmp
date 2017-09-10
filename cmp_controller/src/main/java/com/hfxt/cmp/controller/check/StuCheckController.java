@@ -35,7 +35,7 @@ public class StuCheckController {
 
     //查询
     @RequestMapping(value = "/getStuCheck.html", produces = "text/html;charset=utf-8")
-    public String getEmpCheck(HttpServletRequest request, StuChecking stuCheck) {
+    public String getStuCheck(HttpServletRequest request, StuChecking stuCheck) {
         List<StuChecking> checkList=stuCheckService.getStuCheck(stuCheck);
         if(checkList!=null){
             request.setAttribute("checkList",checkList);
@@ -47,7 +47,8 @@ public class StuCheckController {
     //删除
     @RequestMapping(value = "/delStuCheck/{stucheckingid}",produces = "text/html;charset=utf-8")
     @ResponseBody
-    public String delEmpCheck(HttpSession session, @PathVariable Integer stucheckingid){
+    public String delStuCheck(HttpServletRequest request,@PathVariable Integer stucheckingid){
+        if (null == request.getSession().getAttribute("emp")) return "redirect:/employee/login/toLogin.html";
         JSONObject result = new JSONObject();
         result.put("flag",false);
         if (null == stucheckingid ) return result.toString();
@@ -59,7 +60,7 @@ public class StuCheckController {
      * 跳转编辑学生信息
      */
     @RequestMapping(value = "/toGet/{stucheckingid}",produces = "text/html;charset=utf-8")
-    public String toEditExp(HttpServletRequest request, @PathVariable Integer stucheckingid){
+    public String toEditStu(HttpServletRequest request, @PathVariable Integer stucheckingid){
         if (null == request.getSession().getAttribute("emp")) return "redirect:/employee/login/toLogin.html";
         if (stucheckingid != null && stucheckingid > 0) request.setAttribute("stu",stuCheckService.getCheckById(stucheckingid));
         request.setAttribute("student",studentService.getStudent());

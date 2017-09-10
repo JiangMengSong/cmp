@@ -45,13 +45,11 @@
         <table class="table table-border table-bordered table-hover table-bg table-sort">
             <thead>
             <tr>
-                <th scope="col" colspan="16">职工管理</th>
+                <th scope="col" colspan="11">职工管理</th>
             </tr>
             <tr class="text-c">
                 <th><input type="checkbox" value="" name=""></th>
-                <th>ID</th>
                 <th>用户名</th>
-                <th>登录名</th>
                 <th>性别</th>
                 <th>角色</th>
                 <th>入职日期</th>
@@ -59,9 +57,6 @@
                 <th>当前状态</th>
                 <th>电话</th>
                 <th>住址</th>
-                <th>QQ</th>
-                <th>学历</th>
-                <th>邮箱</th>
                 <th>描述</th>
                 <th>操作</th>
             </tr>
@@ -70,9 +65,7 @@
             <c:forEach items="${empList}" var="employee">
                 <tr class="text-c">
                     <td><input type="checkbox" value="" name=""></td>
-                    <td>${employee.empid}</td>
                     <td><a href="#">${employee.empname}</a></td>
-                    <td>${employee.loginname}</td>
                     <td>
                         <c:if test="${employee.empsex == 1}">男</c:if>
                         <c:if test="${employee.empsex == 0}">女</c:if>
@@ -88,22 +81,13 @@
                     <td><fmt:formatDate value="${employee.empbirth}"
                                         pattern="yyyy-MM-dd HH:mm:ss"/></td>
                     <td>
-                        <c:if test="${employee.empstauts == 1}">已离职</c:if>
-                        <c:if test="${employee.empstauts == 0}">在职</c:if>
+                        <c:if test="${employee.empstauts == 0}">已离职</c:if>
+                        <c:if test="${employee.empstauts == 1}">在职</c:if>
                     </td>
                     <td>${employee.empphone}</td>
-                    <td>${employee.empaddress}</td>
                     <td>
-                            ${employee.empqq}
-                        <c:if test="${empty employee.empqq or employee.empqq ==''}">未填写</c:if>
-                    </td>
-                    <td>
-                            ${employee.empmajor}
-                        <c:if test="${empty employee.empmajor or employee.empmajor ==''}">未填写</c:if>
-                    </td>
-                    <td>
-                            ${employee.empemail}
-                        <c:if test="${empty employee.empemail or employee.empemail ==''}">未填写</c:if>
+                            ${employee.empaddress}
+                            <c:if test="${empty employee.empaddress or employee.empaddress ==''}">未填写</c:if>
                     </td>
                     <td>
                             ${employee.empdesc}

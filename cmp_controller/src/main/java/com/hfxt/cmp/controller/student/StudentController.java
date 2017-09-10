@@ -73,14 +73,15 @@ public class StudentController {
     }
 
     /**
-     * 跳转编辑学生信息
+     * 跳转根据ID获取学生信息
      */
     @RequestMapping(value = "/toEditStu/{stuId}",produces = "text/html;charset=utf-8")
-    public String toEditExp(HttpServletRequest request, @PathVariable Integer stuId){
+    public String toEditExp(HttpServletRequest request, @PathVariable Integer stuId,@RequestParam(value = "sel",required = false)Integer sel){
         if (null == request.getSession().getAttribute("emp")) return "redirect:/employee/login/toLogin.html";
         request.setAttribute("clazzList",clazzService.getClazz(null));
         if (stuId != null && stuId > 0) request.setAttribute("stu",studentService.getStudentById(stuId));
-        return "student/stu_edit"; // 返回hello页面
+        if (sel == null) return "student/stu_edit";
+        return "student/stu_detail"; // 返回hello页面
     }
 
     /**

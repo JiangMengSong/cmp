@@ -38,23 +38,16 @@
         <table class="table table-border table-bordered table-hover table-bg table-sort">
             <thead>
             <tr>
-                <th scope="col" colspan="15">学生管理</th>
+                <th scope="col" colspan="8">学生管理</th>
             </tr>
             <tr class="text-c">
                 <th><input type="checkbox" value="" name=""></th>
                 <th>姓名</th>
                 <th>性别</th>
                 <th>班级</th>
-                <th>出生日期</th>
                 <th>入学日期</th>
                 <th>编号</th>
                 <th>电话</th>
-                <th>紧急电话</th>
-                <th>住址</th>
-                <th>QQ</th>
-                <th>学历</th>
-                <th>邮箱</th>
-                <th>描述</th>
                 <th>操作</th>
             </tr>
             </thead>
@@ -62,37 +55,35 @@
             <c:forEach items="${stuList}" var="student">
                 <tr class="text-c">
                     <td><input type="checkbox" value="${student.stuid}" name="stuId"></td>
-                    <td><a href="#">${student.stuname}</a></td>
+                    <td><a href="${pro}/student/toEditStu/${student.stuid}?sel=1">${student.stuname}</a></td>
                     <td>
                         <c:if test="${student.stusex == 1}">男</c:if>
                         <c:if test="${student.stusex == 0}">女</c:if>
                     </td>
                     <td>${student.clazz.classname}</td>
-                    <td><fmt:formatDate value="${student.stubirth}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                     <td><fmt:formatDate value="${student.stuentrytime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                     <td>${student.stucode}</td>
                     <td>${student.stuphone}</td>
-                    <td>${student.stucontact}</td>
-                    <td>
-                            ${student.stuaddress}
-                        <c:if test="${empty student.stuaddress or student.stuaddress ==''}">未填写</c:if>
-                    </td>
-                    <td>
-                            ${student.stuqq}
-                        <c:if test="${empty student.stuqq or student.stuqq ==''}">未填写</c:if>
-                    </td>
-                    <td>
-                            ${student.studegree}
-                        <c:if test="${empty student.studegree or student.studegree ==''}">未填写</c:if>
-                    </td>
-                    <td>
-                            ${student.stuemail}
-                        <c:if test="${empty student.stuemail or student.stuemail ==''}">未填写</c:if>
-                    </td>
-                    <td>
-                            ${student.studesc}
-                        <c:if test="${empty student.studesc or student.studesc ==''}">未填写</c:if>
-                    </td>
+                    <%--<td>--%>
+                            <%--${student.stuaddress}--%>
+                        <%--<c:if test="${empty student.stuaddress or student.stuaddress ==''}">未填写</c:if>--%>
+                    <%--</td>--%>
+                    <%--<td>--%>
+                            <%--${student.stuqq}--%>
+                        <%--<c:if test="${empty student.stuqq or student.stuqq ==''}">未填写</c:if>--%>
+                    <%--</td>--%>
+                    <%--<td>--%>
+                            <%--${student.studegree}--%>
+                        <%--<c:if test="${empty student.studegree or student.studegree ==''}">未填写</c:if>--%>
+                    <%--</td>--%>
+                    <%--<td>--%>
+                            <%--${student.stuemail}--%>
+                        <%--<c:if test="${empty student.stuemail or student.stuemail ==''}">未填写</c:if>--%>
+                    <%--</td>--%>
+                    <%--<td>--%>
+                            <%--${student.studesc}--%>
+                        <%--<c:if test="${empty student.studesc or student.studesc ==''}">未填写</c:if>--%>
+                    <%--</td>--%>
                     <td class="f-14">
                         <a title="编辑" href="javascript:;" onclick="stu_edit(${student.stuid})"
                            style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
@@ -161,7 +152,6 @@
         $.each($("input[name=stuId]:checked"),function () {
             stuId.push($(this).val());
         })
-        alert(stuId);
         if(confirm('确认要删除吗？')) {
             $.ajax({
                 type: 'POST',
