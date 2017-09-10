@@ -1,5 +1,1 @@
-<html>
-<body>
-<h2>Hello World!</h2>
-</body>
-</html>
+<script>location.href="localhost:8080/cmp_page/employee/login/toLogin.html"</script>
