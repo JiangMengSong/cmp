@@ -20,7 +20,10 @@
             <span class="f-18">张三</span>
             <span class="pl-10 f-12">编号:${student.stucode}</span>
         </dt>
-        <dd class="pt-10 f-12" style="margin-left:0">这家伙很懒，什么也没有留下</dd>
+        <dd class="pt-10 f-12" style="margin-left:0">
+            <c:if test="${empty student.studesc or student.studesc ==''}">这家伙很懒，什么也没有留下</c:if>
+            ${student.studesc}
+        </dd>
     </dl>
 </div>
 <div class="pd-20">
@@ -54,28 +57,32 @@
             <td>${student.stucontact}</td>
         </tr>
         <tr>
-            <th class="text-r">积分:</th>
-            <td>330</td>
+            <th class="text-r">住址:</th>
+            <td>
+                <c:if test="${empty student.stuaddress or student.stuaddress ==''}">未填写</c:if>
+                ${student.stuaddress}
+            </td>
         </tr>
         <tr>
-            <th class="text-r">积分:</th>
-            <td>330</td>
+            <th class="text-r">QQ:</th>
+            <td>
+                <c:if test="${empty student.stuqq or student.stuqq ==''}">未填写</c:if>
+                ${student.stuqq}
+            </td>
         </tr>
         <tr>
-            <th class="text-r">积分:</th>
-            <td>330</td>
+            <th class="text-r">邮箱:</th>
+            <td>
+                ${student.stuemail}
+                <c:if test="${empty student.stuemail or student.stuemail ==''}">未填写</c:if>
+            </td>
         </tr>
         <tr>
-            <th class="text-r">积分:</th>
-            <td>330</td>
-        </tr>
-        <tr>
-            <th class="text-r">积分:</th>
-            <td>330</td>
-        </tr>
-        <tr>
-            <th class="text-r">积分:</th>
-            <td>330</td>
+            <th class="text-r">学历:</th>
+            <td>
+                ${student.studegree}
+                <c:if test="${empty student.studegree or student.studegree ==''}">未填写</c:if>
+            </td>
         </tr>
         </tbody>
     </table>

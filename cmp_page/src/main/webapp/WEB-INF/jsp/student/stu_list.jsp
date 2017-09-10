@@ -32,13 +32,12 @@
                 <i class="Hui-iconfont">&#xe600;</i> 添加学生
             </a>
         </span>
-        <span class="r">共有数据：<strong>88</strong> 条</span>
     </div>
     <div class="mt-20">
         <table class="table table-border table-bordered table-hover table-bg table-sort">
             <thead>
             <tr>
-                <th scope="col" colspan="8">学生管理</th>
+                <th scope="col" colspan="9">学生管理</th>
             </tr>
             <tr class="text-c">
                 <th><input type="checkbox" value="" name=""></th>
@@ -55,7 +54,7 @@
             <c:forEach items="${stuList}" var="student">
                 <tr class="text-c">
                     <td><input type="checkbox" value="${student.stuid}" name="stuId"></td>
-                    <td><a href="${pro}/student/toEditStu/${student.stuid}?sel=1">${student.stuname}</a></td>
+                    <td><a href="javascript:;" onclick="stu_show(${student.stuid},'${student.stuname}')">${student.stuname}</a></td>
                     <td>
                         <c:if test="${student.stusex == 1}">男</c:if>
                         <c:if test="${student.stusex == 0}">女</c:if>
@@ -64,26 +63,6 @@
                     <td><fmt:formatDate value="${student.stuentrytime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                     <td>${student.stucode}</td>
                     <td>${student.stuphone}</td>
-                    <%--<td>--%>
-                            <%--${student.stuaddress}--%>
-                        <%--<c:if test="${empty student.stuaddress or student.stuaddress ==''}">未填写</c:if>--%>
-                    <%--</td>--%>
-                    <%--<td>--%>
-                            <%--${student.stuqq}--%>
-                        <%--<c:if test="${empty student.stuqq or student.stuqq ==''}">未填写</c:if>--%>
-                    <%--</td>--%>
-                    <%--<td>--%>
-                            <%--${student.studegree}--%>
-                        <%--<c:if test="${empty student.studegree or student.studegree ==''}">未填写</c:if>--%>
-                    <%--</td>--%>
-                    <%--<td>--%>
-                            <%--${student.stuemail}--%>
-                        <%--<c:if test="${empty student.stuemail or student.stuemail ==''}">未填写</c:if>--%>
-                    <%--</td>--%>
-                    <%--<td>--%>
-                            <%--${student.studesc}--%>
-                        <%--<c:if test="${empty student.studesc or student.studesc ==''}">未填写</c:if>--%>
-                    <%--</td>--%>
                     <td class="f-14">
                         <a title="编辑" href="javascript:;" onclick="stu_edit(${student.stuid})"
                            style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
@@ -107,11 +86,23 @@
             "aaSorting": [[1, "desc"]],//默认第几个排序
             "bStateSave": true,//状态保存
             "aoColumnDefs": [
-                //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-                {"orderable": false, "aTargets": [0, 8, 9]}// 制定列不参与排序
+                //{"orderable": false, "aTargets": [0, 8, 9]}// 制定列不参与排序
             ]
         });
     });
+
+    /*跳转查看学生信息*/
+    function stu_show(stuId,stuName){
+        layer.open({
+            type: 2,
+            area: [360 + 'px', 400 + 'px'],
+            fix: false, //不固定
+            maxmin: true,
+            shade: 0.4,
+            title: stuName,
+            content: "${pro}/student/toEditStu/"+stuId+"?sel=1"
+        });
+    }
 
     /*跳转编辑学生信息*/
     function stu_edit(stuId){
