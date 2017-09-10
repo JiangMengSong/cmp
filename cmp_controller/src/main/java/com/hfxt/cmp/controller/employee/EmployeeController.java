@@ -68,8 +68,8 @@ public class EmployeeController {
         CookieUtil.addCookie(response,"empPwd",null,0); // 移除Cookie登录密码信息
         // 判断用户是否选择三天内不再重复登录
         if (!Validity.isEmpty(loginCheck) && loginCheck.equals("1")){
-            CookieUtil.addCookie(response,"empName",employee.getLoginname(),60); // 增加Cookie登录名信息259200
-            CookieUtil.addCookie(response,"empPwd",employee.getLoginpwd(),60); // 增加Cookie登录密码信息
+            CookieUtil.addCookie(response,"empName",employee.getLoginname(),120); // 增加Cookie登录名信息259200
+            CookieUtil.addCookie(response,"empPwd",employee.getLoginpwd(),120); // 增加Cookie登录密码信息
         }
         result.put("flag",true); // 设置登录成功
         return result.toString();

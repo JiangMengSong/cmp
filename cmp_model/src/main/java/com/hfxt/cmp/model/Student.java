@@ -24,6 +24,8 @@ public class Student {
 
     private String stucontact;
 
+    private String stuhead;
+
     private String studesc;
 
     private String stuqq;
@@ -101,6 +103,14 @@ public class Student {
 
     public String getStucontact() {
         return stucontact;
+    }
+
+    public String getStuhead() {
+        return stuhead;
+    }
+
+    public void setStuhead(String stuhead) {
+        this.stuhead = stuhead;
     }
 
     public void setStucontact(String stucontact) {

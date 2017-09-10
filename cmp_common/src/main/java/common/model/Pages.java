@@ -1,4 +1,4 @@
-package common.page;
+package common.model;
 
 import java.util.List;
 

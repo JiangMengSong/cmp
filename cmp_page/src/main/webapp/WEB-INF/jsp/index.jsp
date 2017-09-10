@@ -60,6 +60,7 @@
                     <li><a data-href="${pro}/employee/empList.html" data-title="职工信息" href="javascript:void(0)">职工管理</a></li>
                     <li><a data-href="${pro}/student/stuList.html" data-title="学生信息" href="javascript:void(0)">学生管理</a></li>
                     <li><a data-href="${pro}/student/expList.html" data-title="作业测验" href="javascript:void(0)">作业测验</a></li>
+                    <li><a data-href="${pro}/student/expList.html" data-title="访谈管理" href="javascript:void(0)">访谈管理</a></li>
                 </ul>
             </dd>
         </dl>
@@ -76,7 +77,7 @@
             <dt><i class="Hui-iconfont">&#xe622;</i> 班级管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
                 <ul>
-                    <li><a data-href="http://h-ui.duoshuo.com/admin/" data-title="班级管理" href="javascript:;">班级管理</a></li>
+                    <li><a data-href="${pro}/clazz/clazzList.html" data-title="班级管理" href="javascript:;">班级管理</a></li>
                 </ul>
             </dd>
         </dl>
@@ -84,8 +85,8 @@
             <dt><i class="Hui-iconfont">&#xe620;</i> 考勤管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
                 <ul>
-                    <li><a data-href="product-brand.html" data-title="职工考勤" href="javascript:void(0)">职工考勤</a></li>
-                    <li><a data-href="product-category.html" data-title="学生考勤" href="javascript:void(0)">学生考勤</a></li>
+                    <li><a data-href="${pro}/empcheck/getEmpCheck.html" data-title="职工考勤" href="javascript:void(0)">职工考勤</a></li>
+                    <li><a data-href="${pro}/stucheck/getStuCheck.html" data-title="学生考勤" href="javascript:void(0)">学生考勤</a></li>
                 </ul>
             </dd>
         </dl>

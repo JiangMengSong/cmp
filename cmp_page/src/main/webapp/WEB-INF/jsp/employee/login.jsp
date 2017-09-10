@@ -74,12 +74,8 @@ ${jquery_3}${jquery_common}
                dataType:"json",
                type:"post",
                success:function (result) {
-                    if (result.flag){
-                        alert('登录成功')
-                        location.href='${pro}/employee/toIndex.html'
-                    }else{
-                        alert(res.resMsg)
-                    }
+                    if (result.flag) location.href='${pro}/employee/toIndex.html'
+                    else alert(res.resMsg)
                },error:function () {
                    alert("登录错误");
                }
