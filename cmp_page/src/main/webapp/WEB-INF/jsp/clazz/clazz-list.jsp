@@ -45,7 +45,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<tr class="text-c">
 				<td><input type="checkbox" value="1" name=""></td>
 				<td>${clazz.clazzid }</td>
-				<td><a href="${pro}/clazz/clazzshow/${clazz.clazzid }" style="cursor:pointer" class="text-primary" onclick="clazz_show(${clazz.clazzid }">${clazz.classname }</a></td>
+				<td><a href="${pro}/clazz/clazzshow/${clazz.clazzid }" style="cursor:pointer" class="text-primary" >${clazz.classname }</a></td>
 				<td>${clazz.stunum }</td>
 				<td>${clazz.major.majorname }</td>
 				<td>${clazz.classcode }</td>

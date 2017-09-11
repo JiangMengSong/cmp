@@ -62,4 +62,30 @@ public class ClazzController {
         else if(clazzService.insert(clazz) > 0) result.put("flag",true);
         return result.toString();
     }
+
+    /**
+     * 根据Id删除
+     */
+    @RequestMapping(value = "/delClazz/{clazzId}",produces = "text/html;charset=utf-8")
+    @ResponseBody
+    public String delClazz(HttpSession session, @PathVariable Integer clazzId){
+        if (null == session.getAttribute("emp")) return "redirect:/employee/login/toLogin.html";
+        JSONObject result = new JSONObject();
+        if (null == clazzId || clazzId < 1){
+            result.put("data",false);
+        }else{
+            result.put("data",true);
+        }
+        return result.toString();
+    }
+    /*
+     *
+     * 详细信息
+     */
+    @RequestMapping(value = "/clazzshow/{clazzId}",produces = "text/html;charset=utf-8")
+    public String showClazz(HttpServletRequest request, @PathVariable Integer clazzId){
+        if (null == request.getSession().getAttribute("emp")) return "redirect:/employee/login/toLogin.html";
+        request.setAttribute("clazz",clazzService.selectByPrimaryKey(clazzId));
+        return "clazz/clazz-show"; // 返回hello页面
+    }
 }
