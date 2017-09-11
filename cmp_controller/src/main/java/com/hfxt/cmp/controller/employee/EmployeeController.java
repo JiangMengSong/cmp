@@ -25,7 +25,7 @@ public class EmployeeController {
     EmployeeService employeeService;
 
     /**
-     * 跳转登录页面
+     * 跳转登录
      * */
     @RequestMapping(value = "/login/toLogin.html",produces = "text/html;charset=utf-8")
     public String toLogin(HttpServletRequest request){
