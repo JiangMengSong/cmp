@@ -17,6 +17,8 @@ public class Employee {
 
     private Date empbirth;
 
+    private String emphead;
+
     private Integer empstauts;
 
     private String empdesc;
@@ -83,6 +85,14 @@ public class Employee {
 
     public Date getEmpbirth() {
         return empbirth;
+    }
+
+    public String getEmphead() {
+        return emphead;
+    }
+
+    public void setEmphead(String emphead) {
+        this.emphead = emphead;
     }
 
     public void setEmpbirth(Date empbirth) {

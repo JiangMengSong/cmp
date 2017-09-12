@@ -10,6 +10,7 @@
         <result column="stuCode" jdbcType="VARCHAR" property="stucode"/>
         <result column="stuAddress" jdbcType="VARCHAR" property="stuaddress"/>
         <result column="stuContact" jdbcType="VARCHAR" property="stucontact"/>
+        <result column="stuHead" jdbcType="VARCHAR" property="stuhead"/>
         <result column="stuDesc" jdbcType="VARCHAR" property="studesc"/>
         <result column="stuQQ" jdbcType="VARCHAR" property="stuqq"/>
         <result column="stuEmail" jdbcType="VARCHAR" property="stuemail"/>
@@ -21,15 +22,33 @@
         stuId, stuName, stuSex, classId, stuBirth, stuPhone, stuCode, stuAddress, stuContact,
         stuDesc, stuQQ, stuEmail, stuEntryTime, stuDegree
     </sql>
+    <select id="getStuCodeIsEmpty" resultType="java.lang.Integer">
+        select count(*) from tb_student where stuCode = #{stuCode,jdbcType=VARCHAR}
+    </select>
     <select id="getStudent" resultMap="StudentBean">
         select * from tb_student
         inner join tb_clazz on tb_student.classId = tb_clazz.clazzId
+        <if test="stu != null">
+            <where>
+                <if test="stu.stuname != null and stu.stuname != ''">
+                    and stuName like Concat('%',#{stu.stuName,jdbcType=VARCHAR},'%')
+                </if>
+                <if test="stu.clazz != null and stu.clazz.clazzid != null and stu.clazz.clazzid &gt; 0">
+                    and classId = #{stu.clazz.clazzid,jdbcType=INTEGER}
+                </if>
+                <if test="stu.startDate != null">
+                    and stuEntryTime &gt; #{stu.startDate,jdbcType=TIMESTAMP}
+                </if>
+                <if test="stu.endDate != null">
+                    and stuEntryTime &lt; #{stu.endDate,jdbcType=TIMESTAMP}
+                </if>
+            </where>
+        </if>
     </select>
-    <select id="getStudentById" resultMap="StudentBean">
-        select * from tb_student where stuId = #{stuId}
-    </select>
-    <select id="getStuCodeIsEmpty" resultType="java.lang.Integer">
-        select count(*) from tb_student where stuCode = #{stuCode,jdbcType=VARCHAR}
+    <select id="getStuById" resultType="com.hfxt.cmp.model.Student">
+        select * from tb_student
+        inner join tb_clazz on tb_student.classId = tb_clazz.clazzId
+        where tb_student.stuId = #{stuId,jdbcType=INTEGER}
     </select>
     <delete id="delStudent" statementType="CALLABLE" parameterType="java.util.Map">
         {
@@ -41,14 +60,14 @@
     <insert id="addStudent" parameterType="com.hfxt.cmp.model.Student">
         insert into tb_student (stuId, stuName, stuSex,
           classId, stuBirth, stuPhone,
-          stuCode, stuAddress, stuContact,
+          stuCode, stuAddress, stuContact,stuHead,
           stuDesc, stuQQ, stuEmail,
           stuEntryTime, stuDegree)
         values (0, #{stu.stuname,jdbcType=VARCHAR}, #{stu.stusex,jdbcType=INTEGER},
           #{stu.clazz.clazzid,jdbcType=INTEGER}, #{stu.stubirth,jdbcType=TIMESTAMP}, #{stu.stuphone,jdbcType=VARCHAR},
           #{stu.stucode,jdbcType=VARCHAR}, #{stu.stuaddress,jdbcType=VARCHAR}, #{stu.stucontact,jdbcType=VARCHAR},
-          #{stu.studesc,jdbcType=VARCHAR}, #{stu.stuqq,jdbcType=VARCHAR}, #{stu.stuemail,jdbcType=VARCHAR},
-          #{stu.stuentrytime,jdbcType=TIMESTAMP}, #{stu.studegree,jdbcType=VARCHAR})
+          #{stu.stuhead,jdbcType=VARCHAR},#{stu.studesc,jdbcType=VARCHAR}, #{stu.stuqq,jdbcType=VARCHAR},
+          #{stu.stuemail,jdbcType=VARCHAR},#{stu.stuentrytime,jdbcType=TIMESTAMP}, #{stu.studegree,jdbcType=VARCHAR})
     </insert>
     <update id="updateStudent" parameterType="com.hfxt.cmp.model.Student">
         update tb_student
@@ -73,6 +92,9 @@
             </if>
             <if test="stu.stucontact != null">
                 stuContact = #{stu.stucontact,jdbcType=VARCHAR},
+            </if>
+            <if test="stu.stuhead != null">
+                stuHead = #{stu.stuhead,jdbcType=VARCHAR},
             </if>
             <if test="stu.studesc != null">
                 stuDesc = #{stu.studesc,jdbcType=VARCHAR},

@@ -1,6 +1,7 @@
 package com.hfxt.cmp.mapper;
 
 import com.hfxt.cmp.model.Student;
+import com.hfxt.cmp.search.Search;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -20,23 +21,26 @@ public interface StudentMapper {
      */
     int updateStudent(@Param("stu") Student stu);
 
-//    int updateByPrimaryKey(Student record);
+    /**
+     * 获取所有学生(允许带条件)
+     * @param stu 查询条件
+     * @return
+     */
+    List<Student> getStudent(@Param("stu") Search stu);
 
     /**
-     * 获取所有学生
-     * */
-    List<Student> getStudent();
+     * 根据ID获取单个学生
+     * @param stuId 学生Id
+     * @return
+     */
+    Student getStuById(@Param("stuId") Integer stuId);
 
     /**
      * 根据id删除学生
+     * @param map 存储过程参数
+     * @return
      */
     int delStudent(@Param("map")Map<String,Object> map);
-
-    /**
-     * 根据学生Id获取指定学生信息
-     * @param stuId 学生Id
-     */
-    Student getStudentById(@Param("stuId")Integer stuId);
 
     /**
      * 查询学生编号是否存在

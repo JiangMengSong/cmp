@@ -17,7 +17,8 @@
 <%--<![endif]-->--%>
 <!--_footer 作为公共模版分离出去-->
 <%--${jquery_3}--%>
-<script type="text/javascript" src="${pro}/resources/lib/jquery/1.9.1/jquery.min.js"></script>
+<%--<script type="text/javascript" src="${pro}/resources/lib/jquery/1.9.1/jquery.min.js"></script>--%>
+<script type="text/javascript" src="${pro}/resources/lib/jquery/3.2.1/jquery-3.2.1.js"></script>
 ${jquery_common}
 <script type="text/javascript" src="${pro}/resources/lib/layer/2.4/layer.js"></script>
 <script type="text/javascript" src="${pro}/resources/h-ui/js/H-ui.min.js"></script>

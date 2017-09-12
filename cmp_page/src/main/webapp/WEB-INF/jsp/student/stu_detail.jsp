@@ -14,15 +14,15 @@
 </head>
 <body>
 <div class="cl pd-20" style=" background-color:#5bacb6">
-    <img class="avatar size-XL l" src="${pro}/uploads/headImage/${student.stuhead}">
+    <img class="avatar size-XL l" src="${pro}/resources/uploads/headImage/${stu.stuhead}">
     <dl style="margin-left:80px; color:#fff">
         <dt>
-            <span class="f-18">张三</span>
-            <span class="pl-10 f-12">编号:${student.stucode}</span>
+            <span class="f-18">${stu.stuname}</span>
+            <span class="pl-10 f-12">编号:${stu.stucode}</span>
         </dt>
         <dd class="pt-10 f-12" style="margin-left:0">
-            <c:if test="${empty student.studesc or student.studesc ==''}">这家伙很懒，什么也没有留下</c:if>
-            ${student.studesc}
+            <c:if test="${empty stu.studesc or stu.studesc ==''}">这家伙很懒，什么也没有留下</c:if>
+            ${stu.studesc}
         </dd>
     </dl>
 </div>
@@ -30,58 +30,58 @@
     <table class="table">
         <tbody>
         <tr>
-            <th class="text-r" width="80">性别:</th>
+            <th class="text-r" width="80">性别：</th>
             <td>
-                <c:if test="${student.stusex == 1}">男</c:if>
-                <c:if test="${student.stusex == 0}">女</c:if>
+                <c:if test="${stu.stusex == 1}">男</c:if>
+                <c:if test="${stu.stusex == 0}">女</c:if>
             </td>
         </tr>
         <tr>
-            <th class="text-r" width="80">班级:</th>
-            <td>${student.clazz.classname}</td>
+            <th class="text-r" width="80">班级：</th>
+            <td>${stu.clazz.classname}</td>
         </tr>
         <tr>
-            <th class="text-r">出生日期:</th>
-            <td><fmt:formatDate value="${student.stubirth}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+            <th class="text-r">出生日期：</th>
+            <td><fmt:formatDate value="${stu.stubirth}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
         </tr>
         <tr>
-            <th class="text-r">入学日期:</th>
-            <td><fmt:formatDate value="${student.stubirth}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+            <th class="text-r">入学日期：</th>
+            <td><fmt:formatDate value="${stu.stubirth}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
         </tr>
         <tr>
-            <th class="text-r">手机:</th>
-            <td>${student.stuphone}</td>
+            <th class="text-r">手机：</th>
+            <td>${stu.stuphone}</td>
         </tr>
         <tr>
-            <th class="text-r">紧急联系电话:</th>
-            <td>${student.stucontact}</td>
+            <th class="text-r">紧急联系电话：</th>
+            <td>${stu.stucontact}</td>
         </tr>
         <tr>
-            <th class="text-r">住址:</th>
+            <th class="text-r">住址：</th>
             <td>
-                <c:if test="${empty student.stuaddress or student.stuaddress ==''}">未填写</c:if>
-                ${student.stuaddress}
+                <c:if test="${empty stu.stuaddress or stu.stuaddress ==''}">未填写</c:if>
+                ${stu.stuaddress}
             </td>
         </tr>
         <tr>
-            <th class="text-r">QQ:</th>
+            <th class="text-r">QQ：</th>
             <td>
-                <c:if test="${empty student.stuqq or student.stuqq ==''}">未填写</c:if>
-                ${student.stuqq}
+                <c:if test="${empty stu.stuqq or stu.stuqq ==''}">未填写</c:if>
+                ${stu.stuqq}
             </td>
         </tr>
         <tr>
-            <th class="text-r">邮箱:</th>
+            <th class="text-r">邮箱：</th>
             <td>
-                ${student.stuemail}
-                <c:if test="${empty student.stuemail or student.stuemail ==''}">未填写</c:if>
+                ${stu.stuemail}
+                <c:if test="${empty stu.stuemail or stu.stuemail ==''}">未填写</c:if>
             </td>
         </tr>
         <tr>
-            <th class="text-r">学历:</th>
+            <th class="text-r">学历：</th>
             <td>
-                ${student.studegree}
-                <c:if test="${empty student.studegree or student.studegree ==''}">未填写</c:if>
+                ${stu.studegree}
+                <c:if test="${empty stu.studegree or stu.studegree ==''}">未填写</c:if>
             </td>
         </tr>
         </tbody>

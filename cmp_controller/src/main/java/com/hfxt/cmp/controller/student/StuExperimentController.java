@@ -21,7 +21,7 @@ public class StuExperimentController {
     public String expList(HttpServletRequest request){
         if (null == request.getSession().getAttribute("emp")) return "redirect:/employee/login/toLogin.html";
         request.setAttribute("expList",stuExperimentService.getStuExperiment());
-        return "student/stu_experiment_list"; // 返回hello页面
+        return "student/experiment/stu_exp_list";
     }
 
     /**
@@ -30,7 +30,9 @@ public class StuExperimentController {
     @RequestMapping(value = "/toEditExp/{expId}",produces = "text/html;charset=utf-8")
     public String toEditExp(HttpServletRequest request, @PathVariable Integer expId){
         if (null == request.getSession().getAttribute("emp")) return "redirect:/employee/login/toLogin.html";
-        request.setAttribute("expList",stuExperimentService.getStuExperiment());
-        return "student/"; // 返回hello页面
+
+        return "student/";
     }
+
+
 }

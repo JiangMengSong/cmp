@@ -45,7 +45,7 @@
         <table class="table table-border table-bordered table-hover table-bg table-sort">
             <thead>
             <tr>
-                <th scope="col" colspan="11">职工管理</th>
+                <th scope="col" colspan="8">职工管理</th>
             </tr>
             <tr class="text-c">
                 <th><input type="checkbox" value="" name=""></th>
@@ -53,11 +53,8 @@
                 <th>性别</th>
                 <th>角色</th>
                 <th>入职日期</th>
-                <th>出生日期</th>
                 <th>当前状态</th>
                 <th>电话</th>
-                <th>住址</th>
-                <th>描述</th>
                 <th>操作</th>
             </tr>
             </thead>
@@ -78,21 +75,11 @@
                     </td>
                     <td><fmt:formatDate value="${employee.empentrytime}"
                                         pattern="yyyy-MM-dd HH:mm:ss"/></td>
-                    <td><fmt:formatDate value="${employee.empbirth}"
-                                        pattern="yyyy-MM-dd HH:mm:ss"/></td>
                     <td>
                         <c:if test="${employee.empstauts == 0}">已离职</c:if>
                         <c:if test="${employee.empstauts == 1}">在职</c:if>
                     </td>
                     <td>${employee.empphone}</td>
-                    <td>
-                            ${employee.empaddress}
-                            <c:if test="${empty employee.empaddress or employee.empaddress ==''}">未填写</c:if>
-                    </td>
-                    <td>
-                            ${employee.empdesc}
-                        <c:if test="${empty employee.empdesc or employee.empdesc ==''}">未填写</c:if>
-                    </td>
                     <td class="f-14">
                         <a title="编辑" href="javascript:;" onclick="admin_role_edit('员工编辑','${pro}/employee/toHello.html','1')"
                            style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
@@ -117,7 +104,7 @@
             "bStateSave": true,//状态保存
             "aoColumnDefs": [
                 //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-                {"orderable": false, "aTargets": [0, 8, 9]}// 制定列不参与排序
+                //{"orderable": false, "aTargets": [0, 8, 9]}// 制定列不参与排序
             ]
         });
     });

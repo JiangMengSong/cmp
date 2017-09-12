@@ -79,10 +79,10 @@ public class StudentController {
     @RequestMapping(value = "/toEditStu/{stuId}",produces = "text/html;charset=utf-8")
     public String toEditExp(HttpServletRequest request, @PathVariable Integer stuId,@RequestParam(value = "sel",required = false)Integer sel){
         if (null == request.getSession().getAttribute("emp")) return "redirect:/employee/login/toLogin.html";
-        request.setAttribute("clazzList",clazzService.getClazz(null));
         if (stuId != null && stuId > 0) request.setAttribute("stu",studentService.getStudentById(stuId));
-        if (sel == null) return "student/stu_edit";
-        return "student/stu_detail"; // 返回hello页面
+        if (sel != null) return "student/stu_detail";
+        request.setAttribute("clazzList",clazzService.getClazz(null));
+        return "student/stu_edit";
     }
 
     /**
@@ -96,6 +96,7 @@ public class StudentController {
         result.put("flag",false);
         if (stu == null) return result.toString();
         if (Validity.isEmpty(stu.getStucode())) stu.setStucode(getStuCode());
+        if (Validity.isEmpty(stu.getStuhead())) stu.setStuhead("default.jpg");
         if (stu.getStuid()!=null && stu.getStuid() > 0 && studentService.updateStudent(stu) > 0) result.put("flag",true);
         else if (studentService.addStudent(stu) > 0) result.put("flag",true);
         else result.put("msg","编辑失败,请提交正确的信息");

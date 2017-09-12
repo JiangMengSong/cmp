@@ -1,11 +1,4 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: Administrator
-  Date: 2017/9/2 0002
-  Time: 8:43
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -31,21 +24,20 @@
     </div>
     <div class="cl pd-5 bg-1 bk-gray mt-20">
         <span class="l">
-            <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius">
+            <a href="javascript:;" onclick="" class="btn btn-danger radius">
                 <i class="Hui-iconfont">&#xe6e2;</i> 批量删除
             </a>
-            <a href="javascript:;" onclick="member_add('发布作业','member-add.html','','510')"
+            <a href="javascript:;" onclick=""
                class="btn btn-primary radius">
-                <i class="Hui-iconfont">&#xe600;</i> 添加用户
+                <i class="Hui-iconfont">&#xe600;</i> 发布作业
             </a>
         </span>
-        <span class="r">共有数据：<strong>88</strong> 条</span>
     </div>
     <div class="mt-20">
         <table class="table table-border table-bordered table-hover table-bg table-sort">
             <thead>
             <tr>
-                <th scope="col" colspan="11">学生管理</th>
+                <th scope="col" colspan="11">作业测验</th>
             </tr>
             <tr class="text-c">
                 <th><input type="checkbox" value="" name=""></th>
@@ -84,7 +76,7 @@
                     <td class="f-14">
                         <a title="编辑" href="javascript:;" onclick="stuExp_edit()"
                            style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
-                        <a title="删除" href="javascript:;" onclick="admin_role_del(this,'1')" class="ml-5"
+                        <a title="删除" href="javascript:;" onclick="" class="ml-5"
                            style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
                     </td>
                 </tr>
@@ -103,7 +95,7 @@
             "bStateSave": true,//状态保存
             "aoColumnDefs": [
                 //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-                {"orderable": false, "aTargets": [0, 8, 9]}// 制定列不参与排序
+                //{"orderable": false, "aTargets": [0, 8, 9]}// 制定列不参与排序
             ]
         });
     });
@@ -116,7 +108,7 @@
             maxmin: true,
             shade: 0.4,
             title: "测验编辑",
-            content: "${pro}/employee/toHello.html"
+            content: ""
         });
     }
 </script>
