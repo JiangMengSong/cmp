@@ -28,6 +28,16 @@ public class Search {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date endDate;
 
+    public Search() {
+    }
+
+    public Search(String name, Integer clazzId, Date startDate, Date endDate) {
+        this.name = name;
+        this.clazzId = clazzId;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
     public String getName() {
         return name;
     }

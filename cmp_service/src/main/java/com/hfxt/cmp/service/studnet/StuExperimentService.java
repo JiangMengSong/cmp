@@ -7,7 +7,7 @@ import java.util.List;
 public interface StuExperimentService {
     List<StuExperiment> getStuExperiment();
 
-    int addStuExperiment(StuExperiment stuExp);
+    int addStuExperiment(StuExperiment stuExp,Integer clazzId);
 
     int updateStuExperiment(StuExperiment stuExp);
 
