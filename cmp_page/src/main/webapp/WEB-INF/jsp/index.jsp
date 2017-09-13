@@ -7,8 +7,8 @@
 <%-- 头部 --%>
 <header class="navbar-wrapper">
     <div class="navbar navbar-fixed-top">
-        <div class="container-fluid cl"> <a class="logo navbar-logo f-l mr-10 hidden-xs" href="/aboutHui.shtml">北大青鸟后台数据管理</a> <a class="logo navbar-logo-m f-l mr-10 visible-xs" href="/aboutHui.shtml">H-ui</a>
-            <span class="logo navbar-slogan f-l mr-10 hidden-xs">v1.0</span>
+        <div class="container-fluid cl"> <a class="logo navbar-logo f-l mr-10 hidden-xs" href="/aboutHui.shtml">H-ui.admin</a> <a class="logo navbar-logo-m f-l mr-10 visible-xs" href="/aboutHui.shtml">H-ui</a>
+            <span class="logo navbar-slogan f-l mr-10 hidden-xs">v3.1</span>
             <a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" href="javascript:;">&#xe667;</a>
             <nav class="nav navbar-nav">
                 <ul class="cl">
@@ -94,7 +94,9 @@
             <dt><i class="Hui-iconfont">&#xe62e;</i> 系统管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
                 <ul>
-                    <li><a data-href="system-base.html" data-title="系统设置" href="javascript:void(0)">系统设置</a></li>
+                    <li><a data-href="system-base.html" data-title="班级人数柱状图" href="${pro}/clazz/zhu.html">班级人数柱状图</a></li>
+                    <li><a data-href="system-base.html" data-title="班级人数饼状图" href="${pro}/clazz/bing.html">班级人数饼状图</a></li>
+                    <li><a data-href="system-base.html" data-title="班级人数折线图" href="${pro}/clazz/zhe.html">班级人数折线图</a></li>
                 </ul>
             </dd>
         </dl>
