@@ -51,7 +51,7 @@
             <td>${employee.empphone}</td>
         </tr>
         <tr>
-            <th class="text-r">紧急联系电话：</th>
+            <th class="text-r">：</th>
             <td>${employee}</td>
         </tr>
         <tr>
