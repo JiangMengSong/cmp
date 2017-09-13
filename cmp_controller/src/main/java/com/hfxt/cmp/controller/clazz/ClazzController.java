@@ -1,6 +1,6 @@
 package com.hfxt.cmp.controller.clazz;
 
-import java.util.List;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hfxt.cmp.model.Clazz;
+import com.hfxt.cmp.model.EchartData;
+import com.hfxt.cmp.model.Series;
 import com.hfxt.cmp.service.clazz.ClazzService;
 import com.hfxt.cmp.service.major.MajorService;
 
@@ -94,5 +96,79 @@ public class ClazzController extends BaseController {
         if (null == employee) return toLogin;
         request.setAttribute("clazz",clazzService.selectByPrimaryKey(clazzId));
         return "clazz/clazz-show"; // 返回hello页面
+    }
+    //柱状图
+    @RequestMapping(value = "/getEcharsByZhu")
+    @ResponseBody
+    public EchartData BarData(Clazz clazz) {
+        System.out.println("柱状图");
+        List<String> category = new ArrayList<String>();
+        List<Long> serisData=new ArrayList<Long>();
+        List<Clazz> list = clazzService.getClazz(clazz);
+        for (Clazz totalNum : list) {
+            category.add(totalNum.getClassname());
+            serisData.add(Long.parseLong(totalNum.getStunum().toString()));
+        }
+        List<String> legend = new ArrayList<String>(Arrays.asList(new String[] { "总人数" }));// 数据分组
+        List<Series> series = new ArrayList<Series>();// 纵坐标
+        series.add(new Series("总人数", "bar", serisData));
+        EchartData data = new EchartData(legend, category, series);
+        return data;
+    }
+    /**
+     * 饼状图
+     * @param <T>
+     * @return
+     */
+    @RequestMapping("/getEcharsByBing")
+    @ResponseBody
+    public EchartData PieData(Clazz clazz) {
+        List<String> legend = new ArrayList<String>();
+        List<Map> serisData=new ArrayList<Map>();
+
+        List<Clazz> list = clazzService.getClazz(clazz);
+        for (Clazz visit : list) {
+            Map map =new HashMap();
+            legend.add(visit.getClassname());
+            map.put("value", visit.getStunum());
+            map.put("name",visit.getClassname());
+            serisData.add(map);
+        }
+        List<Series> series = new ArrayList<Series>();// 纵坐标
+        series.add(new Series("总人数", "pie",serisData));
+        EchartData data = new EchartData(legend,null, series);
+        return data;
+    }
+
+
+    @RequestMapping("/getEcharsByZhe")
+    @ResponseBody
+    public EchartData lineData(Clazz clazz) {
+        System.out.println("折线图");
+        List<String> category = new ArrayList<String>();
+        List<Long> serisData=new ArrayList<Long>();
+        List<Clazz> list = clazzService.getClazz(clazz);
+        for (Clazz totalNum : list) {
+            category.add(totalNum.getClassname());
+            serisData.add(Long.parseLong(totalNum.getStunum().toString()));
+        }
+        List<String> legend = new ArrayList<String>(Arrays.asList(new String[] { "总人数" }));// 数据分组
+        List<Series> series = new ArrayList<Series>();// 纵坐标
+        series.add(new Series("总人数", "line", serisData));
+        EchartData data = new EchartData(legend, category, series);
+        return data;
+    }
+
+    @RequestMapping(value = "/zhu.html", produces = "text/html;charset=UTF-8")
+    public String zhu() {
+        return "clazz/zhutu";
+    }
+    @RequestMapping(value = "/zhe.html", produces = "text/html;charset=UTF-8")
+    public String zhe() {
+        return "clazz/zhetu";
+    }
+    @RequestMapping(value = "/bing.html", produces = "text/html;charset=UTF-8")
+    public String bing() {
+        return "clazz/bingtu";
     }
 }

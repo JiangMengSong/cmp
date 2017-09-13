@@ -13,7 +13,7 @@
     <link href="${pro}/resources/h-ui.admin/css/H-ui.login.css" rel="stylesheet" type="text/css" />
     <link href="${pro}/resources/h-ui.admin/css/style.css" rel="stylesheet" type="text/css" />
     <link href="${pro}/resources/lib/Hui-iconfont/1.0.8/iconfont.css" rel="stylesheet" type="text/css" />
-    <title>后台登录</title>
+    <title>后台登录 - H-ui.admin v3.1</title>
 </head>
 <body>
 <input type="hidden" id="TenantId" name="TenantId" value="" />
@@ -33,6 +33,11 @@
                     <input id="loginpwd" name="loginpwd" type="password" placeholder="密码" class="input-text size-L">
                 </div>
             </div>
+            <%--<div class="row cl">--%>
+                <%--<div class="formControls col-xs-8 col-xs-offset-3">--%>
+                    <%--<input class="input-text size-L" type="text" placeholder="验证码" onblur="if(this.value==''){this.value='验证码:'}" onclick="if(this.value=='验证码:'){this.value='';}" value="验证码:" style="width:150px;">--%>
+                    <%--<img src=""> <a id="kanbuq" href="javascript:;">看不清，换一张</a> </div>--%>
+            <%--</div>--%>
             <div class="row cl">
                 <div class="formControls col-xs-8 col-xs-offset-3">
                     <label for="online">

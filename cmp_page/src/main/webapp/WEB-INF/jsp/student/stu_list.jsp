@@ -24,7 +24,7 @@
     </div>
     <div class="cl pd-5 bg-1 bk-gray mt-20">
         <span class="l">
-            <a href="javascript:;" onclick="stu_del(0)" class="btn btn-danger radius">
+            <a href="javascript:;" onclick="data_del()" class="btn btn-danger radius">
                 <i class="Hui-iconfont">&#xe6e2;</i> 批量删除
             </a>
             <a href="javascript:;" onclick="stu_edit(0)"
@@ -117,28 +117,12 @@
         });
     }
 
-    /* 删除学生 */
+    /* 删除单个学生 */
     function stu_del(stuId) {
-        layer.confirm('确认要删除吗？,删除后将无法恢复!!',function(index){
-            var url = '${pro}/student/delStu/'+stuId;
-            var stuData = "";
-            if (isEmpty(stuId) || stuId < 1){
-                if ($("input[name=stuId]:checked").length < 1){
-                    alert("请选择需要删除的列")
-                    return false;
-                }
-                url = '${pro}/student/delStudent';
-                var studentId = new Array()
-                $.each($("input[name=stuId]:checked"),function () {
-                    studentId.push($(this).val());
-                })
-                stuData={'stuId':studentId};
-            }
-            //$(".layui-layer-btn1").click();
+        if(confirm('确认要删除吗？')) {
             $.ajax({
                 type: 'POST',
-                url: url,
-                data : stuData,
+                url: '${pro}/student/delStu/'+stuId,
                 dataType: 'json',
                 success: function (data) {
                     if (data.flag){
@@ -150,7 +134,32 @@
                     console.log(data.msg);
                 },
             })
-        });
+        }
+    }
+
+    /* 批量删除学生 */
+    function data_del() {
+        var stuId = new Array();
+        $.each($("input[name=stuId]:checked"),function () {
+            stuId.push($(this).val());
+        })
+        if(confirm('确认要删除吗？')) {
+            $.ajax({
+                type: 'POST',
+                url: '${pro}/student/delStudent',
+                data:{"stuId" : stuId},
+                dataType: 'json',
+                success: function (data) {
+                    if (data.flag){
+                        alert("删除成功");
+                        location.replace(location.href);
+                    } else alert("删除失败")
+                },
+                error: function (data) {
+                    console.log(data.msg);
+                },
+            })
+        }
     }
 </script>
 </body>

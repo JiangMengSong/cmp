@@ -36,9 +36,9 @@
     where stuCheckingId = #{stucheckingid,jdbcType=INTEGER}
   </delete>
     <insert id="insert" parameterType="com.hfxt.cmp.model.StuChecking">
-    insert into tb_student_checking (stuCheckingId, stuId, cheTime,
+    insert into tb_student_checking (stuCheckingId, stuId, cheTime, 
       cheStatus, stuCheckingDesc)
-    values (#{stucheckingid,jdbcType=INTEGER}, #{stuid,jdbcType=INTEGER}, #{chetime,jdbcType=TIMESTAMP},
+    values (#{stucheckingid,jdbcType=INTEGER}, #{stuid,jdbcType=INTEGER}, #{chetime,jdbcType=TIMESTAMP}, 
       #{chestatus,jdbcType=INTEGER}, #{stucheckingdesc,jdbcType=VARCHAR})
   </insert>
     <insert id="insertSelective" parameterType="com.hfxt.cmp.model.StuChecking">

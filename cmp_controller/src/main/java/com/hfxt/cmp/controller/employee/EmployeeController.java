@@ -1,6 +1,5 @@
 package com.hfxt.cmp.controller.employee;
 
-import com.hfxt.cmp.controller.BaseController;
 import com.hfxt.cmp.model.Employee;
 import com.hfxt.cmp.service.employee.EmployeeService;
 import common.utils.CookieUtil;
@@ -8,7 +7,6 @@ import common.utils.Validity;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,21 +20,16 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/employee")
-@Scope("prototype")
-public class EmployeeController extends BaseController {
+public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
-
-    public EmployeeController(HttpSession session) {
-        super(session);
-    }
 
     /**
      * 跳转登录
      * */
     @RequestMapping(value = "/login/toLogin.html",produces = "text/html;charset=utf-8")
     public String toLogin(HttpServletRequest request){
-        if (null != employee) return "index";
+        if (null != request.getSession().getAttribute("emp")) return "index";
         Cookie ckEmpName = CookieUtil.getCookieByName(request,"empName"); // 获取登录名Cookie信息
         Cookie ckEmpPwd = CookieUtil.getCookieByName(request,"empPwd"); // 获取登录密码Cookie信息
         // 判断是否为空
@@ -57,7 +50,7 @@ public class EmployeeController extends BaseController {
     @RequestMapping(value = "/login/doLogin.html",produces = "text/html;charset=utf-8")
     @ResponseBody
     public String doLogin(HttpServletResponse response, HttpSession session, Employee loginEmp , @RequestParam(value = "loginCheck",required = false) String loginCheck){
-       JSONObject result = new JSONObject(); // 返回JSON格式数据
+        JSONObject result = new JSONObject(); // 返回JSON格式数据
         result.put("flag",false); // 默认登录失败
         // 验证用户名与密码是否为空
         if (Validity.isEmpty(loginEmp) || Validity.isEmpty(loginEmp.getLoginname()) || Validity.isEmpty(loginEmp.getLoginpwd())){
@@ -91,7 +84,6 @@ public class EmployeeController extends BaseController {
         session.removeAttribute("emp"); // 移除当前用户信息
         CookieUtil.addCookie(response,"empName",null,0); // 移除Cookie登录名信息
         CookieUtil.addCookie(response,"empPwd",null,0); // 移除Cookie登录密码信息
-        if (null != employee) employee = null;
         return new JSONObject().put("flag",true).toString();
     }
 
@@ -100,7 +92,7 @@ public class EmployeeController extends BaseController {
      * */
     @RequestMapping(value = "/toIndex.html",produces = "text/html;charset=utf-8")
     public String toIndex(HttpServletRequest request){
-        if (null == employee) return toLogin;
+        if (null == request.getSession().getAttribute("emp")) return "redirect:/employee/login/toLogin.html";
         return "index"; // 跳转首页
     }
 
@@ -109,7 +101,7 @@ public class EmployeeController extends BaseController {
      * */
     @RequestMapping(value = "/toHello.html",produces = "text/html;charset=utf-8")
     public String toHello(HttpServletRequest request){
-        if (null == employee) return toLogin;
+        if (null == request.getSession().getAttribute("emp")) return "redirect:/employee/login/toLogin.html";
         return "hello"; // 返回hello页面
     }
 
@@ -118,7 +110,7 @@ public class EmployeeController extends BaseController {
      * */
     @RequestMapping(value = "/empList.html",produces = "text/html;charset=utf-8")
     public String empList(HttpServletRequest request){
-        if (null == employee) return toLogin;
+        if (null == request.getSession().getAttribute("emp")) return "redirect:/employee/login/toLogin.html";
         request.setAttribute("empList",employeeService.getEmployee());
         return "employee/emp_list";
     }
@@ -129,7 +121,7 @@ public class EmployeeController extends BaseController {
     @RequestMapping(value = "/delEmp/{empId}",produces = "text/html;charset=utf-8")
     @ResponseBody
     public String delEmp(HttpSession session, @PathVariable Integer empId){
-        if (null == employee) return toLogin;
+        if (null == session.getAttribute("emp")) return "redirect:/employee/login/toLogin.html";
         JSONObject result = new JSONObject();
         result.put("flag",false);
         if (null == empId || empId < 1) return result.toString();

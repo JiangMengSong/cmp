@@ -17,7 +17,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </head>
 <body>
 <div class="cl pd-20" style=" background-color:#5bacb6">
-	<img class="avatar size-XL l" src="static/h-ui/images/ucnter/avatar-default.jpg">
+
 	<dl style="margin-left:80px; color:#fff">
 		<dt>
 			<span class="f-18">${clazz.classname }</span>

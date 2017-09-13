@@ -25,6 +25,7 @@ import com.hfxt.cmp.service.studnet.StudentService;
 @Controller
 @RequestMapping("/interview")
 public class InterviewController {
+
 	@Autowired
 	InterviewService interviewService;
 	@Autowired
@@ -51,7 +52,7 @@ public class InterviewController {
     public String toAddInterview(HttpServletRequest request, @PathVariable Integer inteid){
         if (null == request.getSession().getAttribute("emp")) return "redirect:/employee/login/toLogin.html";
         if (inteid != null && inteid > 0) request.setAttribute("interview",interviewService.selectByPrimaryKey(inteid));
-        request.setAttribute("studentList",studentService.getStudent(null));
+        request.setAttribute("studentList",studentService.getStudent());
         request.setAttribute("employeeList",employeeService.getEmployee());
         return "interview/interview-add"; // 返回hello页面
     }

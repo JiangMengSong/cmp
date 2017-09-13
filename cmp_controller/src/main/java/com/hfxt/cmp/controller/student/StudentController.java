@@ -1,12 +1,10 @@
 package com.hfxt.cmp.controller.student;
 
-import com.hfxt.cmp.controller.BaseController;
 import com.hfxt.cmp.model.Student;
 import com.hfxt.cmp.service.clazz.ClazzService;
 import com.hfxt.cmp.service.studnet.StudentService;
 import common.utils.Validity;
 import org.json.JSONObject;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,24 +18,19 @@ import java.util.Random;
 
 @Controller
 @RequestMapping("/student")
-@Scope("prototype")
-public class StudentController extends BaseController {
+public class StudentController {
     @Resource(name = "studentService")
     private StudentService studentService;
     @Resource(name = "clazzService")
     private ClazzService clazzService;
-
-    public StudentController(HttpSession session) {
-        super(session);
-    }
 
     /**
      * 学生列表
      * */
     @RequestMapping(value = "/stuList.html",produces = "text/html;charset=utf-8")
     public String stuList(HttpServletRequest request){
-        if (null == employee) return toLogin;
-        request.setAttribute("stuList",studentService.getStudent(null));
+        if (null == request.getSession().getAttribute("emp")) return "redirect:/employee/login/toLogin.html";
+        request.setAttribute("stuList",studentService.getStudent());
         return "student/stu_list"; // 返回hello页面
     }
 
@@ -47,7 +40,7 @@ public class StudentController extends BaseController {
     @RequestMapping(value = "/delStu/{stuId}",produces = "text/html;charset=utf-8")
     @ResponseBody
     public String delStu(HttpSession session, @PathVariable Integer stuId){
-        if (null == employee) return toLogin;
+        if (null == session.getAttribute("emp")) return "redirect:/employee/login/toLogin.html";
         JSONObject result = new JSONObject();
         result.put("flag",false);
         if (null == stuId || stuId < 1) return result.toString();
@@ -61,7 +54,7 @@ public class StudentController extends BaseController {
     @RequestMapping(value = "/delStudent",produces = "text/html;charset=utf-8")
     @ResponseBody
     public String delStudent(HttpSession session, @RequestParam("stuId[]") Integer[] stuId){
-        if (null == employee) return toLogin;
+        if (null == session.getAttribute("emp")) return "redirect:/employee/login/toLogin.html";
         JSONObject result = new JSONObject();
         result.put("flag",false);
         if(stuId == null || stuId.length == 0) return result.toString();
@@ -85,11 +78,11 @@ public class StudentController extends BaseController {
      */
     @RequestMapping(value = "/toEditStu/{stuId}",produces = "text/html;charset=utf-8")
     public String toEditExp(HttpServletRequest request, @PathVariable Integer stuId,@RequestParam(value = "sel",required = false)Integer sel){
-        if (null == employee) return toLogin;
-        if (stuId != null && stuId > 0) request.setAttribute("stu",studentService.getStuById(stuId));
-        if (sel != null) return "student/stu_detail";
+        if (null == request.getSession().getAttribute("emp")) return "redirect:/employee/login/toLogin.html";
         request.setAttribute("clazzList",clazzService.getClazz(null));
-        return "student/stu_edit";
+        if (stuId != null && stuId > 0) request.setAttribute("stu",studentService.getStudentById(stuId));
+        if (sel == null) return "student/stu_edit";
+        return "student/stu_detail"; // 返回hello页面
     }
 
     /**
@@ -98,12 +91,11 @@ public class StudentController extends BaseController {
     @RequestMapping(value = "/editStu.html",produces = "text/html;charset=utf-8")
     @ResponseBody
     public String editStu(HttpSession session,Student stu){
-        if (null == employee) return toLogin;
+        if (null == session.getAttribute("emp")) return "redirect:/employee/login/toLogin.html";
         JSONObject result = new JSONObject();
         result.put("flag",false);
         if (stu == null) return result.toString();
         if (Validity.isEmpty(stu.getStucode())) stu.setStucode(getStuCode());
-        if (Validity.isEmpty(stu.getStuhead())) stu.setStuhead("default.jpg");
         if (stu.getStuid()!=null && stu.getStuid() > 0 && studentService.updateStudent(stu) > 0) result.put("flag",true);
         else if (studentService.addStudent(stu) > 0) result.put("flag",true);
         else result.put("msg","编辑失败,请提交正确的信息");
