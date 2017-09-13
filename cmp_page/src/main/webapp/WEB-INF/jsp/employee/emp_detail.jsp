@@ -52,7 +52,7 @@
         </tr>
         <tr>
             <th class="text-r">紧急联系电话：</th>
-            <td>${employee.stucontact}</td>
+            <td>${employee}</td>
         </tr>
         <tr>
             <th class="text-r">住址：</th>
