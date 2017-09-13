@@ -78,6 +78,9 @@
             <dd>
                 <ul>
                     <li><a data-href="${pro}/clazz/clazzList.html" data-title="班级管理" href="javascript:;">班级管理</a></li>
+                    <li><a data-href="${pro}/clazz/zhu.html" data-title="人数柱状图">人数柱状图</a></li>
+                    <li><a data-href="${pro}/clazz/bing.html" data-title="人数饼状图">人数饼状图</a></li>
+                    <li><a data-href="${pro}/clazz/zhe.html" data-title="人数折线图">人数折线图</a></li>
                 </ul>
             </dd>
         </dl>
@@ -87,16 +90,6 @@
                 <ul>
                     <li><a data-href="${pro}/empcheck/getEmpCheck.html" data-title="职工考勤" href="javascript:void(0)">职工考勤</a></li>
                     <li><a data-href="${pro}/stucheck/getStuCheck.html" data-title="学生考勤" href="javascript:void(0)">学生考勤</a></li>
-                </ul>
-            </dd>
-        </dl>
-        <dl id="menu-system">
-            <dt><i class="Hui-iconfont">&#xe62e;</i> 系统管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
-            <dd>
-                <ul>
-                    <li><a data-href="system-base.html" data-title="班级人数柱状图" href="${pro}/clazz/zhu.html">班级人数柱状图</a></li>
-                    <li><a data-href="system-base.html" data-title="班级人数饼状图" href="${pro}/clazz/bing.html">班级人数饼状图</a></li>
-                    <li><a data-href="system-base.html" data-title="班级人数折线图" href="${pro}/clazz/zhe.html">班级人数折线图</a></li>
                 </ul>
             </dd>
         </dl>

@@ -18,18 +18,18 @@
         where empCheckingId = #{empcheckingid,jdbcType=INTEGER}
     </select>
 
-    <select id="getEmpCheck"  parameterType="com.hfxt.cmp.model.EmpChecking"  resultMap="EmpCheckingBean">
+    <select id="getEmpCheck" parameterType="com.hfxt.cmp.model.EmpChecking" resultMap="EmpCheckingBean">
         select *
         from tb_employee_checking
         inner join tb_employee on tb_employee_checking.empId = tb_employee.empId
-      <!--  <if test="empcheck">
-        <where>
-            <if test="empcheck.employee.empid!= null">
-                empid=#{empid}
-            </if>
+        <!--  <if test="empcheck">
+          <where>
+              <if test="empcheck.employee.empid!= null">
+                  empid=#{empid}
+              </if>
 
-        </where>
-        </if>-->
+          </where>
+          </if>-->
     </select>
 
 
@@ -38,11 +38,11 @@
         where empCheckingId = #{empcheckingid,jdbcType=INTEGER}
     </delete>
     <insert id="insert" parameterType="com.hfxt.cmp.model.EmpChecking">
-    insert into tb_employee_checking (empCheckingId, empId, cheTime, 
-      cheStatus, empCheckDesc)
-    values (#{empcheckingid,jdbcType=INTEGER}, #{empid,jdbcType=INTEGER}, #{chetime,jdbcType=TIMESTAMP}, 
-      #{chestatus,jdbcType=INTEGER}, #{empcheckdesc,jdbcType=VARCHAR})
-  </insert>
+        insert into tb_employee_checking (empCheckingId, empId, cheTime,
+        cheStatus, empCheckDesc)
+        values (#{empcheckingid,jdbcType=INTEGER}, #{empid,jdbcType=INTEGER}, #{chetime,jdbcType=TIMESTAMP},
+        #{chestatus,jdbcType=INTEGER}, #{empcheckdesc,jdbcType=VARCHAR})
+    </insert>
     <insert id="insertSelective" parameterType="com.hfxt.cmp.model.EmpChecking">
         insert into tb_employee_checking
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -99,11 +99,11 @@
         where empCheckingId = #{empcheckingid,jdbcType=INTEGER}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.hfxt.cmp.model.EmpChecking">
-    update tb_employee_checking
-    set empId = #{empid,jdbcType=INTEGER},
-      cheTime = #{chetime,jdbcType=TIMESTAMP},
-      cheStatus = #{chestatus,jdbcType=INTEGER},
-      empCheckDesc = #{empcheckdesc,jdbcType=VARCHAR}
-    where empCheckingId = #{empcheckingid,jdbcType=INTEGER}
-  </update>
+        update tb_employee_checking
+        set empId = #{empid,jdbcType=INTEGER},
+        cheTime = #{chetime,jdbcType=TIMESTAMP},
+        cheStatus = #{chestatus,jdbcType=INTEGER},
+        empCheckDesc = #{empcheckdesc,jdbcType=VARCHAR}
+        where empCheckingId = #{empcheckingid,jdbcType=INTEGER}
+    </update>
 </mapper>
