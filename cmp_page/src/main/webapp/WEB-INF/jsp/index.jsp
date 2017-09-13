@@ -94,7 +94,9 @@
             <dt><i class="Hui-iconfont">&#xe62e;</i> 系统管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
                 <ul>
-                    <li><a data-href="system-base.html" data-title="系统设置" href="javascript:void(0)">系统设置</a></li>
+                    <li><a data-href="system-base.html" data-title="班级人数柱状图" href="${pro}/clazz/zhu.html">班级人数柱状图</a></li>
+                    <li><a data-href="system-base.html" data-title="班级人数饼状图" href="${pro}/clazz/bing.html">班级人数饼状图</a></li>
+                    <li><a data-href="system-base.html" data-title="班级人数折线图" href="${pro}/clazz/zhe.html">班级人数折线图</a></li>
                 </ul>
             </dd>
         </dl>
