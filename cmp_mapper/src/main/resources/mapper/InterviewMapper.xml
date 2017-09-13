@@ -19,16 +19,16 @@
         inteId, inteTime, stuId, inteDesc, empId
     </sql>
     <select id="getInterview" resultMap="InterviewBean">
-  		select * from tb_interview
-  		inner join tb_student on tb_interview.stuId = tb_student.stuId
-  		inner join tb_employee on tb_interview.empId = tb_employee.empId where 1=1  	
-    	<if test="student != null and student.stuname != null" >
-       		and stuName like concat('%',#{student.stuname,jdbcType=VARCHAR},'%') 
-   		</if>
-    	<if test="employee != null and employee.empname != null" >
-       		and empName like concat('%',#{employee.empname,jdbcType=VARCHAR},'%') 
-    	</if>
- 	</select>
+        select * from tb_interview
+        inner join tb_student on tb_interview.stuId = tb_student.stuId
+        inner join tb_employee on tb_interview.empId = tb_employee.empId where 1=1
+        <if test="student != null and student.stuname != null">
+            and stuName like concat('%',#{student.stuname,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="employee != null and employee.empname != null">
+            and empName like concat('%',#{employee.empname,jdbcType=VARCHAR},'%')
+        </if>
+    </select>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="InterviewBean">
         select *
         <!-- <include refid="Base_Column_List"/> -->
@@ -38,15 +38,15 @@
         where i.inteId = #{inteid,jdbcType=INTEGER}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from tb_interview
-    where inteId = #{inteid,jdbcType=INTEGER}
-  </delete>
+        delete from tb_interview
+        where inteId = #{inteid,jdbcType=INTEGER}
+    </delete>
     <insert id="insert" parameterType="com.hfxt.cmp.model.Interview">
-    insert into tb_interview (inteTime, stuId, 
-      inteDesc, empId)
-    values (#{intetime,jdbcType=TIMESTAMP}, #{stuid,jdbcType=INTEGER}, 
-      #{intedesc,jdbcType=VARCHAR}, #{empid,jdbcType=INTEGER})
-  </insert>
+        insert into tb_interview (inteTime, stuId,
+        inteDesc, empId)
+        values (#{intetime,jdbcType=TIMESTAMP}, #{stuid,jdbcType=INTEGER},
+        #{intedesc,jdbcType=VARCHAR}, #{empid,jdbcType=INTEGER})
+    </insert>
     <insert id="insertSelective" parameterType="com.hfxt.cmp.model.Interview">
         insert into tb_interview
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -97,11 +97,11 @@
         where inteId = #{inteid,jdbcType=INTEGER}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.hfxt.cmp.model.Interview">
-    update tb_interview
-    set inteTime = #{intetime,jdbcType=TIMESTAMP},
-      stuId = #{stuid,jdbcType=INTEGER},
-      inteDesc = #{intedesc,jdbcType=VARCHAR},
-      empId = #{empid,jdbcType=INTEGER}
-    where inteId = #{inteid,jdbcType=INTEGER}
-  </update>
+        update tb_interview
+        set inteTime = #{intetime,jdbcType=TIMESTAMP},
+        stuId = #{stuid,jdbcType=INTEGER},
+        inteDesc = #{intedesc,jdbcType=VARCHAR},
+        empId = #{empid,jdbcType=INTEGER}
+        where inteId = #{inteid,jdbcType=INTEGER}
+    </update>
 </mapper>

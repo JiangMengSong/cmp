@@ -4,19 +4,14 @@ import com.hfxt.cmp.model.Employee;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface EmployeeMapper {
-    int deleteByPrimaryKey(Integer empid);
 
-    int insert(Employee record);
-
-    int insertSelective(Employee record);
-
-    Employee selectByPrimaryKey(Integer empid);
-
-    int updateByPrimaryKeySelective(Employee record);
-
-    int updateByPrimaryKey(Employee record);
+    /**
+     * 添加员工信息
+     */
+    int addEmployee(@Param("emp") Employee emp);
 
     /**
      * 登录方法
@@ -31,5 +26,10 @@ public interface EmployeeMapper {
     /**
      * 删除员工方法
      */
-    int delEmployee(@Param("empId")Integer empId);
+    int delEmployee(@Param("map")Map<String,Object> map);
+
+    /**
+     * 修改员工信息
+     */
+    int updateEmployee(@Param("emp")Employee emp);
 }

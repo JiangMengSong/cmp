@@ -10,6 +10,7 @@
         <result column="empSex" jdbcType="INTEGER" property="empsex"/>
         <result column="empBirth" jdbcType="TIMESTAMP" property="empbirth"/>
         <result column="empStauts" jdbcType="INTEGER" property="empstauts"/>
+        <result column="empHead" jdbcType="VARCHAR" property="emphead"/>
         <result column="empDesc" jdbcType="VARCHAR" property="empdesc"/>
         <result column="empQQ" jdbcType="VARCHAR" property="empqq"/>
         <result column="empEntryTime" jdbcType="TIMESTAMP" property="empentrytime"/>
@@ -18,16 +19,6 @@
         <result column="empPhone" jdbcType="VARCHAR" property="empphone"/>
         <result column="empRole" jdbcType="INTEGER" property="emprole"/>
     </resultMap>
-    <sql id="Base_Column_List">
-        empId, empName, loginName, loginPwd, empAddress, empSex, empBirth, empStauts, empDesc, empQQ,
-        empEntryTime, empMajor, empEmail, empPhone, empRole
-    </sql>
-    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="EmployeeBean">
-        select
-        <include refid="Base_Column_List"/>
-        from tb_employee
-        where empId = #{empid,jdbcType=INTEGER}
-    </select>
     <select id="getEmployeeByName" resultMap="EmployeeBean">
          select empId, empName, loginName, loginPwd ,empRole from tb_employee
          where loginName = #{loginName}
@@ -35,77 +26,75 @@
     <select id="getEmployee" resultMap="EmployeeBean">
         select * from tb_employee
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from tb_employee
-    where empId = #{empid,jdbcType=INTEGER}
-  </delete>
-    <delete id="delEmployee">
-        delete from tb_employee where empId = #{empId}
+    <delete id="delEmployee" statementType="CALLABLE" parameterType="java.util.Map">
+        {
+          call del_employee(
+            #{map.empId,jdbcType=INTEGER,mode=IN},#{map.delCount,jdbcType=INTEGER,mode=OUT}
+          )
+        }
     </delete>
-    <insert id="insert" parameterType="com.hfxt.cmp.model.Employee">
+    <insert id="addEmployee" parameterType="com.hfxt.cmp.model.Employee">
     insert into tb_employee (empId, empName, loginName, 
       loginPwd, empAddress, empSex, 
       empBirth, empStauts, empDesc, empQQ,
       empEntryTime, empMajor, empEmail, 
-      empPhone, empRole)
-    values (#{empid,jdbcType=INTEGER}, #{empname,jdbcType=VARCHAR}, #{loginname,jdbcType=VARCHAR}, 
-      #{loginpwd,jdbcType=VARCHAR}, #{empaddress,jdbcType=VARCHAR}, #{empsex,jdbcType=INTEGER}, 
-      #{empbirth,jdbcType=TIMESTAMP}, #{empstauts,jdbcType=INTEGER}, #{empdesc,jdbcType=VARCHAR},
-      #{empqq,jdbcType=VARCHAR}, #{empentrytime,jdbcType=TIMESTAMP}, #{empmajor,jdbcType=VARCHAR},
-      #{empemail,jdbcType=VARCHAR}, #{empphone,jdbcType=VARCHAR}, #{emprole,jdbcType=INTEGER})
+      empPhone, empRole,empHead)
+    values (#{emp.empid,jdbcType=INTEGER}, #{emp.empname,jdbcType=VARCHAR}, #{emp.loginname,jdbcType=VARCHAR},
+      #{emp.loginpwd,jdbcType=VARCHAR}, #{emp.empaddress,jdbcType=VARCHAR}, #{emp.empsex,jdbcType=INTEGER},
+      #{emp.empbirth,jdbcType=TIMESTAMP}, #{emp.empstauts,jdbcType=INTEGER}, #{emp.empdesc,jdbcType=VARCHAR},
+      #{emp.empqq,jdbcType=VARCHAR}, #{emp.empentrytime,jdbcType=TIMESTAMP}, #{emp.empmajor,jdbcType=VARCHAR},
+      #{emp.empemail,jdbcType=VARCHAR}, #{emp.empphone,jdbcType=VARCHAR}, #{emp.emprole,jdbcType=INTEGER}
+      #{emp.emphead,jdbcType=VARCHAR})
   </insert>
-    <insert id="insertSelective" parameterType="com.hfxt.cmp.model.Employee">
-
-    </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.hfxt.cmp.model.Employee">
+    <update id="updateEmployee">
         update tb_employee
         <set>
-            <if test="empname != null">
-                empName = #{empname,jdbcType=VARCHAR},
+            <if test="emp.empname != null and emp.empname != ''">
+                empName = #{emp.empname,jdbcType=VARCHAR},
             </if>
-            <if test="loginname != null">
-                loginName = #{loginname,jdbcType=VARCHAR},
+            <if test="emp.loginname != null and emp.loginname != ''">
+                loginName = #{emp.loginname,jdbcType=VARCHAR},
             </if>
-            <if test="loginpwd != null">
-                loginPwd = #{loginpwd,jdbcType=VARCHAR},
+            <if test="emp.loginpwd != null and emp.loginpwd != ''">
+                loginPwd = #{emp.loginpwd,jdbcType=VARCHAR},
             </if>
-            <if test="empaddress != null">
-                empAddress = #{empaddress,jdbcType=VARCHAR},
+            <if test="emp.empaddress != null and emp.empaddress != ''">
+                empAddress = #{emp.empaddress,jdbcType=VARCHAR},
             </if>
-            <if test="empsex != null">
-                empSex = #{empsex,jdbcType=INTEGER},
+            <if test="emp.empsex != null and emp.empsex &gt; 0 and emp.empsex &lt; 2">
+                empSex = #{emp.empsex,jdbcType=INTEGER},
             </if>
-            <if test="empbirth != null">
-                empBirth = #{empbirth,jdbcType=TIMESTAMP},
+            <if test="emp.empbirth != null and emp.empbirth != ''">
+                empBirth = #{emp.empbirth,jdbcType=TIMESTAMP},
             </if>
-            <if test="empstauts != null">
-                empStauts = #{empstauts,jdbcType=INTEGER}
+            <if test="emp.empstauts != null and emp.empstauts &gt; 0 and emp.empstauts &lt; 2">
+                empStauts = #{emp.empstauts,jdbcType=INTEGER}
             </if>
-            <if test="empdesc != null">
-                empDesc = #{empdesc,jdbcType=VARCHAR},
+            <if test="emp.empdesc != null and emp.empdesc != ''">
+                empDesc = #{emp.empdesc,jdbcType=VARCHAR},
             </if>
-            <if test="empqq != null">
-                empQQ = #{empqq,jdbcType=VARCHAR},
+            <if test="emp.empqq != null and emp. != ''">
+                empQQ = #{emp.empqq,jdbcType=VARCHAR},
             </if>
-            <if test="empentrytime != null">
-                empEntryTime = #{empentrytime,jdbcType=TIMESTAMP},
+            <if test="emp.empentrytime != null and emp.empentrytime != ''">
+                empEntryTime = #{emp.empentrytime,jdbcType=TIMESTAMP},
             </if>
-            <if test="empmajor != null">
-                empMajor = #{empmajor,jdbcType=VARCHAR},
+            <if test="emp.empmajor != null and emp.empmajor != ''">
+                empMajor = #{emp.empmajor,jdbcType=VARCHAR},
             </if>
-            <if test="empemail != null">
-                empEmail = #{empemail,jdbcType=VARCHAR},
+            <if test="emp.empemail != null and emp.empemail != ''">
+                empEmail = #{emp.empemail,jdbcType=VARCHAR},
             </if>
-            <if test="empphone != null">
-                empPhone = #{empphone,jdbcType=VARCHAR},
+            <if test="emp.empphone != null and emp.empphone != ''">
+                empPhone = #{emp.empphone,jdbcType=VARCHAR},
             </if>
-            <if test="emprole != null">
-                empRole = #{emprole,jdbcType=INTEGER},
+            <if test="emp.emprole != null and emp.empstauts &gt; 0 and emp.empstauts &lt; 5">
+                empRole = #{emp.emprole,jdbcType=INTEGER},
+            </if>
+            <if test="emp.emphead != null and emp.emphead != ''">
+                empHead = #{emp.emphead,jdbcType=VARCHAR},
             </if>
         </set>
-        where empId = #{empid,jdbcType=INTEGER}
+        where empId = #{emp.empid,jdbcType=INTEGER}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.hfxt.cmp.model.Employee">
-
-  </update>
 </mapper>

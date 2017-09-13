@@ -41,8 +41,8 @@ body {
 
 .loginBox {
     position: absolute;
-    width: 617px;
-    height: 330px;
+    width: 600px;
+    height: 275px;
     background: url(../images/admin-loginform-bg.png) no-repeat;
     left: 50%;
     top: 50%;

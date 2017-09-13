@@ -12,15 +12,6 @@
         <collection property="subject" resultMap="com.hfxt.cmp.mapper.SubjectMapper.SubjectBean"/>
         <collection property="experimentType" resultMap="com.hfxt.cmp.mapper.ExperimentTypeMapper.BaseResultMap"/>
     </resultMap>
-    <sql id="Base_Column_List">
-        expId, subId, empId, stuId, expContent, expTime, expScore, expDesc, expType
-    </sql>
-    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="StuExperimentBean">
-        select
-        <include refid="Base_Column_List"/>
-        from tb_student_experiment
-        where expId = #{expid,jdbcType=INTEGER}
-    </select>
     <select id="getStuExperiment" resultMap="StuExperimentBean">
         select * from tb_student_experiment
         inner join tb_experiment_type on tb_student_experiment.expType = tb_experiment_type.typId
@@ -28,121 +19,32 @@
         inner join tb_subject on tb_student_experiment.subId = tb_subject.subId
         inner join tb_employee on tb_student_experiment.empId = tb_employee.empId
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from tb_student_experiment
-    where expId = #{expid,jdbcType=INTEGER}
-  </delete>
-    <insert id="insert" parameterType="com.hfxt.cmp.model.StuExperiment">
-    insert into tb_student_experiment (expId, subId, empId, 
-      stuId, expContent, expTime, 
-      expScore, expDesc, expType
-      )
-    values (#{expid,jdbcType=INTEGER}, #{subid,jdbcType=INTEGER}, #{empid,jdbcType=INTEGER}, 
-      #{stuid,jdbcType=INTEGER}, #{expcontent,jdbcType=VARCHAR}, #{exptime,jdbcType=TIMESTAMP}, 
-      #{expscore,jdbcType=INTEGER}, #{expdesc,jdbcType=VARCHAR}, #{exptype,jdbcType=INTEGER}
-      )
-  </insert>
-    <insert id="insertSelective" parameterType="com.hfxt.cmp.model.StuExperiment">
-        insert into tb_student_experiment
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="expid != null">
-                expId,
-            </if>
-            <if test="subid != null">
-                subId,
-            </if>
-            <if test="empid != null">
-                empId,
-            </if>
-            <if test="stuid != null">
-                stuId,
-            </if>
-            <if test="expcontent != null">
-                expContent,
-            </if>
-            <if test="exptime != null">
-                expTime,
-            </if>
-            <if test="expscore != null">
-                expScore,
-            </if>
-            <if test="expdesc != null">
-                expDesc,
-            </if>
-            <if test="exptype != null">
-                expType,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="expid != null">
-                #{expid,jdbcType=INTEGER},
-            </if>
-            <if test="subid != null">
-                #{subid,jdbcType=INTEGER},
-            </if>
-            <if test="empid != null">
-                #{empid,jdbcType=INTEGER},
-            </if>
-            <if test="stuid != null">
-                #{stuid,jdbcType=INTEGER},
-            </if>
-            <if test="expcontent != null">
-                #{expcontent,jdbcType=VARCHAR},
-            </if>
-            <if test="exptime != null">
-                #{exptime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="expscore != null">
-                #{expscore,jdbcType=INTEGER},
-            </if>
-            <if test="expdesc != null">
-                #{expdesc,jdbcType=VARCHAR},
-            </if>
-            <if test="exptype != null">
-                #{exptype,jdbcType=INTEGER},
-            </if>
-        </trim>
+    <delete id="delStuExperiment">
+        delete from tb_student_experiment
+        where tb_student_experiment.expId = #{expId,jdbcType=INTEGER}
+    </delete>
+    <insert id="addStuExperiment">
+        insert into tb_student_experiment(
+            expId,empId,subId,stuId,expContent,
+            expTime,expType,expScore,expDesc
+        )
+        values(
+            0,#{stuExp.employee.empid,jdbcType=INTEGER},#{stuExp.subject.subid,jdbcType=INTEGER},
+            #{stuExp.student.stuid,jdbcType=INTEGER},#{stuExp.expcontent,jdbcType=VARCHAR},now(),
+            #{stuExp.experimentType.typeid,jdbcType=INTEGER},#{stuExp.expscore,jdbcType=INTEGER},
+            #{stuExp.expdesc,jdbcType=VARCHAR},
+        )
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.hfxt.cmp.model.StuExperiment">
+    <update id="updateStuExperiment">
         update tb_student_experiment
         <set>
-            <if test="subid != null">
-                subId = #{subid,jdbcType=INTEGER},
+            <if test="stuExp.expscore != null and stuExp.expscore &gt; 0">
+                expScore = #{stuExp.expscore,jdbcType=INTEGER},
             </if>
-            <if test="empid != null">
-                empId = #{empid,jdbcType=INTEGER},
-            </if>
-            <if test="stuid != null">
-                stuId = #{stuid,jdbcType=INTEGER},
-            </if>
-            <if test="expcontent != null">
-                expContent = #{expcontent,jdbcType=VARCHAR},
-            </if>
-            <if test="exptime != null">
-                expTime = #{exptime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="expscore != null">
-                expScore = #{expscore,jdbcType=INTEGER},
-            </if>
-            <if test="expdesc != null">
-                expDesc = #{expdesc,jdbcType=VARCHAR},
-            </if>
-            <if test="exptype != null">
-                expType = #{exptype,jdbcType=INTEGER},
+            <if test="stuExp.expdesc != null and stuExp.expdesc != ''">
+                expDesc = #{stuExp.expdesc,jdbcType=VARCHAR},
             </if>
         </set>
-        where expId = #{expid,jdbcType=INTEGER}
+        where expId = #{stuExp.expid,jdbcType=INTEGER}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.hfxt.cmp.model.StuExperiment">
-    update tb_student_experiment
-    set subId = #{subid,jdbcType=INTEGER},
-      empId = #{empid,jdbcType=INTEGER},
-      stuId = #{stuid,jdbcType=INTEGER},
-      expContent = #{expcontent,jdbcType=VARCHAR},
-      expTime = #{exptime,jdbcType=TIMESTAMP},
-      expScore = #{expscore,jdbcType=INTEGER},
-      expDesc = #{expdesc,jdbcType=VARCHAR},
-      expType = #{exptype,jdbcType=INTEGER}
-    where expId = #{expid,jdbcType=INTEGER}
-  </update>
 </mapper>

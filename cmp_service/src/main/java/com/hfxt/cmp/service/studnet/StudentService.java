@@ -1,13 +1,14 @@
 package com.hfxt.cmp.service.studnet;
 
 import com.hfxt.cmp.model.Student;
+import com.hfxt.cmp.search.Search;
 
 import java.util.List;
 
 public interface StudentService {
-    List<Student> getStudent();
+    List<Student> getStudent(Search stu);
 
-    Student getStudentById(Integer stuId);
+    Student getStuById(Integer stuId);
 
     int addStudent(Student stu);
 

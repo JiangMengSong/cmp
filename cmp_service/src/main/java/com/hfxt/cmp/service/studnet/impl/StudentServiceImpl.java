@@ -1,6 +1,7 @@
 package com.hfxt.cmp.service.studnet.impl;
 
 import com.hfxt.cmp.model.Student;
+import com.hfxt.cmp.search.Search;
 import com.hfxt.cmp.service.BaseService;
 import com.hfxt.cmp.service.studnet.StudentService;
 import org.springframework.stereotype.Service;
@@ -12,13 +13,13 @@ import java.util.Map;
 @Service("studentService")
 public class StudentServiceImpl extends BaseService implements StudentService {
     @Override
-    public List<Student> getStudent() {
-        return studentMapper.getStudent();
+    public List<Student> getStudent(Search stu) {
+        return studentMapper.getStudent(stu);
     }
 
     @Override
-    public Student getStudentById(Integer stuId) {
-        return studentMapper.getStudentById(stuId);
+    public Student getStuById(Integer stuId) {
+        return studentMapper.getStuById(stuId);
     }
 
     @Override
