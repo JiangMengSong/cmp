@@ -1,8 +1,6 @@
 package com.hfxt.cmp.controller;
 
 import com.hfxt.cmp.model.Employee;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Controller;
 
 import javax.servlet.http.HttpSession;
 
