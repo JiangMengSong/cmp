@@ -5,18 +5,15 @@ import java.util.List;
 import com.hfxt.cmp.model.Major;
 
 public interface MajorMapper {
-	
-	List<Major> majorList();
-	
-    int deleteByPrimaryKey(Integer majorid);
 
-    int insert(Major record);
-
-    int insertSelective(Major record);
-
-    Major selectByPrimaryKey(Integer majorid);
-
-    int updateByPrimaryKeySelective(Major record);
-
-    int updateByPrimaryKey(Major record);
+    //查询全部
+    List<Major> majorList();
+    //删除专业
+    int deletemajor(Integer majorid);
+    //修改专业
+    int updatemajor(Major major);
+    //添加专业
+    int addmajor(Major major);
+    //按条件查询专业
+    Major selectbyid(Integer majorid);
 }

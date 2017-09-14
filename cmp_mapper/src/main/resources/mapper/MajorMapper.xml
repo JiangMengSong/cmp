@@ -9,66 +9,20 @@
     <sql id="Base_Column_List">
         majorId, majorName, majorDesc
     </sql>
-    <select id="majorList" resultMap="MajorBean">
-    	select * from tb_major
-    </select>
-    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="MajorBean">
-        select
-        <include refid="Base_Column_List"/>
-        from tb_major
-        where majorId = #{majorid,jdbcType=INTEGER}
-    </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-        delete from tb_major
-        where majorId = #{majorid,jdbcType=INTEGER}
+    <insert id="addmajor">
+        INSERT INTO tb_major (majorName,majorDesc) VALUES(#{majorname},#{majordesc})
+    </insert>
+    <update id="updatemajor">
+        UPDATE  tb_major SET majorName=#{majorname},majorDesc=#{majordesc} WHERE majorId=#{majorid}
+    </update>
+    <delete id="deletemajor">
+        DELETE FROM tb_major WHERE majorid=#{majorid}
     </delete>
-    <insert id="insert" parameterType="com.hfxt.cmp.model.Major">
-        insert into tb_major (majorId, majorName, majorDesc
-        )
-        values (#{majorid,jdbcType=INTEGER}, #{majorname,jdbcType=VARCHAR}, #{majordesc,jdbcType=VARCHAR}
-        )
-    </insert>
-    <insert id="insertSelective" parameterType="com.hfxt.cmp.model.Major">
-        insert into tb_major
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="majorid != null">
-                majorId,
-            </if>
-            <if test="majorname != null">
-                majorName,
-            </if>
-            <if test="majordesc != null">
-                majorDesc,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="majorid != null">
-                #{majorid,jdbcType=INTEGER},
-            </if>
-            <if test="majorname != null">
-                #{majorname,jdbcType=VARCHAR},
-            </if>
-            <if test="majordesc != null">
-                #{majordesc,jdbcType=VARCHAR},
-            </if>
-        </trim>
-    </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.hfxt.cmp.model.Major">
-        update tb_major
-        <set>
-            <if test="majorname != null">
-                majorName = #{majorname,jdbcType=VARCHAR},
-            </if>
-            <if test="majordesc != null">
-                majorDesc = #{majordesc,jdbcType=VARCHAR},
-            </if>
-        </set>
-        where majorId = #{majorid,jdbcType=INTEGER}
-    </update>
-    <update id="updateByPrimaryKey" parameterType="com.hfxt.cmp.model.Major">
-        update tb_major
-        set majorName = #{majorname,jdbcType=VARCHAR},
-        majorDesc = #{majordesc,jdbcType=VARCHAR}
-        where majorId = #{majorid,jdbcType=INTEGER}
-    </update>
+    <select id="majorList" resultMap="MajorBean">
+        select * from tb_major
+    </select>
+    <select id="selectbyid" resultType="com.hfxt.cmp.model.Major">
+        SELECT * FROM tb_major WHERE majorId=#{majorid}
+    </select>
+
 </mapper>

@@ -17,4 +17,23 @@ public class MajorServiceImpl extends BaseService implements MajorService {
 		return majorMapper.majorList();
 	}
 
+	@Override
+	public int deletemajor(Integer majorid) {
+		return majorMapper.deletemajor(majorid);
+	}
+
+	@Override
+	public int updatemajor(Major major) {
+		return majorMapper.updatemajor(major);
+	}
+
+	@Override
+	public int addmajor(Major major) {
+		return majorMapper.addmajor(major);
+	}
+
+	@Override
+	public Major selectbyid(Integer majorid) {
+		return majorMapper.selectbyid(majorid);
+	}
 }
