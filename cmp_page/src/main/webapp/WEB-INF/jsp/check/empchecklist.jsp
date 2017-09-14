@@ -13,7 +13,7 @@
     <title>职工管理</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 人员管理 <span
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 教员考勤管理 <span
         class="c-gray en">&gt;</span> 考勤管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px"
                                               href="javascript:location.replace(location.href);" title="刷新"><i
         class="Hui-iconfont">&#xe68f;</i></a></nav>
@@ -26,7 +26,7 @@
         -
         <input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" name="endDate"
                class="input-text Wdate" style="width:120px;">
-        <input type="text" class="input-text" style="width:250px" placeholder="输入学生名称" id="" name="seaName">
+        <input type="text" class="input-text" style="width:250px" placeholder="输入教员名称" id="" name="seaName">
         <button type="submit" class="btn btn-success radius" id="selStuBtn" name=""><i class="Hui-iconfont">&#xe665;</i>
             搜教员
         </button>
@@ -80,7 +80,7 @@
                     <td class="f-14">
                         <a title="编辑" href="javascript:;" onclick="emp_up(${empcheck.empcheckingid})"
                            style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
-                        <a title="删除" href="javascript:;" onclick="stu_del(${empcheck.empcheckingid})" class="ml-5"
+                        <a title="删除" href="javascript:;" onclick="emp_del(${empcheck.empcheckingid})" class="ml-5"
                            style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
                     </td>
                 </tr>

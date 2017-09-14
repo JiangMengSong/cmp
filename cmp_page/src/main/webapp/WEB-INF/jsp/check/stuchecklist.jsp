@@ -6,8 +6,8 @@
     <title>职工管理</title>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 人员管理 <span
-        class="c-gray en">&gt;</span> 职工管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px"
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 学生考勤管理 <span
+        class="c-gray en">&gt;</span> 考勤管理 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px"
                                               href="javascript:location.replace(location.href);" title="刷新"><i
         class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
@@ -31,7 +31,7 @@
             </a>
             <a href="javascript:;" onclick="stu_up(0)"
                class="btn btn-primary radius">
-                <i class="Hui-iconfont">&#xe600;</i> 添加学生
+                <i class="Hui-iconfont">&#xe600;</i> 添加考勤
             </a>
         </span>
         <span class="r">共有数据：<strong>${total}</strong> 条</span>

@@ -88,7 +88,7 @@
 
         <div class="row cl">
             <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
-                <input id="btnStu" type="button"   value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+                <input id="btnStu" type="button"  class="btn btn-primary radius"  value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
             </div>
         </div>
     </form>
