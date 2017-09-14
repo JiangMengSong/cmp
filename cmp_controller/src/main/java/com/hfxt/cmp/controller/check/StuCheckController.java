@@ -3,6 +3,7 @@ package com.hfxt.cmp.controller.check;
 import com.hfxt.cmp.model.EmpChecking;
 import com.hfxt.cmp.model.StuChecking;
 import com.hfxt.cmp.model.Student;
+import com.hfxt.cmp.search.Search;
 import com.hfxt.cmp.service.check.EmpCheckService;
 import com.hfxt.cmp.service.check.StuCheckService;
 import com.hfxt.cmp.service.studnet.StudentService;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -35,7 +37,7 @@ public class StuCheckController {
 
     //查询
     @RequestMapping(value = "/getStuCheck.html", produces = "text/html;charset=utf-8")
-    public String getStuCheck(HttpServletRequest request, StuChecking stuCheck) {
+    public String getStuCheck(HttpServletRequest request, Search stuCheck) {
         List<StuChecking> checkList=stuCheckService.getStuCheck(stuCheck);
         if(checkList!=null){
             request.setAttribute("checkList",checkList);
@@ -63,7 +65,7 @@ public class StuCheckController {
     public String toEditStu(HttpServletRequest request, @PathVariable Integer stucheckingid){
         if (null == request.getSession().getAttribute("emp")) return "redirect:/employee/login/toLogin.html";
         if (stucheckingid != null && stucheckingid > 0) request.setAttribute("stu",stuCheckService.getCheckById(stucheckingid));
-        request.setAttribute("student",studentService.getStudent(null));
+        request.setAttribute("studentList",studentService.getStudent(null));
         return "check/stucheck_edit";
     }
 
@@ -80,6 +82,29 @@ public class StuCheckController {
         if (stucheck.getStucheckingid()!=null && stucheck.getStucheckingid() > 0 && stuCheckService.update(stucheck) > 0) result.put("flag",true);
         else if (stuCheckService.insert(stucheck) > 0) result.put("flag",true);
         else result.put("msg","编辑失败,请提交正确的信息");
+        return result.toString();
+    }
+
+    /**
+     * 根据Id批量删除学生
+     */
+    @RequestMapping(value = "/delStuCheckAll",produces = "text/html;charset=utf-8")
+    @ResponseBody
+    public String delEmpCheck(HttpSession session, @RequestParam("stucheckId[]") Integer[] stucheckId){
+        JSONObject result = new JSONObject();
+        result.put("flag",false);
+        if(stucheckId == null || stucheckId.length == 0) return result.toString();
+        for (Integer empcheckid: stucheckId) {
+            if (null == empcheckid || empcheckid < 1) {
+                result.put("flag",false);
+                result.put("msg","id不允许为空");
+            }
+            else if (stuCheckService.delete(empcheckid)> 0) result.put("flag",true);
+            else {
+                result.put("flag",false);
+                result.put("msg","id"+empcheckid+"删除出现错误,请查询该记录是否存在或直接联系管理员");
+            }
+        }
         return result.toString();
     }
 }

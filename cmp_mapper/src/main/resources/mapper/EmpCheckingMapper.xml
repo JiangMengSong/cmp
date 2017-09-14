@@ -13,8 +13,9 @@
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="EmpCheckingBean">
         select
-        <include refid="Base_Column_List"/>
+        *
         from tb_employee_checking
+         inner join tb_employee on tb_employee_checking.empId = tb_employee.empId
         where empCheckingId = #{empcheckingid,jdbcType=INTEGER}
     </select>
 
@@ -22,14 +23,22 @@
         select *
         from tb_employee_checking
         inner join tb_employee on tb_employee_checking.empId = tb_employee.empId
-        <!--  <if test="empcheck">
+         <if test="empcheck!=null">
           <where>
-              <if test="empcheck.employee.empid!= null">
-                  empid=#{empid}
+              <if test="empcheck.seaName!= null and empcheck.seaName!='' ">
+                 and empName like CONCAT('%',#{empcheck.seaName},'%')
+              </if>
+
+              <if test="empcheck.startDate != null">
+                  and cheTime <![CDATA[>=]]> #{empcheck.startDate}
+              </if>
+
+              <if test="empcheck.endDate != null">
+                  and cheTime <![CDATA[<=]]>  #{empcheck.endDate}
               </if>
 
           </where>
-          </if>-->
+          </if>
     </select>
 
 
@@ -40,70 +49,27 @@
     <insert id="insert" parameterType="com.hfxt.cmp.model.EmpChecking">
         insert into tb_employee_checking (empCheckingId, empId, cheTime,
         cheStatus, empCheckDesc)
-        values (#{empcheckingid,jdbcType=INTEGER}, #{empid,jdbcType=INTEGER}, #{chetime,jdbcType=TIMESTAMP},
-        #{chestatus,jdbcType=INTEGER}, #{empcheckdesc,jdbcType=VARCHAR})
+        values (0, #{empcheck.employee.empid,jdbcType=INTEGER}, #{empcheck.chetime,jdbcType=TIMESTAMP},
+        #{empcheck.chestatus,jdbcType=INTEGER}, #{empcheck.empcheckdesc,jdbcType=VARCHAR})
     </insert>
-    <insert id="insertSelective" parameterType="com.hfxt.cmp.model.EmpChecking">
-        insert into tb_employee_checking
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="empcheckingid != null">
-                empCheckingId,
-            </if>
-            <if test="empid != null">
-                empId,
-            </if>
-            <if test="chetime != null">
-                cheTime,
-            </if>
-            <if test="chestatus != null">
-                cheStatus,
-            </if>
-            <if test="empcheckdesc != null">
-                empCheckDesc,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="empcheckingid != null">
-                #{empcheckingid,jdbcType=INTEGER},
-            </if>
-            <if test="empid != null">
-                #{empid,jdbcType=INTEGER},
-            </if>
-            <if test="chetime != null">
-                #{chetime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="chestatus != null">
-                #{chestatus,jdbcType=INTEGER},
-            </if>
-            <if test="empcheckdesc != null">
-                #{empcheckdesc,jdbcType=VARCHAR},
-            </if>
-        </trim>
-    </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.hfxt.cmp.model.EmpChecking">
+
+    <update id="update" parameterType="com.hfxt.cmp.model.EmpChecking">
         update tb_employee_checking
         <set>
-            <if test="empid != null">
-                empId = #{empid,jdbcType=INTEGER},
+            <!--<if test="empcheck.employee.empid != null">
+                empId = #{empchecking.employee.empid,jdbcType=INTEGER},
+            </if>-->
+            <if test="empcheck.chetime != null">
+                cheTime = #{empcheck.chetime,jdbcType=TIMESTAMP},
             </if>
-            <if test="chetime != null">
-                cheTime = #{chetime,jdbcType=TIMESTAMP},
+            <if test="empcheck.chestatus != null">
+                cheStatus = #{empcheck.chestatus,jdbcType=INTEGER},
             </if>
-            <if test="chestatus != null">
-                cheStatus = #{chestatus,jdbcType=INTEGER},
-            </if>
-            <if test="empcheckdesc != null">
-                empCheckDesc = #{empcheckdesc,jdbcType=VARCHAR},
+            <if test="empcheck.empcheckdesc != null">
+                empCheckDesc = #{empcheck.empcheckdesc,jdbcType=VARCHAR},
             </if>
         </set>
-        where empCheckingId = #{empcheckingid,jdbcType=INTEGER}
+        where empCheckingId = #{empcheck.empcheckingid,jdbcType=INTEGER}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.hfxt.cmp.model.EmpChecking">
-        update tb_employee_checking
-        set empId = #{empid,jdbcType=INTEGER},
-        cheTime = #{chetime,jdbcType=TIMESTAMP},
-        cheStatus = #{chestatus,jdbcType=INTEGER},
-        empCheckDesc = #{empcheckdesc,jdbcType=VARCHAR}
-        where empCheckingId = #{empcheckingid,jdbcType=INTEGER}
-    </update>
+
 </mapper>

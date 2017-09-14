@@ -12,96 +12,61 @@
         stuCheckingId, stuId, cheTime, cheStatus, stuCheckingDesc
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="StuCheckingBean">
-        select
-        <include refid="Base_Column_List"/>
+        select *
         from tb_student_checking
+         inner join tb_student on tb_student_checking.stuid = tb_student.stuid
         where stuCheckingId = #{stucheckingid,jdbcType=INTEGER}
     </select>
     <select id="getStuCheck"  parameterType="com.hfxt.cmp.model.StuChecking"  resultMap="StuCheckingBean">
         select *
         from tb_student_checking
         inner join tb_student on tb_student_checking.stuId = tb_student.stuId
-        <!--  <if test="empcheck">
-          <where>
-              <if test="empcheck.employee.empid!= null">
-                  empid=#{empid}
-              </if>
+        <if test="stucheck!=null">
+            <where>
+                <if test="stucheck.seaName!= null and stucheck.seaName!='' ">
+                    and stuName like CONCAT('%',#{stucheck.seaName},'%')
+                </if>
 
-          </where>
-          </if>-->
+                <if test="stucheck.startDate != null">
+                    and cheTime <![CDATA[>=]]> #{stucheck.startDate}
+                </if>
+
+                <if test="stucheck.endDate != null">
+                    and cheTime <![CDATA[<=]]>  #{stucheck.endDate}
+                </if>
+
+            </where>
+        </if>
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from tb_student_checking
     where stuCheckingId = #{stucheckingid,jdbcType=INTEGER}
   </delete>
+
     <insert id="insert" parameterType="com.hfxt.cmp.model.StuChecking">
     insert into tb_student_checking (stuCheckingId, stuId, cheTime, 
       cheStatus, stuCheckingDesc)
-    values (#{stucheckingid,jdbcType=INTEGER}, #{stuid,jdbcType=INTEGER}, #{chetime,jdbcType=TIMESTAMP}, 
-      #{chestatus,jdbcType=INTEGER}, #{stucheckingdesc,jdbcType=VARCHAR})
+    values (0, #{stucheck.student.stuid,jdbcType=INTEGER}, #{stucheck.chetime,jdbcType=TIMESTAMP},
+      #{stucheck.chestatus,jdbcType=INTEGER}, #{stucheck.stucheckingdesc,jdbcType=VARCHAR})
   </insert>
-    <insert id="insertSelective" parameterType="com.hfxt.cmp.model.StuChecking">
-        insert into tb_student_checking
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="stucheckingid != null">
-                stuCheckingId,
-            </if>
-            <if test="stuid != null">
-                stuId,
-            </if>
-            <if test="chetime != null">
-                cheTime,
-            </if>
-            <if test="chestatus != null">
-                cheStatus,
-            </if>
-            <if test="stucheckingdesc != null">
-                stuCheckingDesc,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="stucheckingid != null">
-                #{stucheckingid,jdbcType=INTEGER},
-            </if>
-            <if test="stuid != null">
-                #{stuid,jdbcType=INTEGER},
-            </if>
-            <if test="chetime != null">
-                #{chetime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="chestatus != null">
-                #{chestatus,jdbcType=INTEGER},
-            </if>
-            <if test="stucheckingdesc != null">
-                #{stucheckingdesc,jdbcType=VARCHAR},
-            </if>
-        </trim>
-    </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.hfxt.cmp.model.StuChecking">
+
+    <update id="update" parameterType="com.hfxt.cmp.model.StuChecking">
         update tb_student_checking
         <set>
-            <if test="stuid != null">
-                stuId = #{stuid,jdbcType=INTEGER},
+           <!-- <if test="stucheck.student.stuid != null and stucheck.student.stuid>0">
+            stuId = #{stucheck.student.stuid,jdbcType=INTEGER},
+        </if>-->
+            <if test="stucheck.chetime != null">
+                cheTime = #{stucheck.chetime,jdbcType=TIMESTAMP},
             </if>
-            <if test="chetime != null">
-                cheTime = #{chetime,jdbcType=TIMESTAMP},
+            <if test="stucheck.chestatus != null">
+                cheStatus = #{stucheck.chestatus,jdbcType=INTEGER},
             </if>
-            <if test="chestatus != null">
-                cheStatus = #{chestatus,jdbcType=INTEGER},
-            </if>
-            <if test="stucheckingdesc != null">
-                stuCheckingDesc = #{stucheckingdesc,jdbcType=VARCHAR},
+            <if test="stucheck.stucheckingdesc != null">
+                stuCheckingDesc = #{stucheck.stucheckingdesc,jdbcType=VARCHAR},
             </if>
         </set>
-        where stuCheckingId = #{stucheckingid,jdbcType=INTEGER}
+        where stuCheckingId = #{stucheck.stucheckingid,jdbcType=INTEGER}
     </update>
-    <update id="updateByPrimaryKey" parameterType="com.hfxt.cmp.model.StuChecking">
-    update tb_student_checking
-    set stuId = #{stuid,jdbcType=INTEGER},
-      cheTime = #{chetime,jdbcType=TIMESTAMP},
-      cheStatus = #{chestatus,jdbcType=INTEGER},
-      stuCheckingDesc = #{stucheckingdesc,jdbcType=VARCHAR}
-    where stuCheckingId = #{stucheckingid,jdbcType=INTEGER}
-  </update>
 </mapper>

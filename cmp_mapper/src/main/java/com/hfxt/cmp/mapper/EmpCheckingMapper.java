@@ -1,6 +1,7 @@
 package com.hfxt.cmp.mapper;
 
 import com.hfxt.cmp.model.EmpChecking;
+import com.hfxt.cmp.search.Search;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -8,15 +9,11 @@ import java.util.List;
 public interface EmpCheckingMapper {
     int deleteByPrimaryKey(Integer empcheckingid);
 
-    int insert(EmpChecking record);
-
-    int insertSelective(EmpChecking record);
+    int insert(@Param("empcheck") EmpChecking empchecking);
 
     EmpChecking selectByPrimaryKey(Integer empcheckingid);
 
-    int updateByPrimaryKeySelective(EmpChecking record);
+    int update(@Param("empcheck") EmpChecking empchecking);
 
-    int updateByPrimaryKey(EmpChecking record);
-
-    List<EmpChecking> getEmpCheck(@Param("empcheck") EmpChecking  empcheck);
+    List<EmpChecking> getEmpCheck(@Param("empcheck") Search empchecking);
 }

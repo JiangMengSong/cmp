@@ -11,20 +11,22 @@
                                               href="javascript:location.replace(location.href);" title="刷新"><i
         class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
+    <form method="post" action="${pro}/stucheck/getStuCheck.html">
     <div class="text-c"> 日期范围：
-        <input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin"
+        <input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" name="startDate"
                class="input-text Wdate" style="width:120px;">
         -
-        <input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax"
+        <input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" name="endDate"
                class="input-text Wdate" style="width:120px;">
-        <input type="text" class="input-text" style="width:250px" placeholder="输入学生名称" id="" name="">
+        <input type="text" class="input-text" style="width:250px" placeholder="输入学生名称" id="" name="seaName">
         <button type="submit" class="btn btn-success radius" id="selStuBtn" name=""><i class="Hui-iconfont">&#xe665;</i>
             搜学生
         </button>
     </div>
+    </form>
     <div class="cl pd-5 bg-1 bk-gray mt-20">
         <span class="l">
-            <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius">
+            <a href="javascript:;" onclick="data_del()" class="btn btn-danger radius">
                 <i class="Hui-iconfont">&#xe6e2;</i> 批量删除
             </a>
             <a href="javascript:;" onclick="stu_up(0)"
@@ -32,7 +34,7 @@
                 <i class="Hui-iconfont">&#xe600;</i> 添加学生
             </a>
         </span>
-        <span class="r">共有数据：<strong>88</strong> 条</span>
+        <span class="r">共有数据：<strong>${total}</strong> 条</span>
     </div>
     <div class="mt-20">
         <table class="table table-border table-bordered table-hover table-bg table-sort">
@@ -43,7 +45,7 @@
             <tr class="text-c">
                 <th><input type="checkbox" value="" name=""></th>
                 <th>ID</th>
-                <th>员工ID</th>
+                <th>学生姓名</th>
                 <th>考勤时间</th>
                 <th>考勤情况</th>
                 <th>考勤说明</th>
@@ -53,9 +55,9 @@
             <tbody>
             <c:forEach items="${checkList}" var="stucheck">
                 <tr class="text-c">
-                    <td><input type="checkbox" value="" name=""></td>
+                    <td><input type="checkbox" value="${stucheck.stucheckingid}" name="stucheckId"></td>
                     <td>${stucheck.stucheckingid}</td>
-                    <td><a href="#">${stucheck.student.stuid}</a></td>
+                    <td><a href="#">${stucheck.student.stuname}</a></td>
                     <td><fmt:formatDate value="${stucheck.chetime}"
                                         pattern="yyyy-MM-dd HH:mm:ss"/></td>
                     <td>
@@ -86,12 +88,11 @@
 <script type="text/javascript">
     $(function () {
         $('.table-sort').dataTable({
-            "aaSorting": [[1, "desc"]],//默认第几个排序
+          /*  "aaSorting": [[1, "desc"]],//默认第几个排序
             "bStateSave": true,//状态保存
             "aoColumnDefs": [
                 //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-                {"orderable": false, "aTargets": [0, 8, 9]}// 制定列不参与排序
-            ]
+            ]*/
         });
     });
 
@@ -108,6 +109,7 @@
         });
     }
 
+    //单个删除
     function stu_del(stucheckingid) {
         if(confirm('确认要删除吗？')) {
             $.ajax({
@@ -125,7 +127,34 @@
                 },
             })
         }
+
     }
+    /* 批量删除 */
+    function data_del() {
+        var stucheckId = new Array();
+        $.each($("input[name=stucheckId]:checked"),function () {
+            stucheckId.push($(this).val());
+        })
+        if(confirm('确认要删除吗？')) {
+            $.ajax({
+                type: 'POST',
+                url: '${pro}/stucheck/delStuCheckAll',
+                data:{"stucheckId" : stucheckId},
+                dataType: 'json',
+                success: function (result) {
+                    if (result.flag){
+                        alert("删除成功");
+                        location.replace(location.href);
+                    } else alert("删除失败")
+                },
+                error: function (reslult) {
+                    console.log(result.msg);
+                },
+            })
+        }
+    }
+
+
 </script>
 </body>
 </html>

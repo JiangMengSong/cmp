@@ -2,6 +2,7 @@ package com.hfxt.cmp.service.check;
 
 import com.hfxt.cmp.model.EmpChecking;
 import com.hfxt.cmp.model.StuChecking;
+import com.hfxt.cmp.search.Search;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
  */
 @Transactional
 public interface EmpCheckService {
-    List<EmpChecking> getEmpCheck(EmpChecking  empChecking);
+    List<EmpChecking> getEmpCheck(Search empChecking);
 
     int delete(Integer empcheckid);
 

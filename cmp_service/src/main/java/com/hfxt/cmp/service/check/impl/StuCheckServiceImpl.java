@@ -1,6 +1,7 @@
 package com.hfxt.cmp.service.check.impl;
 
 import com.hfxt.cmp.model.StuChecking;
+import com.hfxt.cmp.search.Search;
 import com.hfxt.cmp.service.BaseService;
 import com.hfxt.cmp.service.check.StuCheckService;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ import java.util.List;
 public class StuCheckServiceImpl extends BaseService implements StuCheckService
 {
     @Override
-    public List<StuChecking> getStuCheck(StuChecking stuChecking) {
+    public List<StuChecking> getStuCheck(Search stuChecking) {
         return stuCheckinginMapper.getStuCheck(stuChecking);
     }
 
@@ -25,12 +26,12 @@ public class StuCheckServiceImpl extends BaseService implements StuCheckService
 
     @Override
     public int update(StuChecking stuChecking) {
-        return stuCheckinginMapper.updateByPrimaryKeySelective(stuChecking);
+        return stuCheckinginMapper.update(stuChecking);
     }
 
     @Override
     public int insert(StuChecking stuChecking) {
-        return stuCheckinginMapper.insertSelective(stuChecking);
+        return stuCheckinginMapper.insert(stuChecking);
     }
 
     @Override

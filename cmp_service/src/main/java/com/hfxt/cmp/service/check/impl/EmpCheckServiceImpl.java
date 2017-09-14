@@ -4,6 +4,7 @@ import com.hfxt.cmp.mapper.EmpCheckingMapper;
 import com.hfxt.cmp.mapper.EmployeeMapper;
 import com.hfxt.cmp.model.EmpChecking;
 import com.hfxt.cmp.model.StuChecking;
+import com.hfxt.cmp.search.Search;
 import com.hfxt.cmp.service.BaseService;
 import com.hfxt.cmp.service.check.EmpCheckService;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ import java.util.List;
 @Service("empCheckService")
 public class EmpCheckServiceImpl extends BaseService implements EmpCheckService {
     @Override
-    public List<EmpChecking> getEmpCheck(EmpChecking empChecking) {
+    public List<EmpChecking> getEmpCheck(Search empChecking) {
         return  empCheckingMapper.getEmpCheck(empChecking);
 
     }
@@ -33,11 +34,11 @@ public class EmpCheckServiceImpl extends BaseService implements EmpCheckService 
 
     @Override
     public int update(EmpChecking empChecking) {
-        return empCheckingMapper.updateByPrimaryKeySelective(empChecking);
+        return empCheckingMapper.update(empChecking);
     }
 
     @Override
     public int insert(EmpChecking empChecking) {
-        return empCheckingMapper.insertSelective(empChecking);
+        return empCheckingMapper.insert(empChecking);
     }
 }

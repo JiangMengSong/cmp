@@ -15,24 +15,24 @@
 <body>
 
 <article class="page-container">
-    <form class="form form-horizontal" id="form_stucheck_edit">
+    <form method="post" id="form_check_edit" class="form form-horizontal"  >
         <input type="hidden" name="stucheckingid" value="${stu.stucheckingid}"/>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>学生:</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <c:if test="${stu.stucheckingid!=null}">
-                    <input type="text" class="input-text" value="${stu.student.stuname}" placeholder="" id="stuname" name="student.stuname"  readonly>
+                    <input  type="text" class="input-text" value="${stu.student.stuname}" readonly>
                 </c:if>
 
                 <c:if test="${stu.stucheckingid==null}">
                 <span class="select-box">
                     <select class="select" size="1" id="stuid" name="student.stuid">
                         <option value="0">请选择学生</option>
-                        <c:forEach items="${student}" var="student">
-                            <option value="${student.stuid}"
-                                    <c:if test="${stu.student.stuid == student.stuid}"
+                        <c:forEach items="${studentList}" var="studentlist">
+                            <option value="${studentlist.stuid}"
+                                    <c:if test="${stu.student.stuid == studentlist.stuid}"
                                     >selected</c:if>
-                            >${student.stuname}</option>
+                            >${studentlist.stuname}</option>
                         </c:forEach>
                     </select>
                 </span>
@@ -88,7 +88,7 @@
 
         <div class="row cl">
             <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
-                <input id="btnStu"  type="button" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+                <input id="btnStu" type="button"   value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
             </div>
         </div>
     </form>
@@ -105,14 +105,30 @@
 <script type="text/javascript">
 
     $(function () {
+        $('.skin-minimal input').iCheck({
+            checkboxClass: 'icheckbox-blue',
+            radioClass: 'iradio-blue',
+            increaseArea: '20%'
+        });
+
         $("#btnStu").click(function () {
+
+            if ($("#stuid").val()==0){
+                alert("请选择学生")
+                return false;
+            }
+
+            if (isEmpty($("input[name=chetime]").val())){
+                alert("请输入时间")
+                return false;
+            }
+
                 $.ajax({
                     url:"${pro}/stucheck/upStuCheck.html",
-                    data:$("#form_stucheck_edit").serialize(),
+                    data:$("#form_check_edit").serialize(),
                     dataType:"json",
                     type:"post",
                     success:function (result) {
-                        alert($("#form_stucheck_edit").serialize());
                         if (result.flag){
                             alert("编辑成功");
                             var index = parent.layer.getFrameIndex(window.name); // 获取当前页面信息
