@@ -22,11 +22,26 @@ public class EmployeeServiceImpl extends BaseService implements EmployeeService 
     }
 
     @Override
+    public Employee getEmpById(Integer empId) {
+        return employeeMapper.getEmpById(empId);
+    }
+
+    @Override
+    public int addEmployee(Employee emp) {
+        return employeeMapper.addEmployee(emp);
+    }
+
+    @Override
     public int delEmployee(Integer empId) {
         Map<String,Object> map = new HashMap<String,Object>();
-        map.put("stuId",empId);
+        map.put("empId",empId);
         map.put("delCount",0);
         employeeMapper.delEmployee(map);
         return (Integer)(map.get("delCount"));
+    }
+
+    @Override
+    public int updateEmployee(Employee emp) {
+        return employeeMapper.updateEmployee(emp);
     }
 }

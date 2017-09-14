@@ -37,11 +37,10 @@
         <table class="table table-border table-bordered table-hover table-bg table-sort">
             <thead>
             <tr>
-                <th scope="col" colspan="11">作业测验</th>
+                <th scope="col" colspan="10">作业测验</th>
             </tr>
             <tr class="text-c">
                 <th><input type="checkbox" value="" name=""></th>
-                <th>ID</th>
                 <th>姓名</th>
                 <th>科目</th>
                 <th>教员</th>
@@ -57,7 +56,6 @@
             <c:forEach items="${expList}" var="experiment">
                 <tr class="text-c">
                     <td><input type="checkbox" value="" name=""></td>
-                    <td>${experiment.expid}</td>
                     <td><a href="#">${experiment.student.stuname}</a></td>
                     <td>${experiment.subject.subname}</td>
                     <td>${experiment.employee.empname}</td>

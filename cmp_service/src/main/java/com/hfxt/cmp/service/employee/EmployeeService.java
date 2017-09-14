@@ -11,5 +11,11 @@ public interface EmployeeService {
 
     List<Employee> getEmployee();
 
+    Employee getEmpById(Integer empId);
+
+    int addEmployee(Employee emp);
+
     int delEmployee(Integer empId);
+
+    int updateEmployee(Employee emp);
 }

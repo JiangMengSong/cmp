@@ -1,5 +1,7 @@
 package com.hfxt.cmp.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class Employee {
@@ -15,6 +17,7 @@ public class Employee {
 
     private Integer empsex;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date empbirth;
 
     private String emphead;
@@ -25,6 +28,7 @@ public class Employee {
 
     private String empqq;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date empentrytime;
 
     private String empmajor;

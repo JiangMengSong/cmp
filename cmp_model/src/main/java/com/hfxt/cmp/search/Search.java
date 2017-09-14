@@ -9,7 +9,7 @@ public class Search {
     /**
      * 姓名(模糊查询)
      */
-    private String name;
+    private String seaName;
 
     /**
      * 班级Id
@@ -19,31 +19,31 @@ public class Search {
     /**
      * 开始时间
      */
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
 
     /**
      * 结束时间
      */
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date endDate;
 
     public Search() {
     }
 
-    public Search(String name, Integer clazzId, Date startDate, Date endDate) {
-        this.name = name;
+    public Search(String seaName, Integer clazzId, Date startDate, Date endDate) {
+        this.seaName = seaName;
         this.clazzId = clazzId;
         this.startDate = startDate;
         this.endDate = endDate;
     }
 
-    public String getName() {
-        return name;
+    public String getSeaName() {
+        return seaName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSeaName(String seaName) {
+        this.seaName = seaName;
     }
 
     public Integer getClazzId() {

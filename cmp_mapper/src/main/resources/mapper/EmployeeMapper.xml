@@ -4,8 +4,8 @@
     <resultMap id="EmployeeBean" type="com.hfxt.cmp.model.Employee">
         <id column="empId" jdbcType="INTEGER" property="empid"/>
         <result column="empName" jdbcType="VARCHAR" property="empname"/>
-        <result column="loginName" jdbcType="VARCHAR" property="loginname"/>
-        <result column="loginPwd" jdbcType="VARCHAR" property="loginpwd"/>
+        <result column="loginNames" jdbcType="VARCHAR" property="loginname"/>
+        <result column="loginPwds" jdbcType="VARCHAR" property="loginpwd"/>
         <result column="empAddress" jdbcType="VARCHAR" property="empaddress"/>
         <result column="empSex" jdbcType="INTEGER" property="empsex"/>
         <result column="empBirth" jdbcType="TIMESTAMP" property="empbirth"/>
@@ -20,11 +20,14 @@
         <result column="empRole" jdbcType="INTEGER" property="emprole"/>
     </resultMap>
     <select id="getEmployeeByName" resultMap="EmployeeBean">
-         select empId, empName, loginName, loginPwd ,empRole from tb_employee
-         where loginName = #{loginName}
+         select empId, empName, loginNames, loginPwds ,empRole from tb_employee
+         where loginNames = #{loginName}
     </select>
     <select id="getEmployee" resultMap="EmployeeBean">
         select * from tb_employee
+    </select>
+    <select id="getEmpById" resultMap="EmployeeBean">
+        select * from tb_employee where empId = #{empId,jdbcType=INTEGER}
     </select>
     <delete id="delEmployee" statementType="CALLABLE" parameterType="java.util.Map">
         {
@@ -34,16 +37,16 @@
         }
     </delete>
     <insert id="addEmployee" parameterType="com.hfxt.cmp.model.Employee">
-    insert into tb_employee (empId, empName, loginName, 
-      loginPwd, empAddress, empSex, 
+    insert into tb_employee (empId, empName, loginNames,
+      loginPwds, empAddress, empSex,
       empBirth, empStauts, empDesc, empQQ,
       empEntryTime, empMajor, empEmail, 
       empPhone, empRole,empHead)
-    values (#{emp.empid,jdbcType=INTEGER}, #{emp.empname,jdbcType=VARCHAR}, #{emp.loginname,jdbcType=VARCHAR},
+    values (0, #{emp.empname,jdbcType=VARCHAR}, #{emp.loginname,jdbcType=VARCHAR},
       #{emp.loginpwd,jdbcType=VARCHAR}, #{emp.empaddress,jdbcType=VARCHAR}, #{emp.empsex,jdbcType=INTEGER},
       #{emp.empbirth,jdbcType=TIMESTAMP}, #{emp.empstauts,jdbcType=INTEGER}, #{emp.empdesc,jdbcType=VARCHAR},
       #{emp.empqq,jdbcType=VARCHAR}, #{emp.empentrytime,jdbcType=TIMESTAMP}, #{emp.empmajor,jdbcType=VARCHAR},
-      #{emp.empemail,jdbcType=VARCHAR}, #{emp.empphone,jdbcType=VARCHAR}, #{emp.emprole,jdbcType=INTEGER}
+      #{emp.empemail,jdbcType=VARCHAR}, #{emp.empphone,jdbcType=VARCHAR}, #{emp.emprole,jdbcType=INTEGER},
       #{emp.emphead,jdbcType=VARCHAR})
   </insert>
     <update id="updateEmployee">
@@ -53,10 +56,10 @@
                 empName = #{emp.empname,jdbcType=VARCHAR},
             </if>
             <if test="emp.loginname != null and emp.loginname != ''">
-                loginName = #{emp.loginname,jdbcType=VARCHAR},
+                loginNames = #{emp.loginname,jdbcType=VARCHAR},
             </if>
             <if test="emp.loginpwd != null and emp.loginpwd != ''">
-                loginPwd = #{emp.loginpwd,jdbcType=VARCHAR},
+                loginPwds = #{emp.loginpwd,jdbcType=VARCHAR},
             </if>
             <if test="emp.empaddress != null and emp.empaddress != ''">
                 empAddress = #{emp.empaddress,jdbcType=VARCHAR},
@@ -64,19 +67,19 @@
             <if test="emp.empsex != null and emp.empsex &gt; 0 and emp.empsex &lt; 2">
                 empSex = #{emp.empsex,jdbcType=INTEGER},
             </if>
-            <if test="emp.empbirth != null and emp.empbirth != ''">
+            <if test="emp.empbirth != null">
                 empBirth = #{emp.empbirth,jdbcType=TIMESTAMP},
             </if>
             <if test="emp.empstauts != null and emp.empstauts &gt; 0 and emp.empstauts &lt; 2">
-                empStauts = #{emp.empstauts,jdbcType=INTEGER}
+                empStauts = #{emp.empstauts,jdbcType=INTEGER},
             </if>
             <if test="emp.empdesc != null and emp.empdesc != ''">
                 empDesc = #{emp.empdesc,jdbcType=VARCHAR},
             </if>
-            <if test="emp.empqq != null and emp. != ''">
+            <if test="emp.empqq != null and emp.empqq != ''">
                 empQQ = #{emp.empqq,jdbcType=VARCHAR},
             </if>
-            <if test="emp.empentrytime != null and emp.empentrytime != ''">
+            <if test="emp.empentrytime != null">
                 empEntryTime = #{emp.empentrytime,jdbcType=TIMESTAMP},
             </if>
             <if test="emp.empmajor != null and emp.empmajor != ''">

@@ -51,10 +51,6 @@
             <td>${employee.empphone}</td>
         </tr>
         <tr>
-            <th class="text-r">：</th>
-            <td>${employee}</td>
-        </tr>
-        <tr>
             <th class="text-r">住址：</th>
             <td>
                 <c:if test="${empty employee.empaddress or employee.empaddress ==''}">未填写</c:if>
@@ -64,22 +60,29 @@
         <tr>
             <th class="text-r">QQ：</th>
             <td>
-                <c:if test="${empty employee.stuqq or employee.stuqq ==''}">未填写</c:if>
-                ${employee.stuqq}
+                <c:if test="${empty employee.empqq or employee.empqq ==''}">未填写</c:if>
+                ${employee.empqq}
             </td>
         </tr>
         <tr>
             <th class="text-r">邮箱：</th>
             <td>
-                ${employee.stuemail}
-                <c:if test="${empty employee.stuemail or employee.stuemail ==''}">未填写</c:if>
+                <c:if test="${empty employee.empemail or employee.empemail ==''}">未填写</c:if>
+                ${employee.empemail}
             </td>
         </tr>
         <tr>
             <th class="text-r">学历：</th>
             <td>
-                ${employee.studegree}
-                <c:if test="${empty employee.studegree or employee.studegree ==''}">未填写</c:if>
+                <c:if test="${empty employee.empmajor or employee.empmajor ==''}">未填写</c:if>
+                ${employee.empmajor}
+            </td>
+        </tr>
+        <tr>
+            <th class="text-r">状态：</th>
+            <td>
+                <c:if test="${employee.empstauts == 0}">离职</c:if>
+                <c:if test="${employee.empstauts == 1}">在职</c:if>
             </td>
         </tr>
         </tbody>

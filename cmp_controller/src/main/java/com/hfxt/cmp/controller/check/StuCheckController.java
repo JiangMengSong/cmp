@@ -63,7 +63,7 @@ public class StuCheckController {
     public String toEditStu(HttpServletRequest request, @PathVariable Integer stucheckingid){
         if (null == request.getSession().getAttribute("emp")) return "redirect:/employee/login/toLogin.html";
         if (stucheckingid != null && stucheckingid > 0) request.setAttribute("stu",stuCheckService.getCheckById(stucheckingid));
-        request.setAttribute("student",studentService.getStudent());
+        request.setAttribute("student",studentService.getStudent(null));
         return "check/stucheck_edit";
     }
 

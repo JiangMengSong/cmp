@@ -30,22 +30,22 @@
         inner join tb_clazz on tb_student.classId = tb_clazz.clazzId
         <if test="stu != null">
             <where>
-                <if test="stu.stuname != null and stu.stuname != ''">
-                    and stuName like Concat('%',#{stu.stuName,jdbcType=VARCHAR},'%')
+                <if test="stu.seaName != null and stu.seaName != ''">
+                    and stuName like Concat('%',#{stu.seaName,jdbcType=VARCHAR},'%')
                 </if>
-                <if test="stu.clazz != null and stu.clazz.clazzid != null and stu.clazz.clazzid &gt; 0">
-                    and classId = #{stu.clazz.clazzid,jdbcType=INTEGER}
+                <if test="stu.clazzId != null and stu.clazzId != null and stu.clazzId &gt; 0">
+                    and classId = #{stu.clazzId,jdbcType=INTEGER}
                 </if>
                 <if test="stu.startDate != null">
-                    and stuEntryTime &gt; #{stu.startDate,jdbcType=TIMESTAMP}
+                    and stuEntryTime &gt; Date(#{stu.startDate,jdbcType=TIMESTAMP})
                 </if>
                 <if test="stu.endDate != null">
-                    and stuEntryTime &lt; #{stu.endDate,jdbcType=TIMESTAMP}
+                    and stuEntryTime &lt; Date(#{stu.endDate,jdbcType=TIMESTAMP})
                 </if>
             </where>
         </if>
     </select>
-    <select id="getStuById" resultType="com.hfxt.cmp.model.Student">
+    <select id="getStuById" resultMap="StudentBean">
         select * from tb_student
         inner join tb_clazz on tb_student.classId = tb_clazz.clazzId
         where tb_student.stuId = #{stuId,jdbcType=INTEGER}

@@ -24,6 +24,13 @@ public interface EmployeeMapper {
     List<Employee> getEmployee();
 
     /**
+     * 根据Id获取指定员工信息
+     * @param empId 员工id
+     * @return
+     */
+    Employee getEmpById(@Param("empId") Integer empId);
+
+    /**
      * 删除员工方法
      */
     int delEmployee(@Param("map")Map<String,Object> map);

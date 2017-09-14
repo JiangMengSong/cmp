@@ -34,12 +34,11 @@
             <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius">
                 <i class="Hui-iconfont">&#xe6e2;</i> 批量删除
             </a>
-            <a href="javascript:;" onclick="member_add('添加用户','member-add.html','','510')"
+            <a href="javascript:;" onclick="emp_edit(0)"
                class="btn btn-primary radius">
-                <i class="Hui-iconfont">&#xe600;</i> 添加用户
+                <i class="Hui-iconfont">&#xe600;</i> 添加员工
             </a>
         </span>
-        <span class="r">共有数据：<strong>88</strong> 条</span>
     </div>
     <div class="mt-20">
         <table class="table table-border table-bordered table-hover table-bg table-sort">
@@ -65,7 +64,7 @@
             <c:forEach items="${empList}" var="employee">
                 <tr class="text-c">
                     <td><input type="checkbox" value="" name=""></td>
-                    <td><a href="#">${employee.empname}</a></td>
+                    <td><a href="javaScript:;" onclick="emp_show(${employee.empid},'${employee.empname}')">${employee.empname}</a></td>
                     <td>
                         <c:if test="${employee.empsex == 1}">男</c:if>
                         <c:if test="${employee.empsex == 0}">女</c:if>
@@ -94,10 +93,13 @@
                         <c:if test="${empty employee.empdesc or employee.empdesc ==''}">未填写</c:if>
                     </td>
                     <td class="f-14">
-                        <a title="编辑" href="javascript:;" onclick="admin_role_edit('员工编辑','${pro}/employee/toHello.html','1')"
-                           style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
-                        <a title="删除" href="javascript:;" onclick="emp_del(${employee.empid})" class="ml-5"
-                           style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+                        <c:if test="${emp.emprole == 1 or emp.emprole == 2}">
+                            <a title="编辑" href="javascript:;" onclick="emp_edit(${employee.empid})"
+                               style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
+                            <a title="删除" href="javascript:;" onclick="emp_del(${employee.empid})" class="ml-5"
+                               style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+                        </c:if>
+                        <c:if test="${emp.emprole != 1 and emp.emprole != 2}">无权限操作</c:if>
                     </td>
                 </tr>
             </c:forEach>
@@ -122,12 +124,36 @@
         });
     });
 
+    function emp_show(empId,empName){
+        layer.open({
+            type: 2,
+            area: [360 + 'px', 400 + 'px'],
+            fix: false, //不固定
+            maxmin: true,
+            shade: 0.4,
+            title: empName,
+            content: "${pro}/employee/empEdit/"+empId+"?sel=1"
+        });
+    }
 
-    function emp_del(empcheckingid) {
+    /*跳转编辑学生信息*/
+    function emp_edit(empId){
+        layer.open({
+            type: 2,
+            area: [800 + 'px', ($(window).height() - 50) + 'px'],
+            fix: false, //不固定
+            maxmin: true,
+            shade: 0.4,
+            title: "编辑员工",
+            content: "${pro}/employee/empEdit/"+empId
+        });
+    }
+
+    function emp_del(empId) {
         if(confirm('确认要删除吗？')) {
             $.ajax({
                 type: 'POST',
-                url: '${pro}/empcheck/delEmpCheck/'+empcheckingid,
+                url: '${pro}/employee/delEmp/'+empId,
                 dataType: 'json',
                 success: function (data) {
                     if (data.flag){

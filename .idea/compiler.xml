@@ -21,7 +21,7 @@
       <module name="cmp_mapper" target="1.8" />
       <module name="cmp_model" target="1.8" />
       <module name="cmp_page" target="1.8" />
-      <module name="cmp_service" target="1.6" />
+      <module name="cmp_service" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

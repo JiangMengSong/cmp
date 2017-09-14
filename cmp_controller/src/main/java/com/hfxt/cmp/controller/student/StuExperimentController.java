@@ -27,7 +27,7 @@ public class StuExperimentController extends BaseController {
      */
     @RequestMapping(value = "/expList.html",produces = "text/html;charset=utf-8")
     public String expList(HttpServletRequest request){
-        if (null != employee) return toLogin;
+        if (null == employee) return toLogin;
         request.setAttribute("expList",stuExperimentService.getStuExperiment());
         return "student/experiment/stu_exp_list";
     }
@@ -37,7 +37,7 @@ public class StuExperimentController extends BaseController {
      */
     @RequestMapping(value = "/toEditExp/{expId}",produces = "text/html;charset=utf-8")
     public String toEditExp(HttpServletRequest request, @PathVariable Integer expId){
-        if (null != employee) return toLogin;
+        if (null == employee) return toLogin;
 
         return "student/";
     }
