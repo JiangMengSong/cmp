@@ -13,8 +13,8 @@ import java.util.Map;
 @Service("studentService")
 public class StudentServiceImpl extends BaseService implements StudentService {
     @Override
-    public List<Student> getStudent(Search stu) {
-        return studentMapper.getStudent(stu);
+    public List<Student> getStudent(Search stu,Integer empId) {
+        return studentMapper.getStudent(stu,empId);
     }
 
     @Override

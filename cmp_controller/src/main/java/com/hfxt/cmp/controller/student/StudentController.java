@@ -37,8 +37,8 @@ public class StudentController extends BaseController {
      * */
     @RequestMapping(value = "/stuList.html",produces = "text/html;charset=utf-8")
     public String stuList(HttpServletRequest request, Search search){
-            if (null == employee) return toLogin;
-        request.setAttribute("stuList",studentService.getStudent(search));
+        if (null == employee) return toLogin;
+        request.setAttribute("stuList",studentService.getStudent(search,employee.getEmpid()));
         return "student/stu_list"; // 返回hello页面
     }
 

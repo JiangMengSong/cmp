@@ -117,7 +117,7 @@ public class ClazzController extends BaseController {
     }
     /**
      * 饼状图
-     * @param <T>
+     * @param
      * @return
      */
     @RequestMapping("/getEcharsByBing")

@@ -1,5 +1,6 @@
 package com.hfxt.cmp.controller.check;
 
+import com.hfxt.cmp.controller.BaseController;
 import com.hfxt.cmp.model.EmpChecking;
 import com.hfxt.cmp.model.StuChecking;
 import com.hfxt.cmp.search.Search;
@@ -10,6 +11,7 @@ import com.hfxt.cmp.service.studnet.StudentService;
 import com.mysql.cj.x.protobuf.MysqlxDatatypes;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,20 +28,23 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/empcheck")
-public class EmpCheckController {
+@Scope("prototype")
+public class EmpCheckController extends BaseController {
     @Resource(name = "empCheckService")
     private   EmpCheckService empCheckService;
 
     @Resource(name = "employeeService")
    private EmployeeService employeeService;
 
-
+    public EmpCheckController(HttpSession session) {
+        super(session);
+    }
 
 
     //查询
     @RequestMapping(value = "/getEmpCheck.html", produces = "text/html;charset=utf-8")
     public String getEmpCheck(HttpServletRequest request, Search empCheck) {
-
+        if (null == employee) return toLogin;
         List<EmpChecking> checkList=empCheckService.getEmpCheck(empCheck);
             request.setAttribute("checkList", checkList);
 
@@ -50,6 +55,7 @@ public class EmpCheckController {
     @RequestMapping(value = "/delEmpCheck/{empcheckingid}",produces = "text/html;charset=utf-8")
     @ResponseBody
     public String delEmpCheck(HttpSession session, @PathVariable Integer empcheckingid){
+        if (null == employee) return toLogin;
         JSONObject result = new JSONObject();
         result.put("flag",false);
         if (null == empcheckingid ) return result.toString();
@@ -62,7 +68,7 @@ public class EmpCheckController {
      */
     @RequestMapping(value = "/toGet/{empcheckingid}",produces = "text/html;charset=utf-8")
     public String toEditExp(HttpServletRequest request, @PathVariable Integer empcheckingid){
-        if (null == request.getSession().getAttribute("emp")) return "redirect:/employee/login/toLogin.html";
+        if (null == employee) return toLogin;
         if (empcheckingid != null && empcheckingid > 0) request.setAttribute("empedit",empCheckService.getCheckById(empcheckingid));
         request.setAttribute("employee",employeeService.getEmployee());
         return "check/empcheck_edit";
@@ -74,7 +80,7 @@ public class EmpCheckController {
     @RequestMapping(value = "/upEmpCheck.html",produces = "text/html;charset=utf-8")
     @ResponseBody
     public String editStu(HttpSession session,EmpChecking empchecking){
-        if (null == session.getAttribute("emp")) return "redirect:/employee/login/toLogin.html";
+        if (null == employee) return toLogin;
         JSONObject result = new JSONObject();
         result.put("flag",false);
         if (empchecking== null) return result.toString();
@@ -90,6 +96,7 @@ public class EmpCheckController {
     @RequestMapping(value = "/delEmpCheckAll",produces = "text/html;charset=utf-8")
     @ResponseBody
     public String delEmpCheck(HttpSession session, @RequestParam("empcheckId[]") Integer[] empcheckId){
+        if (null == employee) return toLogin;
         JSONObject result = new JSONObject();
         result.put("flag",false);
         if(empcheckId == null || empcheckId.length == 0) return result.toString();

@@ -26,23 +26,24 @@
         select count(*) from tb_student where stuCode = #{stuCode,jdbcType=VARCHAR}
     </select>
     <select id="getStudent" resultMap="StudentBean">
-        select * from tb_student
-        inner join tb_clazz on tb_student.classId = tb_clazz.clazzId
+        select * from tb_student s
+        inner join tb_clazz c on s.classId=c.clazzId
+        inner join tb_employee_clazz ec on ec.clazzId = c.clazzId
+        inner join tb_employee e on e.empId = ec.empId
+        where ec.clazzId in (SELECT clazzId from tb_employee_clazz where empId = #{empId,jdbcType=INTEGER})
         <if test="stu != null">
-            <where>
-                <if test="stu.seaName != null and stu.seaName != ''">
-                    and stuName like Concat('%',#{stu.seaName,jdbcType=VARCHAR},'%')
-                </if>
-                <if test="stu.clazzId != null and stu.clazzId != null and stu.clazzId &gt; 0">
-                    and classId = #{stu.clazzId,jdbcType=INTEGER}
-                </if>
-                <if test="stu.startDate != null">
-                    and stuEntryTime &gt; Date(#{stu.startDate,jdbcType=TIMESTAMP})
-                </if>
-                <if test="stu.endDate != null">
-                    and stuEntryTime &lt; Date(#{stu.endDate,jdbcType=TIMESTAMP})
-                </if>
-            </where>
+            <if test="stu.seaName != null and stu.seaName != ''">
+                and stuName like Concat('%',#{stu.seaName,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="stu.clazzId != null and stu.clazzId != null and stu.clazzId &gt; 0">
+                and classId = #{stu.clazzId,jdbcType=INTEGER}
+            </if>
+            <if test="stu.startDate != null">
+                and stuEntryTime &gt; Date(#{stu.startDate,jdbcType=TIMESTAMP})
+            </if>
+            <if test="stu.endDate != null">
+                and stuEntryTime &lt; Date(#{stu.endDate,jdbcType=TIMESTAMP})
+            </if>
         </if>
     </select>
     <select id="getStuById" resultMap="StudentBean">

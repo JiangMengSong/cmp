@@ -1,5 +1,6 @@
 package com.hfxt.cmp.controller.check;
 
+import com.hfxt.cmp.controller.BaseController;
 import com.hfxt.cmp.model.EmpChecking;
 import com.hfxt.cmp.model.StuChecking;
 import com.hfxt.cmp.model.Student;
@@ -10,6 +11,7 @@ import com.hfxt.cmp.service.studnet.StudentService;
 import common.utils.Validity;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +28,8 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/stucheck")
-public class StuCheckController {
+@Scope("prototype")
+public class StuCheckController extends BaseController {
 
     @Resource(name = "stuCheckService")
    private StuCheckService stuCheckService;
@@ -34,10 +37,15 @@ public class StuCheckController {
     @Resource(name = "studentService")
     private StudentService studentService;
 
+    public StuCheckController(HttpSession session) {
+        super(session);
+    }
+
 
     //查询
     @RequestMapping(value = "/getStuCheck.html", produces = "text/html;charset=utf-8")
     public String getStuCheck(HttpServletRequest request, Search stuCheck) {
+        if (null == employee) return toLogin;
         List<StuChecking> checkList=stuCheckService.getStuCheck(stuCheck);
         if(checkList!=null){
             request.setAttribute("checkList",checkList);
@@ -50,7 +58,7 @@ public class StuCheckController {
     @RequestMapping(value = "/delStuCheck/{stucheckingid}",produces = "text/html;charset=utf-8")
     @ResponseBody
     public String delStuCheck(HttpServletRequest request,@PathVariable Integer stucheckingid){
-        if (null == request.getSession().getAttribute("emp")) return "redirect:/employee/login/toLogin.html";
+        if (null == employee) return toLogin;
         JSONObject result = new JSONObject();
         result.put("flag",false);
         if (null == stucheckingid ) return result.toString();
@@ -63,9 +71,9 @@ public class StuCheckController {
      */
     @RequestMapping(value = "/toGet/{stucheckingid}",produces = "text/html;charset=utf-8")
     public String toEditStu(HttpServletRequest request, @PathVariable Integer stucheckingid){
-        if (null == request.getSession().getAttribute("emp")) return "redirect:/employee/login/toLogin.html";
+        if (null == employee) return toLogin;
         if (stucheckingid != null && stucheckingid > 0) request.setAttribute("stu",stuCheckService.getCheckById(stucheckingid));
-        request.setAttribute("studentList",studentService.getStudent(null));
+        request.setAttribute("studentList",studentService.getStudent(null,employee.getEmpid()));
         return "check/stucheck_edit";
     }
 
@@ -75,7 +83,7 @@ public class StuCheckController {
     @RequestMapping(value = "/upStuCheck.html",produces = "text/html;charset=utf-8")
     @ResponseBody
     public String editStu(HttpSession session,StuChecking stucheck){
-        if (null == session.getAttribute("emp")) return "redirect:/employee/login/toLogin.html";
+        if (null == employee) return toLogin;
         JSONObject result = new JSONObject();
         result.put("flag",false);
         if (stucheck == null) return result.toString();
@@ -91,6 +99,7 @@ public class StuCheckController {
     @RequestMapping(value = "/delStuCheckAll",produces = "text/html;charset=utf-8")
     @ResponseBody
     public String delEmpCheck(HttpSession session, @RequestParam("stucheckId[]") Integer[] stucheckId){
+        if (null == employee) return toLogin;
         JSONObject result = new JSONObject();
         result.put("flag",false);
         if(stucheckId == null || stucheckId.length == 0) return result.toString();

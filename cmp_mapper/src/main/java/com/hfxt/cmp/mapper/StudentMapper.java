@@ -26,7 +26,7 @@ public interface StudentMapper {
      * @param stu 查询条件
      * @return
      */
-    List<Student> getStudent(@Param("stu") Search stu);
+    List<Student> getStudent(@Param("stu") Search stu,@Param("empId") Integer empId);
 
     /**
      * 根据ID获取单个学生

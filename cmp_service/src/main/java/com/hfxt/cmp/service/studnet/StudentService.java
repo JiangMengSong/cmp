@@ -6,7 +6,7 @@ import com.hfxt.cmp.search.Search;
 import java.util.List;
 
 public interface StudentService {
-    List<Student> getStudent(Search stu);
+    List<Student> getStudent(Search stu,Integer empId);
 
     Student getStuById(Integer stuId);
 

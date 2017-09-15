@@ -36,7 +36,7 @@ public class EmployeeController extends BaseController {
      * */
     @RequestMapping(value = "/login/toLogin.html",produces = "text/html;charset=utf-8")
     public String toLogin(HttpServletRequest request){
-        if (null != employee) return "index";
+        if (isLogin) return "index";
         Cookie ckEmpName = CookieUtil.getCookieByName(request,"empName"); // 获取登录名Cookie信息
         Cookie ckEmpPwd = CookieUtil.getCookieByName(request,"empPwd"); // 获取登录密码Cookie信息
         // 判断是否为空
@@ -101,7 +101,7 @@ public class EmployeeController extends BaseController {
      * */
     @RequestMapping(value = "/toIndex.html",produces = "text/html;charset=utf-8")
     public String toIndex(HttpServletRequest request){
-        if (null == employee) return toLogin;
+        if (isLogin) return toLogin;
         return "index"; // 跳转首页
     }
 
@@ -110,7 +110,7 @@ public class EmployeeController extends BaseController {
      * */
     @RequestMapping(value = "/toHello.html",produces = "text/html;charset=utf-8")
     public String toHello(HttpServletRequest request){
-        if (null == employee) return toLogin;
+        if (isLogin) return toLogin;
         return "hello"; // 返回hello页面
     }
 
@@ -119,7 +119,7 @@ public class EmployeeController extends BaseController {
      * */
     @RequestMapping(value = "/empList.html",produces = "text/html;charset=utf-8")
     public String empList(HttpServletRequest request){
-        if (null == employee) return toLogin;
+        if (isLogin) return toLogin;
         request.setAttribute("empList",employeeService.getEmployee());
         return "employee/emp_list";
     }
@@ -129,7 +129,7 @@ public class EmployeeController extends BaseController {
      */
     @RequestMapping(value = "/empEdit/{empId}",produces = "text/html;charset=utf-8")
     public String getEmpById(HttpServletRequest request,@PathVariable Integer empId,@RequestParam(value = "sel",required = false)Integer sel){
-        if (null == employee) return toLogin;
+        if (isLogin) return toLogin;
         if (empId != null && empId > 0) request.setAttribute("employee",employeeService.getEmpById(empId));
         if (sel != null) return "employee/emp_detail";
         return "employee/emp_edit";
@@ -141,7 +141,7 @@ public class EmployeeController extends BaseController {
     @RequestMapping(value = "/editEmp.html",produces = "text/html;charset=utf-8")
     @ResponseBody
     public String editStu(HttpSession session,Employee emp){
-        if (null == employee) return toLogin;
+        if (isLogin) return toLogin;
         JSONObject result = new JSONObject();
         result.put("flag",false);
         if (emp == null) return result.toString();
@@ -158,7 +158,7 @@ public class EmployeeController extends BaseController {
     @RequestMapping(value = "/delEmp/{empId}",produces = "text/html;charset=utf-8")
     @ResponseBody
     public String delEmp( @PathVariable Integer empId){
-        if (null == employee) return toLogin;
+        if (isLogin) return toLogin;
         JSONObject result = new JSONObject();
         result.put("flag",false);
         if (null == empId || empId < 1) return result.toString();
