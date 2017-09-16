@@ -32,14 +32,14 @@ public class SubjectController extends BaseController {
 
     @RequestMapping(value = "/subjectList.html",produces = "text/html;charset=utf-8")
     public String subList(HttpServletRequest request){
-        if (null == employee) return toLogin;
+        if (getPower().isLogin()) return toLogin;
         request.setAttribute("subjectList",subjectservice.getAll());
         return "subject/subject_list";
     }
     //跳转修改专业信息
     @RequestMapping(value="/toupdatesubject/{subid}",produces ="text/html;charset=utf-8")
     public String tomajor(HttpServletRequest request,@PathVariable Integer subid){
-        if (null == employee) return toLogin;
+        if (getPower().isLogin()) return toLogin;
         if (subid != null && subid > 0) request.setAttribute("subject",subjectservice.selectbyid(subid));
        // request.setAttribute("upsub",subjectservice.getAll());
         return "subject/subject_edit";
@@ -47,7 +47,7 @@ public class SubjectController extends BaseController {
     //修改专业信息
     @RequestMapping(value="/updatesubject.html",produces ="text/html;charset=utf-8")
     public String upmajor(HttpServletRequest request, Subject subject){
-        if (null == employee) return toLogin;
+        if (getPower().isLogin()) return toLogin;
         JSONObject result = new JSONObject();
         result.put("flag",false);
         if (subject == null) return result.toString();
@@ -59,7 +59,7 @@ public class SubjectController extends BaseController {
     }
     @RequestMapping(value = "/subList.html", produces = "text/html;charset=UTF-8")
     public String subshow(Model model,Subject subject){
-        if (null == employee) return toLogin;
+        if (getPower().isLogin()) return toLogin;
         try{
             List<Subject> sublist=subjectservice.getlist(subject);
             model.addAttribute("subjectList",sublist);

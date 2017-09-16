@@ -42,7 +42,7 @@ public class ClazzController extends BaseController {
      */
 	@RequestMapping(value = "/clazzList.html", produces = "text/html;charset=UTF-8")
 	public String clazzList(HttpServletRequest request, Clazz clazz) {
-        if (null == employee) return toLogin;
+        if (getPower().isLogin()) return toLogin;
         request.setAttribute("clazzList",clazzService.getClazz(clazz));
 		return "clazz/clazz-list";
 	}
@@ -52,7 +52,7 @@ public class ClazzController extends BaseController {
      */
     @RequestMapping(value = "/toAddClazz/{clazzId}",produces = "text/html;charset=utf-8")
     public String toAddClazz(HttpServletRequest request, @PathVariable Integer clazzId){
-        if (null == employee) return toLogin;
+        if (getPower().isLogin()) return toLogin;
         if (clazzId != null && clazzId > 0) request.setAttribute("clazz",clazzService.selectByPrimaryKey(clazzId));
         request.setAttribute("majorList", majorService.majorList());
         return "clazz/clazz-add"; // 返回hello页面
@@ -63,7 +63,7 @@ public class ClazzController extends BaseController {
     @RequestMapping(value = "/addClazz",produces = "text/html;charset=utf-8")
     @ResponseBody
     public String addClazz(Clazz clazz,HttpSession session){
-        if (null == employee) return toLogin;
+        if (getPower().isLogin()) return toLogin;
         JSONObject result = new JSONObject();
         result.put("flag",false);
         if(clazz == null) return result.toString();
@@ -78,7 +78,7 @@ public class ClazzController extends BaseController {
     @RequestMapping(value = "/delClazz/{clazzId}",produces = "text/html;charset=utf-8")
     @ResponseBody
     public String delClazz(HttpSession session, @PathVariable Integer clazzId){
-        if (null == employee) return toLogin;
+        if (getPower().isLogin()) return toLogin;
         JSONObject result = new JSONObject();
         if (null == clazzId || clazzId < 1){
             result.put("data",false);
@@ -93,7 +93,7 @@ public class ClazzController extends BaseController {
      */
     @RequestMapping(value = "/clazzshow/{clazzId}",produces = "text/html;charset=utf-8")
     public String showClazz(HttpServletRequest request, @PathVariable Integer clazzId){
-        if (null == employee) return toLogin;
+        if (getPower().isLogin()) return toLogin;
         request.setAttribute("clazz",clazzService.selectByPrimaryKey(clazzId));
         return "clazz/clazz-show"; // 返回hello页面
     }

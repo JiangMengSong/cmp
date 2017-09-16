@@ -43,7 +43,7 @@ public class InterviewController extends BaseController {
     //clazz首页
 	@RequestMapping(value = "/interviewList.html", produces = "text/html;charset=UTF-8")
 	public String index(Model model,Interview interview) {
-        if (null == employee) return toLogin;
+        if (getPower().isLogin()) return toLogin;
 		try {
 			List<Interview> interviewList=interviewService.getInterview(interview);
 			model.addAttribute("interviewList",interviewList);
@@ -58,10 +58,10 @@ public class InterviewController extends BaseController {
      */
     @RequestMapping(value = "/toAddInterview/{inteid}",produces = "text/html;charset=utf-8")
     public String toAddInterview(HttpServletRequest request, @PathVariable Integer inteid){
-        if (null == employee) return toLogin;
+        if (getPower().isLogin()) return toLogin;
         if (null == request.getSession().getAttribute("emp")) return "redirect:/employee/login/toLogin.html";
         if (inteid != null && inteid > 0) request.setAttribute("interview",interviewService.selectByPrimaryKey(inteid));
-        request.setAttribute("studentList",studentService.getStudent(null,employee.getEmpid()));
+        request.setAttribute("studentList",studentService.getStudent(null,getPower().getEmployee().getEmpid()));
         request.setAttribute("employeeList",employeeService.getEmployee());
         return "interview/interview-add"; // 返回hello页面
     }
@@ -71,7 +71,7 @@ public class InterviewController extends BaseController {
     @RequestMapping(value = "/addInterview",produces = "text/html;charset=utf-8")
     @ResponseBody
     public String addInterview(Interview interview,HttpSession session){
-        if (null == employee) return toLogin;
+        if (getPower().isLogin()) return toLogin;
         JSONObject result = new JSONObject();
         int count=0;
         if(interview.getInteid()!=null&&interview.getInteid()>0){
@@ -92,7 +92,7 @@ public class InterviewController extends BaseController {
     @RequestMapping(value = "/delInterview/{inteid}",produces = "text/html;charset=utf-8")
     @ResponseBody
     public String delInterview(HttpSession session, @PathVariable Integer inteid){
-        if (null == employee) return toLogin;
+        if (getPower().isLogin()) return toLogin;
         JSONObject result = new JSONObject();
         int count=interviewService.deleteByPrimaryKey(inteid);
         if(count>0){
@@ -108,7 +108,7 @@ public class InterviewController extends BaseController {
      */
     @RequestMapping(value = "/interviewshow/{inteid}",produces = "text/html;charset=utf-8")
     public String showClazz(HttpServletRequest request, @PathVariable Integer inteid){
-        if (null == employee) return toLogin;
+        if (getPower().isLogin()) return toLogin;
         request.setAttribute("interview",interviewService.selectByPrimaryKey(inteid));
         return "interview/interview-show"; // 返回hello页面
     }
@@ -119,7 +119,7 @@ public class InterviewController extends BaseController {
     @RequestMapping(value = "/delInterview1",produces = "text/html;charset=utf-8")
     @ResponseBody
     public String del_Interview(HttpSession session, @RequestParam("inteid[]") Integer[] inteid){
-        if (null == employee) return toLogin;
+        if (getPower().isLogin()) return toLogin;
         JSONObject result = new JSONObject();
         result.put("flag",false);
         if(inteid == null || inteid.length == 0) return result.toString();

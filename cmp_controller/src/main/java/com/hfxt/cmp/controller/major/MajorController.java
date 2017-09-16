@@ -29,14 +29,14 @@ public class MajorController extends BaseController {
 
     @RequestMapping(value = "/majorList.html",produces = "text/html;charset=utf-8")
     public String empList(HttpServletRequest request){
-        if (null == employee) return toLogin;
+        if (getPower().isLogin()) return toLogin;
         request.setAttribute("majorList",majorservice.majorList());
         return "major/major_list";
     }
     //跳转修改专业信息
     @RequestMapping(value="/toupdatemajor/{majorid}",produces ="text/html;charset=utf-8")
     public String tomajor(HttpServletRequest request,@PathVariable Integer majorid){
-        if (null == employee) return toLogin;
+        if (getPower().isLogin()) return toLogin;
         if (majorid != null && majorid > 0) request.setAttribute("major",majorservice.selectbyid(majorid));
         //request.setAttribute("upmajor",majorservice.majorList());
         return "major/major_edit";
@@ -44,7 +44,7 @@ public class MajorController extends BaseController {
     //修改专业信息
     @RequestMapping(value="/updatemajor.html",produces ="text/html;charset=utf-8")
     public String upmajor(HttpServletRequest request, Major major){
-        if (null == employee) return toLogin;
+        if (getPower().isLogin()) return toLogin;
         JSONObject result = new JSONObject();
         result.put("flag",false);
         if (major == null) return result.toString();

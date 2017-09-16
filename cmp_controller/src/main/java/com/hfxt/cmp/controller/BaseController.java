@@ -5,13 +5,14 @@ import com.hfxt.cmp.model.Employee;
 import javax.servlet.http.HttpSession;
 
 public class BaseController {
-    protected Employee employee;
-    protected boolean isLogin;
-
+    private PowerUtil power;
     protected final String toLogin = "redirect:/employee/login/toLogin.html";
 
     public BaseController(HttpSession session) {
-        this.employee = (Employee)session.getAttribute("emp");
-        if ( null == this.employee) this.isLogin = true;
+        power = new PowerUtil((Employee)session.getAttribute("emp"),this);
+    }
+
+    public PowerUtil getPower() {
+        return power;
     }
 }

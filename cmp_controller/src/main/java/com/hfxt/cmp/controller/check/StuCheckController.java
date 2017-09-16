@@ -45,7 +45,7 @@ public class StuCheckController extends BaseController {
     //查询
     @RequestMapping(value = "/getStuCheck.html", produces = "text/html;charset=utf-8")
     public String getStuCheck(HttpServletRequest request, Search stuCheck) {
-        if (null == employee) return toLogin;
+        if (getPower().isLogin()) return toLogin;
         List<StuChecking> checkList=stuCheckService.getStuCheck(stuCheck);
         if(checkList!=null){
             request.setAttribute("checkList",checkList);
@@ -58,7 +58,7 @@ public class StuCheckController extends BaseController {
     @RequestMapping(value = "/delStuCheck/{stucheckingid}",produces = "text/html;charset=utf-8")
     @ResponseBody
     public String delStuCheck(HttpServletRequest request,@PathVariable Integer stucheckingid){
-        if (null == employee) return toLogin;
+        if (getPower().isLogin()) return toLogin;
         JSONObject result = new JSONObject();
         result.put("flag",false);
         if (null == stucheckingid ) return result.toString();
@@ -71,9 +71,9 @@ public class StuCheckController extends BaseController {
      */
     @RequestMapping(value = "/toGet/{stucheckingid}",produces = "text/html;charset=utf-8")
     public String toEditStu(HttpServletRequest request, @PathVariable Integer stucheckingid){
-        if (null == employee) return toLogin;
+        if (getPower().isLogin()) return toLogin;
         if (stucheckingid != null && stucheckingid > 0) request.setAttribute("stu",stuCheckService.getCheckById(stucheckingid));
-        request.setAttribute("studentList",studentService.getStudent(null,employee.getEmpid()));
+        request.setAttribute("studentList",studentService.getStudent(null,getPower().getEmployee().getEmpid()));
         return "check/stucheck_edit";
     }
 
@@ -83,7 +83,7 @@ public class StuCheckController extends BaseController {
     @RequestMapping(value = "/upStuCheck.html",produces = "text/html;charset=utf-8")
     @ResponseBody
     public String editStu(HttpSession session,StuChecking stucheck){
-        if (null == employee) return toLogin;
+        if (getPower().isLogin()) return toLogin;
         JSONObject result = new JSONObject();
         result.put("flag",false);
         if (stucheck == null) return result.toString();
@@ -99,7 +99,7 @@ public class StuCheckController extends BaseController {
     @RequestMapping(value = "/delStuCheckAll",produces = "text/html;charset=utf-8")
     @ResponseBody
     public String delEmpCheck(HttpSession session, @RequestParam("stucheckId[]") Integer[] stucheckId){
-        if (null == employee) return toLogin;
+        if (getPower().isLogin()) return toLogin;
         JSONObject result = new JSONObject();
         result.put("flag",false);
         if(stucheckId == null || stucheckId.length == 0) return result.toString();

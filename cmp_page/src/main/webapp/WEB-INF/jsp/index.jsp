@@ -133,7 +133,19 @@
 <script type="text/javascript">
     function ret_user() {
         layer.confirm('确认要退出吗？',function(index){
-
+            $.ajax({
+                type: 'POST',
+                url: "${pro}/employee/login/retLogin.html",
+                dataType: 'json',
+                success: function (data) {
+                    if (data.flag){
+                        location.replace(location.href);
+                    } else alert("退出失败")
+                },
+                error: function (data) {
+                    console.log(data.msg);
+                },
+            })
         })
     }
 </script>

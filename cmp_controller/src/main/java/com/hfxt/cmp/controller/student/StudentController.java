@@ -37,8 +37,8 @@ public class StudentController extends BaseController {
      * */
     @RequestMapping(value = "/stuList.html",produces = "text/html;charset=utf-8")
     public String stuList(HttpServletRequest request, Search search){
-        if (null == employee) return toLogin;
-        request.setAttribute("stuList",studentService.getStudent(search,employee.getEmpid()));
+        if (getPower().isLogin()) return toLogin;
+        request.setAttribute("stuList",studentService.getStudent(search,getPower().getEmployee().getEmpid()));
         return "student/stu_list"; // 返回hello页面
     }
 
@@ -48,9 +48,13 @@ public class StudentController extends BaseController {
     @RequestMapping(value = "/delStu/{stuId}",produces = "text/html;charset=utf-8")
     @ResponseBody
     public String delStu(HttpSession session, @PathVariable Integer stuId){
-        if (null == employee) return toLogin;
+        if (getPower().isLogin()) return toLogin;
         JSONObject result = new JSONObject();
         result.put("flag",false);
+        if (getPower().isDel()){
+            result.put("msg","对不起，您没有权限执行该操作");
+            return result.toString();
+        }
         if (null == stuId || stuId < 1) return result.toString();
         if (studentService.delStudent(stuId) > 0) result.put("flag",true);
         return result.toString();
@@ -62,7 +66,7 @@ public class StudentController extends BaseController {
     @RequestMapping(value = "/delStudent",produces = "text/html;charset=utf-8")
     @ResponseBody
     public String delStudent(HttpSession session, @RequestParam("stuId[]") Integer[] stuId){
-        if (null == employee) return toLogin;
+        if (getPower().isLogin()) return toLogin;
         JSONObject result = new JSONObject();
         result.put("flag",false);
         if(stuId == null || stuId.length == 0) return result.toString();
@@ -86,7 +90,7 @@ public class StudentController extends BaseController {
      */
     @RequestMapping(value = "/toEditStu/{stuId}",produces = "text/html;charset=utf-8")
     public String toEditExp(HttpServletRequest request, @PathVariable Integer stuId,@RequestParam(value = "sel",required = false)Integer sel){
-        if (null == employee) return toLogin;
+        if (getPower().isLogin()) return toLogin;
         if (stuId != null && stuId > 0) request.setAttribute("stu",studentService.getStuById(stuId));
         if (sel != null) return "student/stu_detail";
         request.setAttribute("clazzList",clazzService.getClazz(null));
@@ -99,7 +103,7 @@ public class StudentController extends BaseController {
     @RequestMapping(value = "/editStu.html",produces = "text/html;charset=utf-8")
     @ResponseBody
     public String editStu(HttpSession session,Student stu){
-        if (null == employee) return toLogin;
+        if (getPower().isLogin()) return toLogin;
         JSONObject result = new JSONObject();
         result.put("flag",false);
         if (stu == null) return result.toString();
