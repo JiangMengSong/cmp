@@ -16,8 +16,10 @@ public class Clazz {
     private String classcode;
 
     private Integer classstatus;
+
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date classbegintime;
+
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date classendtime;
 

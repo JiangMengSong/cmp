@@ -1,5 +1,6 @@
 package com.hfxt.cmp.controller;
 
+import com.hfxt.cmp.controller.clazz.ClazzController;
 import com.hfxt.cmp.controller.employee.EmployeeController;
 import com.hfxt.cmp.controller.student.StudentController;
 import com.hfxt.cmp.model.Employee;
@@ -20,8 +21,8 @@ public class PowerUtil {
                 if (employee.getEmprole() == 3 || employee.getEmprole() == 4) this.isDel = false;
             else if (baseController instanceof EmployeeController)
                 if (employee.getEmprole() == 3 || employee.getEmprole() == 4) this.isSel = this.isAdd = this.isDel = this.isUpdate = false;
-            else if (baseController instanceof StudentController){
-
+            else if (baseController instanceof ClazzController){
+                if (employee.getEmprole() == 3 || employee.getEmprole() == 4) this.isDel = this.isAdd = false;
             }
         }
     }
