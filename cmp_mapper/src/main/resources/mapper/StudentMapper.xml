@@ -58,17 +58,17 @@
           )
         }
     </delete>
-    <insert id="addStudent" parameterType="com.hfxt.cmp.model.Student">
-        insert into tb_student (stuId, stuName, stuSex,
-          classId, stuBirth, stuPhone,
-          stuCode, stuAddress, stuContact,stuHead,
-          stuDesc, stuQQ, stuEmail,
-          stuEntryTime, stuDegree)
-        values (0, #{stu.stuname,jdbcType=VARCHAR}, #{stu.stusex,jdbcType=INTEGER},
-          #{stu.clazz.clazzid,jdbcType=INTEGER}, #{stu.stubirth,jdbcType=TIMESTAMP}, #{stu.stuphone,jdbcType=VARCHAR},
-          #{stu.stucode,jdbcType=VARCHAR}, #{stu.stuaddress,jdbcType=VARCHAR}, #{stu.stucontact,jdbcType=VARCHAR},
-          #{stu.stuhead,jdbcType=VARCHAR},#{stu.studesc,jdbcType=VARCHAR}, #{stu.stuqq,jdbcType=VARCHAR},
-          #{stu.stuemail,jdbcType=VARCHAR},#{stu.stuentrytime,jdbcType=TIMESTAMP}, #{stu.studegree,jdbcType=VARCHAR})
+    <insert id="addStudent" statementType="CALLABLE" parameterType="com.hfxt.cmp.model.Student">
+        {
+            call add_stu(
+            #{map.stuName,jdbcType=VARCHAR,mode=IN}, #{map.stuSex,jdbcType=INTEGER,mode=IN},
+          #{map.classId,jdbcType=INTEGER}, #{map.stuBirth,jdbcType=TIMESTAMP}, #{map.stuPhone,jdbcType=VARCHAR},
+          #{map.stuCode,jdbcType=VARCHAR}, #{map.stuAddress,jdbcType=VARCHAR}, #{map.stuContact,jdbcType=VARCHAR},
+          #{map.stuHead,jdbcType=VARCHAR},#{map.stuDesc,jdbcType=VARCHAR}, #{map.stuQQ,jdbcType=VARCHAR},
+          #{map.stuEmail,jdbcType=VARCHAR},#{map.stuEntryTime,jdbcType=TIMESTAMP}, #{map.stuDegree,jdbcType=VARCHAR}
+          ,#{map.delCount,jdbcType=INTEGER,mode=OUT}
+          )
+        }
     </insert>
     <update id="updateStudent" parameterType="com.hfxt.cmp.model.Student">
         update tb_student

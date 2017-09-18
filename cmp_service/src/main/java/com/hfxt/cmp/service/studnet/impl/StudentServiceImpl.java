@@ -24,7 +24,24 @@ public class StudentServiceImpl extends BaseService implements StudentService {
 
     @Override
     public int addStudent(Student stu) {
-        return studentMapper.addStudent(stu);
+        Map<String,Object> map = new HashMap<String,Object>();
+        map.put("stuName",stu.getStuname());
+        map.put("stuSex",stu.getStusex());
+        map.put("classId",stu.getClazz().getClazzid());
+        map.put("stuBirth",stu.getStubirth());
+        map.put("stuPhone",stu.getStuphone());
+        map.put("stuCode",stu.getStucode());
+        map.put("stuAddress",stu.getStuaddress());
+        map.put("stuContact",stu.getStucontact());
+        map.put("stuHead",stu.getStuhead());
+        map.put("stuDesc",stu.getStudesc());
+        map.put("stuQQ",stu.getStuqq());
+        map.put("stuEmail",stu.getStuemail());
+        map.put("stuEntryTime",stu.getStuentrytime());
+        map.put("stuDegree",stu.getStudegree());
+        map.put("addCount",0);
+        studentMapper.addStudent(map);
+        return (Integer)(map.get("addCount"));
     }
 
     @Override

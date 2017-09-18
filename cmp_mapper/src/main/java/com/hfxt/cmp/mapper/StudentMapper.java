@@ -11,9 +11,9 @@ public interface StudentMapper {
 
     /**
      * 添加学生信息
-     * @param stu 学生
+     * @param map 学生
      */
-    int addStudent(@Param("stu") Student stu);
+    int addStudent(@Param("map")Map<String,Object> map);
 
     /**
      * 修改学生信息

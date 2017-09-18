@@ -68,6 +68,9 @@
         <logback.version>1.2.3</logback.version>
         <logback.ext.spring.version>0.1.4</logback.ext.spring.version>
 
+        <!-- poi -->
+        <org.apache.poi.version>3.14</org.apache.poi.version>
+
         <json.version>20170516</json.version>
     </properties>
 
@@ -313,18 +316,18 @@
             <dependency>
                 <groupId>org.apache.poi</groupId>
                 <artifactId>poi</artifactId>
-                <version>3.8</version>
+                <version>${org.apache.poi.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.poi</groupId>
                 <artifactId>poi-ooxml</artifactId>
-                <version>3.16</version>
+                <version>${org.apache.poi.version}</version>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml-schemas -->
+
             <dependency>
                 <groupId>org.apache.poi</groupId>
                 <artifactId>poi-ooxml-schemas</artifactId>
-                <version>3.16</version>
+                <version>${org.apache.poi.version}</version>
             </dependency>
         </dependencies>
 

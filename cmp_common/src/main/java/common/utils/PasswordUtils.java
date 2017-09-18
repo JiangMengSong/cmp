@@ -28,6 +28,9 @@ public class PasswordUtils {
 	}
 
 	public static void main(String[] args) {
+//		int i = 6;
+//		i += i++;
+//		System.out.println(i);
 		System.out.println(encryptPassword("123", "12345654321123456"));
 	}
 }

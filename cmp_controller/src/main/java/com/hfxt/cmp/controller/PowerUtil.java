@@ -1,8 +1,14 @@
 package com.hfxt.cmp.controller;
 
+import com.hfxt.cmp.controller.check.EmpCheckController;
+import com.hfxt.cmp.controller.check.StuCheckController;
 import com.hfxt.cmp.controller.clazz.ClazzController;
 import com.hfxt.cmp.controller.employee.EmployeeController;
+import com.hfxt.cmp.controller.interview.InterviewController;
+import com.hfxt.cmp.controller.major.MajorController;
+import com.hfxt.cmp.controller.student.StuExperimentController;
 import com.hfxt.cmp.controller.student.StudentController;
+import com.hfxt.cmp.controller.subject.SubjectController;
 import com.hfxt.cmp.model.Employee;
 
 public class PowerUtil {
@@ -15,14 +21,22 @@ public class PowerUtil {
 
     public PowerUtil(Employee employee,BaseController baseController) {
         this.employee = employee;
-        if (null == this.employee) this.isLogin = true;
         if (null != this.employee){
-            if (baseController instanceof StudentController)
-                if (employee.getEmprole() == 3 || employee.getEmprole() == 4) this.isDel = false;
-            else if (baseController instanceof EmployeeController)
-                if (employee.getEmprole() == 3 || employee.getEmprole() == 4) this.isSel = this.isAdd = this.isDel = this.isUpdate = false;
-            else if (baseController instanceof ClazzController){
-                if (employee.getEmprole() == 3 || employee.getEmprole() == 4) this.isDel = this.isAdd = false;
+            this.isLogin = false;
+            switch (employee.getEmprole()){
+                case 2:
+                    if (baseController instanceof MajorController || baseController instanceof SubjectController)
+                        this.isDel = false;
+                    break;
+                case 3:
+                case 4:
+                    if (baseController instanceof EmpCheckController || baseController instanceof EmployeeController)
+                        this.isSel = this.isAdd = this.isUpdate = this.isDel = false;
+                    else if (baseController instanceof ClazzController)
+                        this.isDel = this.isAdd = false;
+                    else if (baseController instanceof StudentController)
+                        this.isDel = false;
+                    break;
             }
         }
     }

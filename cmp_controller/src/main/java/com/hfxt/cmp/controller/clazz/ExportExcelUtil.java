@@ -58,11 +58,11 @@ public class ExportExcelUtil {
 	        
 	        CellStyle cs = setSimpleCellStyle(wb);
 	        int lastRow = sheet.getLastRowNum();    //插入数据的数据ROW
-	        row = sheet.createRow(lastRow);//Excel单元格样式  
+	        row = sheet.createRow(lastRow);//Excel单元格样式
 	        cell = row.createCell(0); 
 	        cell.setCellValue("          班级信息一览表   ");
 	        cell.setCellStyle(cs);
-	        row = sheet.createRow(lastRow+1);//Excel单元格样式  
+	        row = sheet.createRow(lastRow+1);//Excel单元格样式
 	        cell = row.createCell(0);
             cell.setCellValue("班级id");
             cell.setCellStyle(cs);  
@@ -85,7 +85,7 @@ public class ExportExcelUtil {
 	        //合并单元格CellRangeAddress构造参数依次表示起始行，截至行，起始列， 截至列  
 	        sheet.addMergedRegion(new CellRangeAddress(0,0,0,4));
 	        for (int i = 0; i < lis.size(); i++) {  
-	            row = sheet.createRow(lastRow+i+2); //创建新的ROW，用于数据插入  
+	            row = sheet.createRow(lastRow+i+2); //创建新的ROW，用于数据插入
 	            //按项目实际需求，在该处将对象数据插入到Excel中  
 	            Clazz vo  = lis.get(i);
 	            if(null==vo){

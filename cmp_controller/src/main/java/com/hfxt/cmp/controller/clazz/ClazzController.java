@@ -90,9 +90,9 @@ public class ClazzController extends BaseController {
         if (getPower().isLogin()) return toLogin;
         JSONObject result = new JSONObject();
         if (null == clazzId || clazzId < 1){
-            result.put("data",false);
+            result.put("flag",false);
         }else{
-            result.put("data",true);
+            result.put("flag",true);
         }
         return result.toString();
     }
@@ -207,9 +207,9 @@ public class ClazzController extends BaseController {
             e.printStackTrace();
         }
         finally{
-            //os.flush();
-            //os.close();
-            //wb.close();
+            os.flush();
+            wb.close();
+            os.close();
         }
         return null;
     }
