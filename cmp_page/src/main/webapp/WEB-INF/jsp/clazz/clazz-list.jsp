@@ -20,6 +20,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		-
 		<input type="text" name="classendtime" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" class="input-text Wdate" style="width:120px;">
 		<input type="text" class="input-text" style="width:250px;" id="" name="classname">
+		<button type="button" value="" id="excelExport2" class="btn btn-success radius"
+			   onclick="exportFile()" ><i class="Hui-iconfont">&#xe665;</i>Excel导出 POI</button>
 		<button type="submit" class="btn btn-success radius" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜用户</button>
 		</form>
 	</div>
@@ -79,6 +81,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="${pro }/resources/lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
 <script type="text/javascript" src="${pro }/resources/lib/laypage/1.2/laypage.js"></script>
 <script type="text/javascript">
+    function exportFile() {
+        window.location.href = "${pro}/clazz/ajaxExport.html";
+    }
 $(function(){
 	$('.table-sort').dataTable({
 		"aaSorting": [[ 1, "desc" ]],//默认第几个排序

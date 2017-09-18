@@ -1,5 +1,10 @@
 package com.hfxt.cmp.controller.clazz;
 
+import java.io.File;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -7,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.hfxt.cmp.controller.BaseController;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -14,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hfxt.cmp.model.Clazz;
@@ -21,6 +28,8 @@ import com.hfxt.cmp.model.EchartData;
 import com.hfxt.cmp.model.Series;
 import com.hfxt.cmp.service.clazz.ClazzService;
 import com.hfxt.cmp.service.major.MajorService;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 @Controller
 @RequestMapping("/clazz")
@@ -170,5 +179,38 @@ public class ClazzController extends BaseController {
     @RequestMapping(value = "/bing.html", produces = "text/html;charset=UTF-8")
     public String bing() {
         return "clazz/bingtu";
+    }
+    //excel导出
+    @RequestMapping(value="ajaxExport.html",method={RequestMethod.GET,RequestMethod.POST})
+    public  String  ajaxUploadExcel2(HttpServletRequest request,
+                                     HttpServletResponse response,Clazz search) throws Exception {
+        System.out.println("通过 jquery.form.js 提供的ajax方式导出文件！");
+        OutputStream os = null;
+        Workbook wb = null;    //工作薄
+
+        try {
+            //模拟数据库取值
+            List<Clazz> lo = clazzService.getClazz(search);
+
+            //导出Excel文件数据
+            ExportExcelUtil util = new ExportExcelUtil();
+            File file =util.getExcelDemoFile("/ExcelDemoFile/22.xls");
+            String sheetName="Sheet1";
+            wb = util.writeNewExcel(file, sheetName,lo);
+
+            String fileName="用户.xls";
+            response.setContentType("application/vnd.ms-excel");
+            response.setHeader("Content-disposition", "attachment;filename="+ URLEncoder.encode(fileName, "utf-8"));
+            os = response.getOutputStream();
+            wb.write(os);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally{
+            //os.flush();
+            //os.close();
+            //wb.close();
+        }
+        return null;
     }
 }
