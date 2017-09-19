@@ -11,6 +11,7 @@
     <sql id="Base_Column_List">
         empCheckingId, empId, cheTime, cheStatus, empCheckDesc
     </sql>
+
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="EmpCheckingBean">
         select
         *
@@ -18,6 +19,7 @@
          inner join tb_employee on tb_employee_checking.empId = tb_employee.empId
         where empCheckingId = #{empcheckingid,jdbcType=INTEGER}
     </select>
+
 
     <select id="getEmpCheck" parameterType="com.hfxt.cmp.model.EmpChecking" resultMap="EmpCheckingBean">
         select *
@@ -71,5 +73,16 @@
         </set>
         where empCheckingId = #{empcheck.empcheckingid,jdbcType=INTEGER}
     </update>
+
+    <insert id="insertAll" parameterType="java.util.List">
+        insert into tb_employee_checking (empCheckingId, empId, cheTime,
+        cheStatus, empCheckDesc)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (0, #{item.employee.empid,jdbcType=INTEGER}, #{item.chetime,jdbcType=TIMESTAMP},
+            #{item.chestatus,jdbcType=INTEGER}, #{item.empcheckdesc,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
 
 </mapper>

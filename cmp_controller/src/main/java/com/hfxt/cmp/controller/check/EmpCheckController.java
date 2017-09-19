@@ -17,10 +17,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -123,6 +126,21 @@ public class EmpCheckController extends BaseController {
             }
         }
         return result.toString();
+    }
+
+    //批量添加
+    @RequestMapping(value = "/insetAll.html",produces = "text/html;charset=utf-8")
+    public String impotr(@RequestParam(value="filename") MultipartFile file, HttpServletRequest request) throws Exception {
+        if (getPower().isLogin()) return toLogin;
+        if (!getPower().isOpera()) return toNotPowerJsp;
+        //获取上传的文件
+        MultipartHttpServletRequest multipart = (MultipartHttpServletRequest) request;
+        MultipartFile newfile = multipart.getFile("filename");
+        InputStream in = newfile.getInputStream();
+        //数据导入
+        if(empCheckService.insertAllemp(in,file)>0)
+        in.close();
+        return "redirect:/empcheck/getEmpCheck.html";
     }
 
 

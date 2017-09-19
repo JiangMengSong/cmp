@@ -28,9 +28,15 @@ public abstract class DateUtils {
 	
 	private static final DateFormat DFyyMMdd_HHmmss = new SimpleDateFormat(
 			"yyyy-MM-dd");
+	private static SimpleDateFormat simpleDateFormat;
 
 	private DateUtils() {
 
+	}
+
+	public static String DateToString(Date source, String pattern) {
+		simpleDateFormat = new SimpleDateFormat(pattern);
+		return simpleDateFormat.format(source);
 	}
 
 	/**

@@ -23,16 +23,28 @@
 
         <input type="text" onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}' })" id="datemin" name="startDate"
                class="input-text Wdate" style="width:120px;">
-        -
         <input type="text" onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d' })" id="datemax" name="endDate"
                class="input-text Wdate" style="width:120px;">
         <input type="text" class="input-text" style="width:250px" placeholder="输入教员名称" id="" name="seaName">
+
         <button type="submit" class="btn btn-success radius" id="selStuBtn" name=""><i class="Hui-iconfont">&#xe665;</i>
             搜教员
         </button>
 
     </div>
     </form>
+    <div class="text-c">
+        <form action="${pro}/empcheck/insetAll.html" method="post" enctype="multipart/form-data" onsubmit="return checkData();">
+            <div style="margin: 30px;">
+                <input id="excel_file" type="file" name="filename" accept="xlsx" size="80" />
+                <input id="excel_button" type="submit" class="btn btn-success radius" value="导入Excel" />
+            </div>
+        </form>
+
+    </div>
+
+
+
     <div class="cl pd-5 bg-1 bk-gray mt-20">
         <span class="l">
             <a href="javascript:;" onclick="data_del()" class="btn btn-danger radius">
@@ -161,6 +173,20 @@
                     console.log(data.msg);
                 },
             })
+        }
+
+        function checkData(){
+            var fileDir = $("#upfile").val();
+            var suffix = fileDir.substr(fileDir.lastIndexOf("."));
+            if("" == fileDir){
+                alert("选择需要导入的Excel文件！");
+                return false;
+            }
+            if(".xls" != suffix && ".xlsx" != suffix ){
+                alert("选择Excel格式的文件导入！");
+                return false;
+            }
+            return true;
         }
 
 

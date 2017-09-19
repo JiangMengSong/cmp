@@ -1,6 +1,7 @@
 package com.hfxt.cmp.mapper;
 
 import com.hfxt.cmp.model.EmpChecking;
+import com.hfxt.cmp.model.Employee;
 import com.hfxt.cmp.search.Search;
 import org.apache.ibatis.annotations.Param;
 
@@ -16,4 +17,7 @@ public interface EmpCheckingMapper {
     int update(@Param("empcheck") EmpChecking empchecking);
 
     List<EmpChecking> getEmpCheck(@Param("empcheck") Search empchecking);
+
+    int insertAll( List<EmpChecking> empCheckingList);
+
 }

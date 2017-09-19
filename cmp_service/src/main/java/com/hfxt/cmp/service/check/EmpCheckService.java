@@ -4,7 +4,9 @@ import com.hfxt.cmp.model.EmpChecking;
 import com.hfxt.cmp.model.StuChecking;
 import com.hfxt.cmp.search.Search;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -21,5 +23,7 @@ public interface EmpCheckService {
     int update(EmpChecking empChecking);
 
     int insert(EmpChecking empChecking);
+
+    int insertAllemp(InputStream in, MultipartFile file) throws Exception;
 
 }
