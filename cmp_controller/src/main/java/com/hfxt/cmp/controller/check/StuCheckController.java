@@ -146,6 +146,6 @@ public class StuCheckController extends BaseController {
         //数据导入
         if(stuCheckService.insertAllemp(in,file)>0)
             in.close();
-        return "redirect:/empcheck/getEmpCheck.html";
+        return "redirect:/stucheck/getStuCheck.html";
     }
 }
