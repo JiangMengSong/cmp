@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -30,7 +31,7 @@ public class MajorController extends BaseController {
     @RequestMapping(value = "/majorList.html",produces = "text/html;charset=utf-8")
     public String empList(HttpServletRequest request){
         if (getPower().isLogin()) return toLogin;
-        if (null != getToJsp() && "" != getToJsp()) return getToJsp();
+        if (!getPower().isSel()) return toNotPowerJsp;
         request.setAttribute("majorList",majorservice.majorList());
         return "major/major_list";
     }
@@ -38,16 +39,22 @@ public class MajorController extends BaseController {
     @RequestMapping(value="/toupdatemajor/{majorid}",produces ="text/html;charset=utf-8")
     public String tomajor(HttpServletRequest request,@PathVariable Integer majorid){
         if (getPower().isLogin()) return toLogin;
+        if (!getPower().isOpera()) return toNotPowerJsp;
         if (majorid != null && majorid > 0) request.setAttribute("major",majorservice.selectbyid(majorid));
         //request.setAttribute("upmajor",majorservice.majorList());
         return "major/major_edit";
     }
     //修改专业信息
     @RequestMapping(value="/updatemajor.html",produces ="text/html;charset=utf-8")
+    @ResponseBody
     public String upmajor(HttpServletRequest request, Major major){
         if (getPower().isLogin()) return toLogin;
         JSONObject result = new JSONObject();
         result.put("flag",false);
+        if (!getPower().isOpera()){
+            result.put("msg","对不起，您没有权限执行该操作");
+            return result.toString();
+        }
         if (major == null) return result.toString();
         if (major.getMajorid()!=null && major.getMajorid() > 0 && majorservice.updatemajor(major) > 0) result.put("flag",true);
         else if (majorservice.addmajor(major) > 0) result.put("flag",true);

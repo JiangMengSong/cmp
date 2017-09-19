@@ -15,8 +15,7 @@ public class PowerUtil {
     private Employee employee; // 员工
     private boolean isLogin = true; // 是否未登录
     private boolean isSel = true; // 查询权限
-    private boolean isAdd = true; // 添加权限
-    private boolean isUpdate = true; // 修改权限
+    private boolean isOpera = true; // 编辑权限
     private boolean isDel = true; // 删除权限
 
     public PowerUtil(Employee employee,BaseController baseController) {
@@ -31,9 +30,9 @@ public class PowerUtil {
                 case 3:
                 case 4:
                     if (baseController instanceof EmpCheckController || baseController instanceof EmployeeController)
-                        this.isSel = this.isAdd = this.isUpdate = this.isDel = false;
+                        this.isSel = this.isOpera = this.isDel = false;
                     else if (baseController instanceof ClazzController)
-                        this.isDel = this.isAdd = false;
+                        this.isDel = this.isOpera = false;
                     else if (baseController instanceof StudentController)
                         this.isDel = false;
                     break;
@@ -53,12 +52,8 @@ public class PowerUtil {
         return isSel;
     }
 
-    public boolean isAdd() {
-        return isAdd;
-    }
-
-    public boolean isUpdate() {
-        return isUpdate;
+    public boolean isOpera() {
+        return isOpera;
     }
 
     public boolean isDel() {

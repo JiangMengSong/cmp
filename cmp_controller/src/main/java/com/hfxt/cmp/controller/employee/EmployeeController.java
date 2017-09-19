@@ -119,7 +119,7 @@ public class EmployeeController extends BaseController {
     @RequestMapping(value = "/empList.html",produces = "text/html;charset=utf-8")
     public String empList(HttpServletRequest request){
         if (getPower().isLogin()) return toLogin;
-        if (null != getToJsp() && "" != getToJsp()) return getToJsp();
+        if (!getPower().isSel()) return toNotPowerJsp;
         request.setAttribute("empList",employeeService.getEmployee());
         return "employee/emp_list";
     }
@@ -130,6 +130,7 @@ public class EmployeeController extends BaseController {
     @RequestMapping(value = "/empEdit/{empId}",produces = "text/html;charset=utf-8")
     public String getEmpById(HttpServletRequest request,@PathVariable Integer empId,@RequestParam(value = "sel",required = false)Integer sel){
         if (getPower().isLogin()) return toLogin;
+        if (!getPower().isSel()) return toNotPowerJsp;
         if (empId != null && empId > 0) request.setAttribute("employee",employeeService.getEmpById(empId));
         if (sel != null) return "employee/emp_detail";
         return "employee/emp_edit";
@@ -144,6 +145,10 @@ public class EmployeeController extends BaseController {
         if (getPower().isLogin()) return toLogin;
         JSONObject result = new JSONObject();
         result.put("flag",false);
+        if (!getPower().isOpera()){
+            result.put("msg","对不起，您没有权限执行该操作");
+            return result.toString();
+        }
         if (emp == null) return result.toString();
         if (Validity.isEmpty(emp.getEmphead())) emp.setEmphead("default.jpg");
         if (emp.getEmpid()!=null && emp.getEmpid() > 0 && employeeService.updateEmployee(emp) > 0) result.put("flag",true);
@@ -161,6 +166,10 @@ public class EmployeeController extends BaseController {
         if (getPower().isLogin()) return toLogin;
         JSONObject result = new JSONObject();
         result.put("flag",false);
+        if (!getPower().isDel()){
+            result.put("msg","对不起，您没有权限执行该操作");
+            return result.toString();
+        }
         if (null == empId || empId < 1) return result.toString();
         if (employeeService.delEmployee(empId) > 0) result.put("flag",true);
         return result.toString();

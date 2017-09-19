@@ -46,7 +46,7 @@ public class StuCheckController extends BaseController {
     @RequestMapping(value = "/getStuCheck.html", produces = "text/html;charset=utf-8")
     public String getStuCheck(HttpServletRequest request, Search stuCheck) {
         if (getPower().isLogin()) return toLogin;
-        if (null != getToJsp() && "" != getToJsp()) return getToJsp();
+        if (!getPower().isSel()) return toNotPowerJsp;
         List<StuChecking> checkList=stuCheckService.getStuCheck(stuCheck);
         if(checkList!=null){
             request.setAttribute("checkList",checkList);
@@ -62,6 +62,10 @@ public class StuCheckController extends BaseController {
         if (getPower().isLogin()) return toLogin;
         JSONObject result = new JSONObject();
         result.put("flag",false);
+        if (!getPower().isDel()){
+            result.put("msg","对不起，您没有权限执行该操作");
+            return result.toString();
+        }
         if (null == stucheckingid ) return result.toString();
         if (stuCheckService.delete(stucheckingid)>0) result.put("flag",true);
         return result.toString();
@@ -73,6 +77,7 @@ public class StuCheckController extends BaseController {
     @RequestMapping(value = "/toGet/{stucheckingid}",produces = "text/html;charset=utf-8")
     public String toEditStu(HttpServletRequest request, @PathVariable Integer stucheckingid){
         if (getPower().isLogin()) return toLogin;
+        if (!getPower().isOpera()) return toNotPowerJsp;
         if (stucheckingid != null && stucheckingid > 0) request.setAttribute("stu",stuCheckService.getCheckById(stucheckingid));
         request.setAttribute("studentList",studentService.getStudent(null,getPower().getEmployee()));
         return "check/stucheck_edit";
@@ -87,6 +92,10 @@ public class StuCheckController extends BaseController {
         if (getPower().isLogin()) return toLogin;
         JSONObject result = new JSONObject();
         result.put("flag",false);
+        if (!getPower().isOpera()){
+            result.put("msg","对不起，您没有权限执行该操作");
+            return result.toString();
+        }
         if (stucheck == null) return result.toString();
         if (stucheck.getStucheckingid()!=null && stucheck.getStucheckingid() > 0 && stuCheckService.update(stucheck) > 0) result.put("flag",true);
         else if (stuCheckService.insert(stucheck) > 0) result.put("flag",true);
@@ -103,6 +112,10 @@ public class StuCheckController extends BaseController {
         if (getPower().isLogin()) return toLogin;
         JSONObject result = new JSONObject();
         result.put("flag",false);
+        if (!getPower().isDel()){
+            result.put("msg","对不起，您没有权限执行该操作");
+            return result.toString();
+        }
         if(stucheckId == null || stucheckId.length == 0) return result.toString();
         for (Integer empcheckid: stucheckId) {
             if (null == empcheckid || empcheckid < 1) {

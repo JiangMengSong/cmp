@@ -52,7 +52,7 @@ public class ClazzController extends BaseController {
 	@RequestMapping(value = "/clazzList.html", produces = "text/html;charset=UTF-8")
 	public String clazzList(HttpServletRequest request, Clazz clazz) {
         if (getPower().isLogin()) return toLogin;
-        if (null != getToJsp() && "" != getToJsp()) return getToJsp();
+        if (!getPower().isSel()) return toNotPowerJsp;
         request.setAttribute("clazzList",clazzService.getClazz(clazz,this.getPower().getEmployee()));
 		return "clazz/clazz-list";
 	}
@@ -63,6 +63,7 @@ public class ClazzController extends BaseController {
     @RequestMapping(value = "/toAddClazz/{clazzId}",produces = "text/html;charset=utf-8")
     public String toAddClazz(HttpServletRequest request, @PathVariable Integer clazzId){
         if (getPower().isLogin()) return toLogin;
+        if (!getPower().isOpera()) return toNotPowerJsp;
         if (clazzId != null && clazzId > 0) request.setAttribute("clazz",clazzService.selectByPrimaryKey(clazzId));
         request.setAttribute("majorList", majorService.majorList());
         return "clazz/clazz-add"; // 返回hello页面
@@ -76,6 +77,10 @@ public class ClazzController extends BaseController {
         if (getPower().isLogin()) return toLogin;
         JSONObject result = new JSONObject();
         result.put("flag",false);
+        if (!getPower().isOpera()){
+            result.put("msg","对不起，您没有权限执行该操作");
+            return result.toString();
+        }
         if(clazz == null) return result.toString();
         if(clazz.getClazzid() != null && clazz.getClazzid() > 0 && clazzService.updateByPrimaryKeySelective(clazz) > 0 ) result.put("flag",true);
         else if(clazzService.insert(clazz) > 0) result.put("flag",true);

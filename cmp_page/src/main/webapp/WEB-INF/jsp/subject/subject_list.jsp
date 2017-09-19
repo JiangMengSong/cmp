@@ -49,7 +49,7 @@
             <tr class="text-c">
                 <th><input type="checkbox" value="" name="科目ID"></th>
                 <th>科目名称</th>
-                <th>科目分类</th>
+                <th>科目描述</th>
                 <th>操作</th>
             </tr>
             </thead>

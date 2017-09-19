@@ -49,7 +49,7 @@
             <tr class="text-c">
                 <th><input type="checkbox" value="" name="专业ID"></th>
                 <th>专业名称</th>
-                <th>专业分类</th>
+                <th>专业描述</th>
                 <th>操作</th>
             </tr>
             </thead>

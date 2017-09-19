@@ -44,12 +44,11 @@ public class InterviewController extends BaseController {
 	@RequestMapping(value = "/interviewList.html", produces = "text/html;charset=UTF-8")
 	public String index(Model model,Interview interview) {
         if (getPower().isLogin()) return toLogin;
-        if (null != getToJsp() && "" != getToJsp()) return getToJsp();
+        if (!getPower().isSel()) return toNotPowerJsp;
 		try {
 			List<Interview> interviewList=interviewService.getInterview(interview);
 			model.addAttribute("interviewList",interviewList);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return "interview/interview-list";
@@ -60,6 +59,7 @@ public class InterviewController extends BaseController {
     @RequestMapping(value = "/toAddInterview/{inteid}",produces = "text/html;charset=utf-8")
     public String toAddInterview(HttpServletRequest request, @PathVariable Integer inteid){
         if (getPower().isLogin()) return toLogin;
+        if (!getPower().isOpera()) return toNotPowerJsp;
         if (null == request.getSession().getAttribute("emp")) return "redirect:/employee/login/toLogin.html";
         if (inteid != null && inteid > 0) request.setAttribute("interview",interviewService.selectByPrimaryKey(inteid));
         request.setAttribute("studentList",studentService.getStudent(null,getPower().getEmployee()));
@@ -74,17 +74,18 @@ public class InterviewController extends BaseController {
     public String addInterview(Interview interview,HttpSession session){
         if (getPower().isLogin()) return toLogin;
         JSONObject result = new JSONObject();
+        result.put("flag",false);
+        if (!getPower().isOpera()){
+            result.put("msg","对不起，您没有权限执行该操作");
+            return result.toString();
+        }
         int count=0;
         if(interview.getInteid()!=null&&interview.getInteid()>0){
         	count=interviewService.updateByPrimaryKeySelective(interview);
         }else{
         	count=interviewService.insertSelective(interview);
         }
-        if(count>0){
-        	result.put("flag",true);
-        }else{
-        	result.put("flag",false);
-        }
+        if(count>0) result.put("flag",true);
         return result.toString();
     }
     /**
@@ -95,6 +96,11 @@ public class InterviewController extends BaseController {
     public String delInterview(HttpSession session, @PathVariable Integer inteid){
         if (getPower().isLogin()) return toLogin;
         JSONObject result = new JSONObject();
+        result.put("data",false);
+        if (!getPower().isDel()){
+            result.put("msg","对不起，您没有权限执行该操作");
+            return result.toString();
+        }
         int count=interviewService.deleteByPrimaryKey(inteid);
         if(count>0){
         	result.put("data",false);
@@ -110,6 +116,7 @@ public class InterviewController extends BaseController {
     @RequestMapping(value = "/interviewshow/{inteid}",produces = "text/html;charset=utf-8")
     public String showClazz(HttpServletRequest request, @PathVariable Integer inteid){
         if (getPower().isLogin()) return toLogin;
+        if (!getPower().isSel()) return toNotPowerJsp;
         request.setAttribute("interview",interviewService.selectByPrimaryKey(inteid));
         return "interview/interview-show"; // 返回hello页面
     }
@@ -123,6 +130,10 @@ public class InterviewController extends BaseController {
         if (getPower().isLogin()) return toLogin;
         JSONObject result = new JSONObject();
         result.put("flag",false);
+        if (!getPower().isDel()){
+            result.put("msg","对不起，您没有权限执行该操作");
+            return result.toString();
+        }
         if(inteid == null || inteid.length == 0) return result.toString();
         for (Integer inteid1: inteid) {
             if (null == inteid1 || inteid1 < 1) {

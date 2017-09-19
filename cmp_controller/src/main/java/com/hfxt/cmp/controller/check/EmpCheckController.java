@@ -42,7 +42,7 @@ public class EmpCheckController extends BaseController {
     @RequestMapping(value = "/getEmpCheck.html", produces = "text/html;charset=utf-8")
     public String getEmpCheck(HttpServletRequest request, Search empCheck) {
         if (getPower().isLogin()) return toLogin;
-        if (null != getToJsp() && "" != getToJsp()) return getToJsp();
+        if (!getPower().isSel()) return toNotPowerJsp;
         List<EmpChecking> checkList=empCheckService.getEmpCheck(empCheck);
             request.setAttribute("checkList", checkList);
         return "check/empchecklist";
@@ -53,9 +53,12 @@ public class EmpCheckController extends BaseController {
     @ResponseBody
     public String delEmpCheck(HttpSession session, @PathVariable Integer empcheckingid){
         if (getPower().isLogin()) return toLogin;
-        if (null != getToJsp() && "" != getToJsp()) return getToJsp();
         JSONObject result = new JSONObject();
         result.put("flag",false);
+        if (!getPower().isDel()){
+            result.put("msg","对不起，您没有权限执行该操作");
+            return result.toString();
+        }
         if (null == empcheckingid ) return result.toString();
         if (empCheckService.delete(empcheckingid)>0) result.put("flag",true);
         return result.toString();
@@ -67,7 +70,7 @@ public class EmpCheckController extends BaseController {
     @RequestMapping(value = "/toGet/{empcheckingid}",produces = "text/html;charset=utf-8")
     public String toEditExp(HttpServletRequest request, @PathVariable Integer empcheckingid){
         if (getPower().isLogin()) return toLogin;
-        if (null != getToJsp() && "" != getToJsp()) return getToJsp();
+        if (!getPower().isOpera()) return toNotPowerJsp;
         if (empcheckingid != null && empcheckingid > 0) request.setAttribute("empedit",empCheckService.getCheckById(empcheckingid));
         request.setAttribute("employee",employeeService.getEmployee());
         return "check/empcheck_edit";
@@ -80,9 +83,12 @@ public class EmpCheckController extends BaseController {
     @ResponseBody
     public String editStu(HttpSession session,EmpChecking empchecking){
         if (getPower().isLogin()) return toLogin;
-        if (null != getToJsp() && "" != getToJsp()) return getToJsp();
         JSONObject result = new JSONObject();
         result.put("flag",false);
+        if (!getPower().isOpera()){
+            result.put("msg","对不起，您没有权限执行该操作");
+            return result.toString();
+        }
         if (empchecking== null) return result.toString();
         if (empchecking.getEmpcheckingid()!=null && empchecking.getEmpcheckingid() > 0 && empCheckService.update(empchecking) > 0) result.put("flag",true);
         else if (empCheckService.insert(empchecking) > 0) result.put("flag",true);
@@ -97,9 +103,12 @@ public class EmpCheckController extends BaseController {
     @ResponseBody
     public String delEmpCheck(HttpSession session, @RequestParam("empcheckId[]") Integer[] empcheckId){
         if (getPower().isLogin()) return toLogin;
-        if (null != getToJsp() && "" != getToJsp()) return getToJsp();
         JSONObject result = new JSONObject();
         result.put("flag",false);
+        if (!getPower().isDel()){
+            result.put("msg","对不起，您没有权限执行该操作");
+            return result.toString();
+        }
         if(empcheckId == null || empcheckId.length == 0) return result.toString();
         for (Integer empcheckid: empcheckId) {
             if (null == empcheckid || empcheckid < 1) {
@@ -110,6 +119,7 @@ public class EmpCheckController extends BaseController {
             else {
                 result.put("flag",false);
                 result.put("msg","id"+empcheckid+"删除出现错误,请查询该记录是否存在或直接联系管理员");
+                return result.toString();
             }
         }
         return result.toString();

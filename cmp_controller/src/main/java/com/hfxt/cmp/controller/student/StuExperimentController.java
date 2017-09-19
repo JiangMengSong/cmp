@@ -28,7 +28,7 @@ public class StuExperimentController extends BaseController {
     @RequestMapping(value = "/expList.html",produces = "text/html;charset=utf-8")
     public String expList(HttpServletRequest request){
         if (getPower().isLogin()) return toLogin;
-        if (null != getToJsp() && "" != getToJsp()) return getToJsp();
+        if (!getPower().isSel()) return toNotPowerJsp;
         request.setAttribute("expList",stuExperimentService.getStuExperiment());
         return "student/experiment/stu_exp_list";
     }
@@ -39,6 +39,7 @@ public class StuExperimentController extends BaseController {
     @RequestMapping(value = "/toEditExp/{expId}",produces = "text/html;charset=utf-8")
     public String toEditExp(HttpServletRequest request, @PathVariable Integer expId){
         if (getPower().isLogin()) return toLogin;
+        if (!getPower().isSel()) return toNotPowerJsp;
 
         return "student/";
     }

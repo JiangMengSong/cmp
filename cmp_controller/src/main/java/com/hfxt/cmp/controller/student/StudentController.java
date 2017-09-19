@@ -38,7 +38,7 @@ public class StudentController extends BaseController {
     @RequestMapping(value = "/stuList.html",produces = "text/html;charset=utf-8")
     public String stuList(HttpServletRequest request, Search search){
         if (getPower().isLogin()) return toLogin;
-        if (null != getToJsp() && "" != getToJsp()) return getToJsp();
+        if (!getPower().isSel()) return toNotPowerJsp;
         request.setAttribute("stuList",studentService.getStudent(search,getPower().getEmployee()));
         return "student/stu_list"; // 返回hello页面
     }
@@ -52,7 +52,7 @@ public class StudentController extends BaseController {
         if (getPower().isLogin()) return toLogin;
         JSONObject result = new JSONObject();
         result.put("flag",false);
-        if (getPower().isDel()){
+        if (!getPower().isDel()){
             result.put("msg","对不起，您没有权限执行该操作");
             return result.toString();
         }
@@ -70,6 +70,10 @@ public class StudentController extends BaseController {
         if (getPower().isLogin()) return toLogin;
         JSONObject result = new JSONObject();
         result.put("flag",false);
+        if (!getPower().isDel()){
+            result.put("msg","对不起，您没有权限执行该操作");
+            return result.toString();
+        }
         if(stuId == null || stuId.length == 0) return result.toString();
         for (Integer stuid: stuId) {
             if (null == stuid || stuid < 1) {
@@ -92,6 +96,7 @@ public class StudentController extends BaseController {
     @RequestMapping(value = "/toEditStu/{stuId}",produces = "text/html;charset=utf-8")
     public String toEditExp(HttpServletRequest request, @PathVariable Integer stuId,@RequestParam(value = "sel",required = false)Integer sel){
         if (getPower().isLogin()) return toLogin;
+        if (!getPower().isSel()) return toNotPowerJsp;
         if (stuId != null && stuId > 0) request.setAttribute("stu",studentService.getStuById(stuId));
         if (sel != null) return "student/stu_detail";
         request.setAttribute("clazzList",clazzService.getClazz(null,this.getPower().getEmployee()));
@@ -107,6 +112,10 @@ public class StudentController extends BaseController {
         if (getPower().isLogin()) return toLogin;
         JSONObject result = new JSONObject();
         result.put("flag",false);
+        if (!getPower().isOpera()){
+            result.put("msg","对不起，您没有权限执行该操作");
+            return result.toString();
+        }
         if (stu == null) return result.toString();
         if (Validity.isEmpty(stu.getStucode())) stu.setStucode(getStuCode());
         if (Validity.isEmpty(stu.getStuhead())) stu.setStuhead("default.jpg");
