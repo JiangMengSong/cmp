@@ -17,4 +17,6 @@ public interface StuCheckingMapper {
     int update(@Param("stucheck") StuChecking stucheck);
 
     List<StuChecking> getStuCheck(@Param("stucheck") Search stucheck);
+
+    int insertAll( List<StuChecking> empCheckingList);
 }

@@ -18,4 +18,6 @@ public interface StudentService {
     int getStuCodeIsEmpty(String stuCode);
 
     int delStudent(Integer stuId);
+
+    Student getStuByName(String name);
 }

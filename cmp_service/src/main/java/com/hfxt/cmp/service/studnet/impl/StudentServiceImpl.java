@@ -70,4 +70,9 @@ public class StudentServiceImpl extends BaseService implements StudentService {
         studentMapper.delStudent(map);
         return (Integer)(map.get("delCount"));
     }
+
+    @Override
+    public Student getStuByName(String name) {
+        return studentMapper.getStuByName(name);
+    }
 }

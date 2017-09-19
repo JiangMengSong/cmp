@@ -54,6 +54,10 @@
         inner join tb_clazz on tb_student.classId = tb_clazz.clazzId
         where tb_student.stuId = #{stuId,jdbcType=INTEGER}
     </select>
+    <select id="getStuByName" resultMap="StudentBean">
+        select * from tb_student
+        where tb_student.stuName= #{stuname,jdbcType=INTEGER}
+    </select>
     <delete id="delStudent" statementType="CALLABLE" parameterType="java.util.Map">
         {
           call del_student(

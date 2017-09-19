@@ -51,6 +51,16 @@
       #{stucheck.chestatus,jdbcType=INTEGER}, #{stucheck.stucheckingdesc,jdbcType=VARCHAR})
   </insert>
 
+    <insert id="insertAll" parameterType="com.hfxt.cmp.model.StuChecking">
+        insert into tb_student_checking (stuCheckingId, stuId, cheTime,
+        cheStatus, stuCheckingDesc)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (0, #{item.student.stuid,jdbcType=INTEGER}, #{item.chetime,jdbcType=TIMESTAMP},
+            #{item.chestatus,jdbcType=INTEGER}, #{item.stucheckingdesc,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
     <update id="update" parameterType="com.hfxt.cmp.model.StuChecking">
         update tb_student_checking
         <set>

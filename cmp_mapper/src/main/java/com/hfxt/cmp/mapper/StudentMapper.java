@@ -48,4 +48,7 @@ public interface StudentMapper {
      * @param stuCode 学生编号
      */
     int getStuCodeIsEmpty(@Param("stuCode") String stuCode);
+
+    //通过name查询
+   Student getStuByName( String loginName);
 }

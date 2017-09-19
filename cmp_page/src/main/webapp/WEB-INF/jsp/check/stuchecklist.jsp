@@ -24,6 +24,15 @@
         </button>
     </div>
     </form>
+    <div class="text-c">
+        <form action="${pro}/stucheck/insetAll.html" method="post" enctype="multipart/form-data" onsubmit="return checkData();">
+            <div style="margin: 30px;">
+                <input id="excel_file" type="file" name="filename" accept="xlsx" size="80" />
+                <input id="excel_button" type="submit" class="btn btn-success radius" value="导入Excel" />
+            </div>
+        </form>
+
+    </div>
     <div class="cl pd-5 bg-1 bk-gray mt-20">
         <span class="l">
             <a href="javascript:;" onclick="data_del()" class="btn btn-danger radius">
@@ -151,6 +160,19 @@
                     console.log(result.msg);
                 },
             })
+        }
+        function checkData(){
+            var fileDir = $("#upfile").val();
+            var suffix = fileDir.substr(fileDir.lastIndexOf("."));
+            if("" == fileDir){
+                alert("选择需要导入的Excel文件！");
+                return false;
+            }
+            if(".xls" != suffix && ".xlsx" != suffix ){
+                alert("选择Excel格式的文件导入！");
+                return false;
+            }
+            return true;
         }
     }
 
