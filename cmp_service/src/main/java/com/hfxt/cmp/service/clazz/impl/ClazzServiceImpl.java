@@ -2,6 +2,7 @@ package com.hfxt.cmp.service.clazz.impl;
 
 import java.util.List;
 
+import com.hfxt.cmp.model.Employee;
 import org.springframework.stereotype.Service;
 
 import com.hfxt.cmp.model.Clazz;
@@ -12,8 +13,8 @@ import com.hfxt.cmp.service.clazz.ClazzService;
 public class ClazzServiceImpl extends BaseService implements ClazzService {
 
 	@Override
-	public List<Clazz> getClazz(Clazz clazz) {
-		return clazzMapper.getClazz(clazz);
+	public List<Clazz> getClazz(Clazz clazz,Employee emp) {
+		return clazzMapper.getClazz(clazz,emp);
 	}
 
 	@Override

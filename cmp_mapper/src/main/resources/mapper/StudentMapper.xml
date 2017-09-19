@@ -30,7 +30,10 @@
         inner join tb_clazz c on s.classId=c.clazzId
         inner join tb_employee_clazz ec on ec.clazzId = c.clazzId
         inner join tb_employee e on e.empId = ec.empId
-        where ec.clazzId in (SELECT clazzId from tb_employee_clazz where empId = #{empId,jdbcType=INTEGER})
+        where 1 = 1
+        <if test="emp.emprole != 1 and emp.emprole != 2">
+            and ec.clazzId in (SELECT clazzId from tb_employee_clazz where empId = #{emp.empid,jdbcType=INTEGER})
+        </if>
         <if test="stu != null">
             <if test="stu.seaName != null and stu.seaName != ''">
                 and stuName like Concat('%',#{stu.seaName,jdbcType=VARCHAR},'%')
@@ -58,17 +61,31 @@
           )
         }
     </delete>
-    <insert id="addStudent" statementType="CALLABLE" parameterType="com.hfxt.cmp.model.Student">
-        {
-            call add_stu(
-            #{map.stuName,jdbcType=VARCHAR,mode=IN}, #{map.stuSex,jdbcType=INTEGER,mode=IN},
-          #{map.classId,jdbcType=INTEGER}, #{map.stuBirth,jdbcType=TIMESTAMP}, #{map.stuPhone,jdbcType=VARCHAR},
-          #{map.stuCode,jdbcType=VARCHAR}, #{map.stuAddress,jdbcType=VARCHAR}, #{map.stuContact,jdbcType=VARCHAR},
-          #{map.stuHead,jdbcType=VARCHAR},#{map.stuDesc,jdbcType=VARCHAR}, #{map.stuQQ,jdbcType=VARCHAR},
-          #{map.stuEmail,jdbcType=VARCHAR},#{map.stuEntryTime,jdbcType=TIMESTAMP}, #{map.stuDegree,jdbcType=VARCHAR}
-          ,#{map.delCount,jdbcType=INTEGER,mode=OUT}
-          )
-        }
+    <!--<insert id="addStudent" statementType="CALLABLE" parameterType="com.hfxt.cmp.model.Student">-->
+        <!--{-->
+            <!--call add_stu(-->
+              <!--#{map.stuName,jdbcType=VARCHAR,mode=IN}, #{map.stuSex,jdbcType=INTEGER,mode=IN},-->
+              <!--#{map.classId,jdbcType=INTEGER,mode=IN}, #{map.stuBirth,jdbcType=TIMESTAMP,mode=IN}, #{map.stuPhone,jdbcType=VARCHAR,mode=IN},-->
+              <!--#{map.stuCode,jdbcType=VARCHAR,mode=IN}, #{map.stuAddress,jdbcType=VARCHAR,mode=IN}, #{map.stuContact,jdbcType=VARCHAR,mode=IN},-->
+              <!--#{map.stuHead,jdbcType=VARCHAR,mode=IN},#{map.stuDesc,jdbcType=VARCHAR,mode=IN}, #{map.stuQQ,jdbcType=VARCHAR,mode=IN},-->
+              <!--#{map.stuEmail,jdbcType=VARCHAR,mode=IN},#{map.stuEntryTime,jdbcType=TIMESTAMP,mode=IN}, #{map.stuDegree,jdbcType=VARCHAR,mode=IN}-->
+              <!--,#{map.addCount,jdbcType=INTEGER,mode=OUT}-->
+          <!--)-->
+        <!--}-->
+    <!--</insert>-->
+    <insert id="addStudent" parameterType="com.hfxt.cmp.model.Student">
+        INSERT INTO tb_student (
+            stuId,stuName,stuSex,classId,stuBirth,stuPhone,
+            stuCode,stuAddress,stuContact,stuHead,stuDesc,
+            stuQQ,stuEmail,stuEntryTime,stuDegree
+        )
+        VALUES(
+            0,#{stu.stuname,jdbcType=VARCHAR}, #{stu.stusex,jdbcType=INTEGER},
+            #{stu.clazz.clazzid,jdbcType=INTEGER}, #{stu.stubirth,jdbcType=TIMESTAMP}, #{stu.stuphone,jdbcType=VARCHAR},
+            #{stu.stucode,jdbcType=VARCHAR}, #{stu.stuaddress,jdbcType=VARCHAR}, #{stu.stucontact,jdbcType=VARCHAR},
+            #{stu.stuhead,jdbcType=VARCHAR},#{stu.studesc,jdbcType=VARCHAR}, #{stu.stuqq,jdbcType=VARCHAR},
+            #{stu.stuemail,jdbcType=VARCHAR},#{stu.stuentrytime,jdbcType=TIMESTAMP}, #{stu.studegree,jdbcType=VARCHAR}
+        )
     </insert>
     <update id="updateStudent" parameterType="com.hfxt.cmp.model.Student">
         update tb_student

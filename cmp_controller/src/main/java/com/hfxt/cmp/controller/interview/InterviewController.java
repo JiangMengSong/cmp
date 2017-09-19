@@ -44,6 +44,7 @@ public class InterviewController extends BaseController {
 	@RequestMapping(value = "/interviewList.html", produces = "text/html;charset=UTF-8")
 	public String index(Model model,Interview interview) {
         if (getPower().isLogin()) return toLogin;
+        if (null != getToJsp() && "" != getToJsp()) return getToJsp();
 		try {
 			List<Interview> interviewList=interviewService.getInterview(interview);
 			model.addAttribute("interviewList",interviewList);
@@ -61,7 +62,7 @@ public class InterviewController extends BaseController {
         if (getPower().isLogin()) return toLogin;
         if (null == request.getSession().getAttribute("emp")) return "redirect:/employee/login/toLogin.html";
         if (inteid != null && inteid > 0) request.setAttribute("interview",interviewService.selectByPrimaryKey(inteid));
-        request.setAttribute("studentList",studentService.getStudent(null,getPower().getEmployee().getEmpid()));
+        request.setAttribute("studentList",studentService.getStudent(null,getPower().getEmployee()));
         request.setAttribute("employeeList",employeeService.getEmployee());
         return "interview/interview-add"; // 返回hello页面
     }

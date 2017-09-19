@@ -52,7 +52,8 @@ public class ClazzController extends BaseController {
 	@RequestMapping(value = "/clazzList.html", produces = "text/html;charset=UTF-8")
 	public String clazzList(HttpServletRequest request, Clazz clazz) {
         if (getPower().isLogin()) return toLogin;
-        request.setAttribute("clazzList",clazzService.getClazz(clazz));
+        if (null != getToJsp() && "" != getToJsp()) return getToJsp();
+        request.setAttribute("clazzList",clazzService.getClazz(clazz,this.getPower().getEmployee()));
 		return "clazz/clazz-list";
 	}
 
@@ -113,7 +114,7 @@ public class ClazzController extends BaseController {
         System.out.println("柱状图");
         List<String> category = new ArrayList<String>();
         List<Long> serisData=new ArrayList<Long>();
-        List<Clazz> list = clazzService.getClazz(clazz);
+        List<Clazz> list = clazzService.getClazz(clazz,this.getPower().getEmployee());
         for (Clazz totalNum : list) {
             category.add(totalNum.getClassname());
             serisData.add(Long.parseLong(totalNum.getStunum().toString()));
@@ -135,7 +136,7 @@ public class ClazzController extends BaseController {
         List<String> legend = new ArrayList<String>();
         List<Map> serisData=new ArrayList<Map>();
 
-        List<Clazz> list = clazzService.getClazz(clazz);
+        List<Clazz> list = clazzService.getClazz(clazz,this.getPower().getEmployee());
         for (Clazz visit : list) {
             Map map =new HashMap();
             legend.add(visit.getClassname());
@@ -156,7 +157,7 @@ public class ClazzController extends BaseController {
         System.out.println("折线图");
         List<String> category = new ArrayList<String>();
         List<Long> serisData=new ArrayList<Long>();
-        List<Clazz> list = clazzService.getClazz(clazz);
+        List<Clazz> list = clazzService.getClazz(clazz,this.getPower().getEmployee());
         for (Clazz totalNum : list) {
             category.add(totalNum.getClassname());
             serisData.add(Long.parseLong(totalNum.getStunum().toString()));
@@ -190,7 +191,7 @@ public class ClazzController extends BaseController {
 
         try {
             //模拟数据库取值
-            List<Clazz> lo = clazzService.getClazz(search);
+            List<Clazz> lo = clazzService.getClazz(search,this.getPower().getEmployee());
 
             //导出Excel文件数据
             ExportExcelUtil util = new ExportExcelUtil();

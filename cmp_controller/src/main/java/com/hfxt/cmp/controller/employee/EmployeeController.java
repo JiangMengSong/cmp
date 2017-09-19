@@ -119,6 +119,7 @@ public class EmployeeController extends BaseController {
     @RequestMapping(value = "/empList.html",produces = "text/html;charset=utf-8")
     public String empList(HttpServletRequest request){
         if (getPower().isLogin()) return toLogin;
+        if (null != getToJsp() && "" != getToJsp()) return getToJsp();
         request.setAttribute("empList",employeeService.getEmployee());
         return "employee/emp_list";
     }

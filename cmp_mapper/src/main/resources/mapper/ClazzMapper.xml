@@ -18,15 +18,22 @@
     </sql>
     <select id="getClazz" resultMap="ClazzBean">
         select * from tb_clazz
-        inner join tb_major on tb_clazz.majorId = tb_major.majorId where 1=1
-        <if test="classbegintime != null">
-            and classBeginTime &gt; #{classbegintime,jdbcType=TIMESTAMP}
+        inner join tb_major on tb_clazz.majorId = tb_major.majorId
+        inner join tb_employee_clazz on tb_clazz.clazzId = tb_employee_clazz.clazzId
+        where 1 = 1
+        <if test="emp.emprole != 1 and emp.emprole != 2">
+            and tb_employee_clazz.empId = #{emp.empid,jdbcType=INTEGER}
         </if>
-        <if test="classendtime != null">
-            and classEndTime &lt; #{classendtime,jdbcType=TIMESTAMP}
-        </if>
-        <if test="classname != null">
-            and className like concat('%',#{classname,jdbcType=VARCHAR},'%')
+        <if test="clazz != null">
+            <if test="clazz.classbegintime != null">
+                and classBeginTime &gt; #{clazz.classbegintime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="clazz.classendtime != null">
+                and classEndTime &lt; #{clazz.classendtime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="clazz.classname != null">
+                and className like concat('%',#{clazz.classname,jdbcType=VARCHAR},'%')
+            </if>
         </if>
     </select>
     <select id="selectByPrimaryKey" resultMap="ClazzBean" parameterType="java.lang.Integer">

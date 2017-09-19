@@ -46,6 +46,7 @@ public class StuCheckController extends BaseController {
     @RequestMapping(value = "/getStuCheck.html", produces = "text/html;charset=utf-8")
     public String getStuCheck(HttpServletRequest request, Search stuCheck) {
         if (getPower().isLogin()) return toLogin;
+        if (null != getToJsp() && "" != getToJsp()) return getToJsp();
         List<StuChecking> checkList=stuCheckService.getStuCheck(stuCheck);
         if(checkList!=null){
             request.setAttribute("checkList",checkList);
@@ -73,7 +74,7 @@ public class StuCheckController extends BaseController {
     public String toEditStu(HttpServletRequest request, @PathVariable Integer stucheckingid){
         if (getPower().isLogin()) return toLogin;
         if (stucheckingid != null && stucheckingid > 0) request.setAttribute("stu",stuCheckService.getCheckById(stucheckingid));
-        request.setAttribute("studentList",studentService.getStudent(null,getPower().getEmployee().getEmpid()));
+        request.setAttribute("studentList",studentService.getStudent(null,getPower().getEmployee()));
         return "check/stucheck_edit";
     }
 

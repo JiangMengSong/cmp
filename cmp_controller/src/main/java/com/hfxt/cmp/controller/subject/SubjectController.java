@@ -33,6 +33,7 @@ public class SubjectController extends BaseController {
     @RequestMapping(value = "/subjectList.html",produces = "text/html;charset=utf-8")
     public String subList(HttpServletRequest request){
         if (getPower().isLogin()) return toLogin;
+        if (null != getToJsp() && "" != getToJsp()) return getToJsp();
         request.setAttribute("subjectList",subjectservice.getAll());
         return "subject/subject_list";
     }

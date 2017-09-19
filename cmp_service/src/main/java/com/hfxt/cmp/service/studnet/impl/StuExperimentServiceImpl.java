@@ -20,7 +20,7 @@ public class StuExperimentServiceImpl extends BaseService implements StuExperime
     @Override
     public int addStuExperiment(StuExperiment stuExp,Integer clazzId) {
         try{
-            for (Student stu : studentMapper.getStudent(new Search(null,clazzId,null,null),stuExp.getEmployee().getEmpid())){
+            for (Student stu : studentMapper.getStudent(new Search(null,clazzId,null,null),stuExp.getEmployee())){
                 stuExp.setStudent(stu);
                 stuExperimentMapper.addStuExperiment(stuExp);
             }

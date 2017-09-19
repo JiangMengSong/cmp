@@ -1,5 +1,6 @@
 package com.hfxt.cmp.mapper;
 
+import com.hfxt.cmp.model.Employee;
 import com.hfxt.cmp.model.Student;
 import com.hfxt.cmp.search.Search;
 import org.apache.ibatis.annotations.Param;
@@ -11,9 +12,9 @@ public interface StudentMapper {
 
     /**
      * 添加学生信息
-     * @param map 学生
+     * @param stu 学生
      */
-    int addStudent(@Param("map")Map<String,Object> map);
+    int addStudent(@Param("stu") Student stu);
 
     /**
      * 修改学生信息
@@ -26,7 +27,7 @@ public interface StudentMapper {
      * @param stu 查询条件
      * @return
      */
-    List<Student> getStudent(@Param("stu") Search stu,@Param("empId") Integer empId);
+    List<Student> getStudent(@Param("stu") Search stu,@Param("emp") Employee emp);
 
     /**
      * 根据ID获取单个学生

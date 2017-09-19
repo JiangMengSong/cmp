@@ -30,6 +30,7 @@ public class MajorController extends BaseController {
     @RequestMapping(value = "/majorList.html",produces = "text/html;charset=utf-8")
     public String empList(HttpServletRequest request){
         if (getPower().isLogin()) return toLogin;
+        if (null != getToJsp() && "" != getToJsp()) return getToJsp();
         request.setAttribute("majorList",majorservice.majorList());
         return "major/major_list";
     }

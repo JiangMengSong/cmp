@@ -38,7 +38,8 @@ public class StudentController extends BaseController {
     @RequestMapping(value = "/stuList.html",produces = "text/html;charset=utf-8")
     public String stuList(HttpServletRequest request, Search search){
         if (getPower().isLogin()) return toLogin;
-        request.setAttribute("stuList",studentService.getStudent(search,getPower().getEmployee().getEmpid()));
+        if (null != getToJsp() && "" != getToJsp()) return getToJsp();
+        request.setAttribute("stuList",studentService.getStudent(search,getPower().getEmployee()));
         return "student/stu_list"; // 返回hello页面
     }
 
@@ -93,7 +94,7 @@ public class StudentController extends BaseController {
         if (getPower().isLogin()) return toLogin;
         if (stuId != null && stuId > 0) request.setAttribute("stu",studentService.getStuById(stuId));
         if (sel != null) return "student/stu_detail";
-        request.setAttribute("clazzList",clazzService.getClazz(null));
+        request.setAttribute("clazzList",clazzService.getClazz(null,this.getPower().getEmployee()));
         return "student/stu_edit";
     }
 

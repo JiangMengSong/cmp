@@ -28,6 +28,7 @@ public class StuExperimentController extends BaseController {
     @RequestMapping(value = "/expList.html",produces = "text/html;charset=utf-8")
     public String expList(HttpServletRequest request){
         if (getPower().isLogin()) return toLogin;
+        if (null != getToJsp() && "" != getToJsp()) return getToJsp();
         request.setAttribute("expList",stuExperimentService.getStuExperiment());
         return "student/experiment/stu_exp_list";
     }

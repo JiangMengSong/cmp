@@ -2,6 +2,7 @@ package com.hfxt.cmp.service.clazz;
 
 import java.util.List;
 
+import com.hfxt.cmp.model.Employee;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hfxt.cmp.model.Clazz;
@@ -9,7 +10,7 @@ import com.hfxt.cmp.model.Clazz;
 @Transactional
 public interface ClazzService {
 
-	List<Clazz> getClazz(Clazz clazz);
+	List<Clazz> getClazz(Clazz clazz,Employee emp);
 	
     int deleteByPrimaryKey(Integer clazzid);
 
