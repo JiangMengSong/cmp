@@ -5,7 +5,7 @@
 </head>
 <body>
 <div class="page-container">
-    <p class="f-20 text-success">欢迎进入北大青鸟合肥协同后台管理系统</p>
+    <p class="f-20 text-success">欢迎进入学生后台管理系统</p>
 </div>
 </body>
 </html>
