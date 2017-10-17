@@ -2,7 +2,7 @@
 <html>
 <head>
     <%@include file="/resources/common/cs_js.jsp"%>
-    <title>北大青鸟合肥协同数据管理</title>
+    <title>学校数据管理</title>
 </head>
 <%-- 头部 --%>
 <header class="navbar-wrapper">
